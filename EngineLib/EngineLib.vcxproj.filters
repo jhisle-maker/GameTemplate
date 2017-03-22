@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{623022f3-a3ef-4ff0-8b2a-2164fe49ff54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{ad5cd00a-2515-4eee-9a37-a3864a6c0330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cameras">
+      <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Effects">
+      <UniqueIdentifier>{6af07bf3-724b-4816-8cc1-d3775d48feb1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EngineLib.cpp" />
+    <ClCompile Include="Graphics\DX11GraphicDevice.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Effects\DX11BasicEffect.cpp">
+      <Filter>Graphics\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Cameras\SimpleCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineLib.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Graphics\DX11GraphicDevice.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IGraphicDevice.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IndexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Effects\DX11BasicEffect.h">
+      <Filter>Graphics\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Cameras\SimpleCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\IndexBuffer.inl">
+      <Filter>Graphics</Filter>
+    </None>
+    <None Include="Graphics\VertexBuffer.inl">
+      <Filter>Graphics</Filter>
+    </None>
+  </ItemGroup>
+</Project>
