@@ -1,2 +1,0 @@
-C:\Users\matti\Desktop\GameTemplate\EngineLib\EngineLib.vcxproj;x86
-C:\Users\matti\Desktop\GameTemplate\GameTemplate\GameTemplate.vcxproj;x86
