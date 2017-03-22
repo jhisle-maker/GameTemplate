@@ -3,3 +3,12 @@
 ################################################################################
 
 /.vs/GameTemplate/v14
+/ARM
+/Debug
+/GameTemplate/ARM/Debug
+/EngineLib/ARM/Debug
+/EngineLib/Debug
+/GameTemplate/Debug
+/ipch
+/GameTemplate/GameTemplate.vcxproj.user
+/GameTemplate.VC.VC.opendb
