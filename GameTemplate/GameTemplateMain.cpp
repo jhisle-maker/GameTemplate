@@ -2,6 +2,9 @@
 #include "GameTemplateMain.h"
 #include "Common\DirectXHelper.h"
 
+#include "Graphics\DX11GraphicDevice.h"
+#include "Graphics\DX11GraphicContext.h"
+
 using namespace GameTemplate;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
@@ -16,7 +19,8 @@ GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& d
 
 	// TODO: Replace this with your app's content initialization.
 	m_poGraphicDevice = std::unique_ptr<GT::IGraphicDevice>(new GT::DX11GraphicDevice(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext()));
-	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources, *m_poGraphicDevice));
+	m_poGraphicContext = std::unique_ptr<GT::IGraphicContext>(new GT::DX11GraphicContext(m_deviceResources->GetD3DDevice()));
+	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources, *m_poGraphicDevice, *m_poGraphicContext));
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 

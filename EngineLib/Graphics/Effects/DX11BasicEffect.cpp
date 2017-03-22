@@ -1,9 +1,12 @@
-#include "DX11BasicEffect.h"
+#include "pch.h"
+
+#if defined(BX_DX11)
 
 #include<d3d11.h>
+#include "DX11BasicEffect.h"
 #include "Graphics\DX11GraphicDevice.h"
 
-namespace GT
+namespace BX
 {
 	DX11BasicEffect::DX11BasicEffect
 	(
@@ -31,10 +34,15 @@ namespace GT
 
 	void DX11BasicEffect::InitConstantBuffer()
 	{
-		Microsoft::WRL::ComPtr<ID3D11Device> poDevice = m_oGraphicDevice.GetD3D11Device();
+		Microsoft::WRL::ComPtr<ID3D11Device> poDevice = m_oGraphicDevice.GetDevice();
 
 		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(ConstantBufferData), D3D11_BIND_CONSTANT_BUFFER);
-		HRESULT result = poDevice->CreateBuffer(&constantBufferDesc, nullptr, &m_poConstBuffer);
-		assert(result >= 0);
+		//if (FAILED(poDevice->CreateBuffer(&constantBufferDesc, nullptr, &m_poConstBuffer)))
+		//{
+		//	// Set a breakpoint on this line to catch Win32 API errors.
+		//	throw Platform::Exception::CreateException(1);
+		//}
 	}
 }
+
+#endif

@@ -10,6 +10,7 @@
 
 //Forward decls
 namespace GT { class IGraphicDevice; }
+namespace GT { class IGraphicContext; }
 
 namespace GameTemplate
 {
@@ -17,7 +18,7 @@ namespace GameTemplate
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice);
+		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
@@ -35,6 +36,7 @@ namespace GameTemplate
 	private:
 		//GT stuff
 		const GT::IGraphicDevice& m_oGraphicDevice;
+		const GT::IGraphicContext& m_oGraphicContext;
 		std::unique_ptr<GT::IndexBuffer<unsigned short>> m_poIndexBuffer;
 		std::unique_ptr<GT::VertexBuffer<VertexPositionColor>> m_poVertexBuffer;
 		std::unique_ptr<GT::SimpleCamera> m_poCamera;

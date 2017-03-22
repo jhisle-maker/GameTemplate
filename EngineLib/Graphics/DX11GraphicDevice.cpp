@@ -14,12 +14,12 @@ namespace GT
 		//Nothing to do here
 	}
 
-	const Microsoft::WRL::ComPtr<ID3D11Device> DX11GraphicDevice::GetD3D11Device() const
+	const Microsoft::WRL::ComPtr<ID3D11Device> DX11GraphicDevice::GetDevice() const
 	{
 		return m_poDevice;
 	}
 
-	const Microsoft::WRL::ComPtr<ID3D11DeviceContext> DX11GraphicDevice::GetD3D11DeviceContext() const
+	const Microsoft::WRL::ComPtr<ID3D11DeviceContext> DX11GraphicDevice::GetDeviceContext() const
 	{
 		return m_poDeviceContext;
 	}
