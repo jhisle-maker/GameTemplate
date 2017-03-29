@@ -12,6 +12,7 @@
 /ipch
 /GameTemplate/GameTemplate.vcxproj.user
 /GameTemplate.VC.VC.opendb
+/*.VC.db
 /EngineLib/x64/Debug
 /GameTemplate/x64/Debug
 /x64/Debug/GameTemplate
