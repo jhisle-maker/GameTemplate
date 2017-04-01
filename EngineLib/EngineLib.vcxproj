@@ -141,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
@@ -165,7 +165,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
@@ -191,7 +191,8 @@
     <ClInclude Include="Cameras\SimpleCamera.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
-    <ClInclude Include="Graphics\Effects\DX11BasicEffect.h" />
+    <ClInclude Include="Graphics\DX11GraphicContext.h" />
+    <ClInclude Include="Graphics\IGraphicContext.h" />
     <ClInclude Include="Graphics\IGraphicDevice.h" />
     <ClInclude Include="Graphics\IndexBuffer.h" />
     <ClInclude Include="Graphics\VertexBuffer.h" />
@@ -203,8 +204,8 @@
   <ItemGroup>
     <ClCompile Include="Cameras\SimpleCamera.cpp" />
     <ClCompile Include="EngineLib.cpp" />
+    <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
     <ClCompile Include="Graphics\DX11GraphicDevice.cpp" />
-    <ClCompile Include="Graphics\Effects\DX11BasicEffect.cpp" />
     <ClCompile Include="Math\Matrix.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />

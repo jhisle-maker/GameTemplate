@@ -14,9 +14,6 @@
     <Filter Include="Cameras">
       <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Effects">
-      <UniqueIdentifier>{6af07bf3-724b-4816-8cc1-d3775d48feb1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineLib.cpp" />
@@ -32,12 +29,8 @@
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Effects\DX11BasicEffect.cpp">
-      <Filter>Graphics\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="Cameras\SimpleCamera.cpp">
-      <Filter>Cameras</Filter>
-    </ClCompile>
+    <ClCompile Include="Cameras\SimpleCamera.cpp" />
+    <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -63,12 +56,9 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Effects\DX11BasicEffect.h">
-      <Filter>Graphics\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Cameras\SimpleCamera.h">
-      <Filter>Cameras</Filter>
-    </ClInclude>
+    <ClInclude Include="Cameras\SimpleCamera.h" />
+    <ClInclude Include="Graphics\IGraphicContext.h" />
+    <ClInclude Include="Graphics\DX11GraphicContext.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

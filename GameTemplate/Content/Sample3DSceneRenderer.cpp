@@ -1,6 +1,10 @@
 ﻿#include "pch.h"
 #include "Sample3DSceneRenderer.h"
 
+#include "Graphics\DX11GraphicDevice.h"
+#include "Graphics\DX11GraphicContext.h"
+#include "Math\Vector3.h"
+
 #include "..\Common\DirectXHelper.h"
 
 
@@ -10,13 +14,14 @@ using namespace DirectX;
 using namespace Windows::Foundation;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice) 
+Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext) 
 	: m_loadingComplete(false)
 	, m_degreesPerSecond(45)
 	, m_indexCount(0)
 	, m_tracking(false)
 	, m_deviceResources(deviceResources)
 	, m_oGraphicDevice(i_oGraphicDevice)
+	, m_oGraphicContext(i_oGraphicContext)
 	, m_poCamera(nullptr)
 {	
 	CreateDeviceDependentResources();
@@ -93,8 +98,7 @@ void Sample3DSceneRenderer::Render()
 	auto context = m_deviceResources->GetD3DDeviceContext();
 
 	// Prepare the constant buffer to send it to the graphics device.
-	context->UpdateSubresource1
-	(
+	context->UpdateSubresource1(
 		m_constantBuffer.Get(),
 		0,
 		NULL,
@@ -102,7 +106,7 @@ void Sample3DSceneRenderer::Render()
 		0,
 		0,
 		0
-	);
+		);
 
 	// Each vertex is one instance of the VertexPositionColor struct.
 	UINT stride = sizeof(VertexPositionColor);
@@ -126,7 +130,11 @@ void Sample3DSceneRenderer::Render()
 	context->IASetInputLayout(m_inputLayout.Get());
 
 	// Attach our vertex shader.
-	context->VSSetShader(m_vertexShader.Get(), nullptr,	0);
+	context->VSSetShader(
+		m_vertexShader.Get(),
+		nullptr,
+		0
+		);
 
 	// Send the constant buffer to the graphics device.
 	context->VSSetConstantBuffers1(
@@ -223,7 +231,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			{XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f)},
 		};
 
-		m_poVertexBuffer = std::unique_ptr<GT::VertexBuffer<VertexPositionColor>>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicDevice));
+		m_poVertexBuffer = std::unique_ptr<GT::VertexBuffer<VertexPositionColor>>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
 
 		// Load mesh indices. Each trio of indices represents
 		// a triangle to be rendered on the screen.
@@ -251,7 +259,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			1,7,5,
 		};
 
-		m_poIndexBuffer = std::unique_ptr<GT::IndexBuffer<USHORT>>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicDevice));
+		m_poIndexBuffer = std::unique_ptr<GT::IndexBuffer<USHORT>>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicContext));
 		m_indexCount = ARRAYSIZE(cubeIndices);
 	});
 

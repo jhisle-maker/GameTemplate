@@ -1,31 +1,25 @@
 #pragma once
 
-//FORWARD DECLS
-namespace GT
-{
-	class IGraphicDevice;
-}
+//START FORWARD DECLS
+namespace GT { class IGraphicContext; }
+struct ID3D11Buffer;
+//END FORWARD DECLS
 
 namespace GT
 {
-	template<typename DataType>
+	template<typename IndexType>
 	class IndexBuffer
 	{
 	public:
-		IndexBuffer(const DataType* i_paoData, const size_t i_uiElementsCount, const IGraphicDevice& i_oGraphicContext);
+		IndexBuffer(const IndexType* i_paoIndexData, const size_t i_uiIndexesCount, const IGraphicContext& i_oGraphicContext);
 		virtual ~IndexBuffer();
 
 	public:
-		inline ID3D11Buffer* GetD3D11Buffer() const { return m_poInnerBuffer.Get(); }
+		inline ID3D11Buffer* GetD3D11Buffer() const { return reinterpret_cast<ID3D11Buffer*>(m_poInnerBuffer); }
 
 	private:
-		void CreateInnerBuffer(const DataType* i_paoData, const size_t i_uiElementsCount, const IGraphicDevice& i_oGraphicContext);
-
-	private:
-			Microsoft::WRL::ComPtr<ID3D11Buffer> m_poInnerBuffer;
-
-	private:
-		size_t m_uiElementsCount;
+		const IGraphicContext& m_oGraphicContext;
+		void* m_poInnerBuffer;
 	};
 }
 

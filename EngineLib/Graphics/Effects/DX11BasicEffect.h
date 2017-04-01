@@ -1,5 +1,6 @@
 #pragma once
 
+#if defined(BX_DX11)
 #include "Math\Matrix.h"
 #include<memory>
 #include<wrl\client.h>
@@ -9,26 +10,35 @@ struct ID3D11VertexShader;
 struct ID3D11PixelShader;
 struct ID3D11Buffer;
 
-namespace GT { class DX11GraphicDevice; }
+namespace BX
+{
+	class DX11GraphicDevice;
+}
+
 // END FORWARD DECLS
 
-namespace GT
+namespace BX
 {
 	class DX11BasicEffect
 	{
-	public:
-		//TODO: Give to Ctor only shaderIds and move shader compilation into Apply
-		DX11BasicEffect(Microsoft::WRL::ComPtr<ID3D11VertexShader> i_poVertexShader, Microsoft::WRL::ComPtr<ID3D11PixelShader> i_poPixelShader, const DX11GraphicDevice& i_oGraphicDevice);
-		virtual ~DX11BasicEffect();
 
 	public:
+		DX11BasicEffect
+		(
+			Microsoft::WRL::ComPtr<ID3D11VertexShader> i_poVertexShader,
+			Microsoft::WRL::ComPtr<ID3D11PixelShader> i_poPixelShader,
+			const DX11GraphicDevice& i_oGraphicDevice
+		);
+
+		virtual ~DX11BasicEffect();
+
 		void Apply(const Matrix& i_oModel, const Matrix& i_oView, const Matrix& i_oProjection);
 		
 	private:
 		void InitConstantBuffer();
 
 	private:
-		struct ConstantBufferData 
+		struct ConstantBufferData
 		{
 			Matrix m_oModel;
 			Matrix m_oView;
@@ -37,9 +47,12 @@ namespace GT
 
 	private:
 		ConstantBufferData m_oConstBufferData;
+
 		const DX11GraphicDevice& m_oGraphicDevice;
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> m_poVertexShader;
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> m_poPixelShader;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_poConstBuffer;
 	};
 }
+
+#endif
