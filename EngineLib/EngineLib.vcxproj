@@ -188,7 +188,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Cameras\SimpleCamera.h" />
+    <ClInclude Include="Graphics\Effects\BasicEffect.h" />
+    <ClInclude Include="Graphics\Cameras\SimpleCamera.h" />
+    <ClInclude Include="Graphics\Utils\WinUtils.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
     <ClInclude Include="Graphics\DX11GraphicContext.h" />
@@ -196,13 +198,16 @@
     <ClInclude Include="Graphics\IGraphicDevice.h" />
     <ClInclude Include="Graphics\IndexBuffer.h" />
     <ClInclude Include="Graphics\VertexBuffer.h" />
+    <ClInclude Include="Graphics\IIndexBuffer.h" />
+    <ClInclude Include="Graphics\IVertexBuffer.h" />
     <ClInclude Include="Math\Matrix.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cameras\SimpleCamera.cpp" />
+    <ClCompile Include="Graphics\Effects\BasicEffect.cpp" />
+    <ClCompile Include="Graphics\Cameras\SimpleCamera.cpp" />
     <ClCompile Include="EngineLib.cpp" />
     <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
     <ClCompile Include="Graphics\DX11GraphicDevice.cpp" />

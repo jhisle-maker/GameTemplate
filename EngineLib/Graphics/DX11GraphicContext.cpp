@@ -66,4 +66,40 @@ namespace GT
 			reinterpret_cast<ID3D11Buffer*>(i_oApiIndexBuffer)->Release();
 		}
 	}
+
+	//void DX11GraphicContext::CreateApiVertexShader(const std::wstring& i_oShaderFileName, void*& o_oApiVertexShader) const
+	//{
+	//	/*auto loadVSTask = GT::ReadDataAsync(L"SampleVertexShader.cso");
+
+	//	auto createShaderTask = loadVSTask.then([this, &o_oApiVertexShader](const std::vector<byte>& fileData)
+	//	{
+	//		m_poDevice->CreateVertexShader
+	//		(
+	//			&fileData[0],
+	//			fileData.size(),
+	//			nullptr,
+	//			reinterpret_cast<ID3D11VertexShader**>(&o_oApiVertexShader)
+	//		);
+	//	});
+
+	//	createShaderTask.wait();*/
+	//}
+
+	//void DX11GraphicContext::CreateApiPixelShader(const std::wstring& i_oPixelShaderFileName, void*& o_oApiPixelShader) const
+	//{
+	//	/*auto loadVSTask = GT::ReadDataAsync(L"SampleVertexShader.cso");
+
+	//	auto createShaderTask = loadVSTask.then([this, &o_oApiPixelShader](const std::vector<byte>& fileData)
+	//	{
+	//		m_poDevice->CreateVertexShader
+	//		(
+	//			&fileData[0],
+	//			fileData.size(),
+	//			nullptr,
+	//			reinterpret_cast<ID3D11VertexShader**>(&o_oApiPixelShader)
+	//		);
+	//	});
+
+	//	createShaderTask.wait();*/
+	//}
 }

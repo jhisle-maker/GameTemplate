@@ -11,7 +11,13 @@
     <Filter Include="Math">
       <UniqueIdentifier>{ad5cd00a-2515-4eee-9a37-a3864a6c0330}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cameras">
+    <Filter Include="Graphics\Effects">
+      <UniqueIdentifier>{a38116de-21ee-4bf3-b79b-d8c169278854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Utils">
+      <UniqueIdentifier>{1ef690cf-029d-4a8b-a92d-54802b687041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Cameras">
       <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -29,8 +35,15 @@
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Cameras\SimpleCamera.cpp" />
-    <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
+    <ClCompile Include="Graphics\DX11GraphicContext.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Effects\BasicEffect.cpp">
+      <Filter>Graphics\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Cameras\SimpleCamera.cpp">
+      <Filter>Graphics\Cameras</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -56,9 +69,27 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Cameras\SimpleCamera.h" />
-    <ClInclude Include="Graphics\IGraphicContext.h" />
-    <ClInclude Include="Graphics\DX11GraphicContext.h" />
+    <ClInclude Include="Graphics\IVertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IIndexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IGraphicContext.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11GraphicContext.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Effects\BasicEffect.h">
+      <Filter>Graphics\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Cameras\SimpleCamera.h">
+      <Filter>Graphics\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Utils\WinUtils.h">
+      <Filter>Graphics\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

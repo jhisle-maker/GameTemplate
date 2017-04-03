@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IIndexBuffer.h"
+
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
 struct ID3D11Buffer;
@@ -8,14 +10,15 @@ struct ID3D11Buffer;
 namespace GT
 {
 	template<typename IndexType>
-	class IndexBuffer
+	class IndexBuffer : public IIndexBuffer
 	{
 	public:
 		IndexBuffer(const IndexType* i_paoIndexData, const size_t i_uiIndexesCount, const IGraphicContext& i_oGraphicContext);
 		virtual ~IndexBuffer();
 
 	public:
-		inline ID3D11Buffer* GetD3D11Buffer() const { return reinterpret_cast<ID3D11Buffer*>(m_poInnerBuffer); }
+		inline size_t GetIndexSize() const { return sizeof(IndexType); }
+		inline void* GetInnerBuffer() const { return m_poInnerBuffer; }
 
 	private:
 		const IGraphicContext& m_oGraphicContext;
