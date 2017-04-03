@@ -1,11 +1,14 @@
 ﻿#include "pch.h"
 #include "Sample3DSceneRenderer.h"
 
+#include "Graphics\VertexBuffer.h"
+#include "Graphics\IndexBuffer.h"
 #include "Graphics\DX11GraphicDevice.h"
 #include "Graphics\DX11GraphicContext.h"
 #include "Math\Vector3.h"
 
 #include "..\Common\DirectXHelper.h"
+#include "Graphics\Utils\WinUtils.h"
 
 
 using namespace GameTemplate;
@@ -108,22 +111,8 @@ void Sample3DSceneRenderer::Render()
 		0
 		);
 
-	// Each vertex is one instance of the VertexPositionColor struct.
-	UINT stride = sizeof(VertexPositionColor);
-	UINT offset = 0;
-	context->IASetVertexBuffers(
-		0,
-		1,
-		m_poVertexBuffer->GetD3D11BufferAddress(),
-		&stride,
-		&offset
-		);
-
-	context->IASetIndexBuffer(
-		m_poIndexBuffer->GetD3D11Buffer(),
-		DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
-		0
-		);
+	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
+	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -162,20 +151,31 @@ void Sample3DSceneRenderer::Render()
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
 {
+	using namespace Concurrency;
+
+	//void* m_vertexShaderAddress = reinterpret_cast<void*>(m_vertexShader.Get());
+
+	//auto asyncOperation = create_async([this, &m_vertexShaderAddress]() 
+	//{ 
+	//	//m_oGraphicContext.CreateApiVertexShader(L"SampleVertexShader.cso", m_vertexShaderAddress); 
+	//});
+
+	//auto loadVSTask = create_task(asyncOperation);
+
 	// Load shaders asynchronously.
-	auto loadVSTask = DX::ReadDataAsync(L"SampleVertexShader.cso");
-	auto loadPSTask = DX::ReadDataAsync(L"SamplePixelShader.cso");
+	auto loadVSTask = GT::ReadDataAsync(L"SampleVertexShader.cso");
+	auto loadPSTask = GT::ReadDataAsync(L"SamplePixelShader.cso");
 
 	// After the vertex shader file is loaded, create the shader and input layout.
 	auto createVSTask = loadVSTask.then([this](const std::vector<byte>& fileData) {
-		DX::ThrowIfFailed(
+	/*	DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateVertexShader(
 				&fileData[0],
 				fileData.size(),
 				nullptr,
 				&m_vertexShader
 				)
-			);
+			);*/
 
 		static const D3D11_INPUT_ELEMENT_DESC vertexDesc [] =
 		{
@@ -231,7 +231,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			{XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f)},
 		};
 
-		m_poVertexBuffer = std::unique_ptr<GT::VertexBuffer<VertexPositionColor>>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
+		m_poVertexBuffer = std::unique_ptr<GT::IVertexBuffer>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
 
 		// Load mesh indices. Each trio of indices represents
 		// a triangle to be rendered on the screen.
@@ -259,7 +259,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			1,7,5,
 		};
 
-		m_poIndexBuffer = std::unique_ptr<GT::IndexBuffer<USHORT>>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicContext));
+		m_poIndexBuffer = std::unique_ptr<GT::IIndexBuffer>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicContext));
 		m_indexCount = ARRAYSIZE(cubeIndices);
 	});
 

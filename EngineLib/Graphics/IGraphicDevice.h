@@ -1,5 +1,9 @@
 #pragma once
 
+//START FORWARD DECL
+namespace GT { class IVertexBuffer; }
+namespace GT { class IIndexBuffer; }
+//END FORWARD DECL
 
 namespace GT
 {
@@ -10,10 +14,9 @@ namespace GT
 		virtual ~IGraphicDevice() {};
 
 	public:
-	/*	template<typename VertexType>
-		void SetVertexBuffer(const VertexBuffer<VertexType>& vertexBuffer);
+		virtual void SetVertexBuffer(const IVertexBuffer& i_oVertexBuffer, const size_t i_uiOffset = 0u) const = 0;
+		virtual void SetIndexBuffer(const IIndexBuffer& i_oIndexBuffer, const size_t i_uiOffset = 0u) const = 0;
 
-		template<typename IndexType>
-		void SetIndexBuffer(const IndexBuffer<IndexType>& indexType);*/
+
 	};
 }
