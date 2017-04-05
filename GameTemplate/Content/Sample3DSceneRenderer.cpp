@@ -153,29 +153,34 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 {
 	using namespace Concurrency;
 
-	//void* m_vertexShaderAddress = reinterpret_cast<void*>(m_vertexShader.Get());
-
-	//auto asyncOperation = create_async([this, &m_vertexShaderAddress]() 
-	//{ 
-	//	//m_oGraphicContext.CreateApiVertexShader(L"SampleVertexShader.cso", m_vertexShaderAddress); 
-	//});
-
-	//auto loadVSTask = create_task(asyncOperation);
-
 	// Load shaders asynchronously.
-	auto loadVSTask = GT::ReadDataAsync(L"SampleVertexShader.cso");
-	auto loadPSTask = GT::ReadDataAsync(L"SamplePixelShader.cso");
+	auto loadVertexShaderBufTask = create_task([]() -> std::vector<byte>
+	{ 
+		std::vector<byte> vertexShaderBuf;
+		GT::ReadFileBytes("SampleVertexShader.cso", vertexShaderBuf); 
 
+		return vertexShaderBuf;
+	});
+
+	auto loadPixelShaderBufTask = create_task([]() -> std::vector<byte>
+	{
+		std::vector<byte> pixelShaderBuf;
+		GT::ReadFileBytes("SamplePixelShader.cso", pixelShaderBuf);
+		
+		return pixelShaderBuf;
+	});
+
+	
 	// After the vertex shader file is loaded, create the shader and input layout.
-	auto createVSTask = loadVSTask.then([this](const std::vector<byte>& fileData) {
-	/*	DX::ThrowIfFailed(
+	auto createVSTask = loadVertexShaderBufTask.then([this](std::vector<byte>& vertexShaderBuf) {
+		DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateVertexShader(
-				&fileData[0],
-				fileData.size(),
+				&vertexShaderBuf[0],
+				vertexShaderBuf.size(),
 				nullptr,
 				&m_vertexShader
 				)
-			);*/
+			);
 
 		static const D3D11_INPUT_ELEMENT_DESC vertexDesc [] =
 		{
@@ -187,19 +192,19 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			m_deviceResources->GetD3DDevice()->CreateInputLayout(
 				vertexDesc,
 				ARRAYSIZE(vertexDesc),
-				&fileData[0],
-				fileData.size(),
+				&vertexShaderBuf[0],
+				vertexShaderBuf.size(),
 				&m_inputLayout
 				)
 			);
 	});
 
 	// After the pixel shader file is loaded, create the shader and constant buffer.
-	auto createPSTask = loadPSTask.then([this](const std::vector<byte>& fileData) {
+	auto createPSTask = loadPixelShaderBufTask.then([this](std::vector<byte>& pixelShaderBuf) {
 		DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreatePixelShader(
-				&fileData[0],
-				fileData.size(),
+				&pixelShaderBuf[0],
+				pixelShaderBuf.size(),
 				nullptr,
 				&m_pixelShader
 				)
