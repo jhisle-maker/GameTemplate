@@ -1,5 +1,9 @@
 #pragma once
 
+//START FORWARD DECLS
+namespace GT { class IApiVertexBuffer; }
+//END FORWARD DECLS
+
 namespace GT
 {
 	class IVertexBuffer
@@ -10,8 +14,6 @@ namespace GT
 
 	public:
 		virtual size_t GetVertexSize() const = 0;
-
-		virtual void* GetInnerBuffer() const = 0;
-		virtual void* const* GetInnerBufferAddress() const = 0;
+		virtual const IApiVertexBuffer* GetApiVertexBuffer() const = 0;
 	};
 }

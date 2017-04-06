@@ -90,6 +90,8 @@
     <ClInclude Include="Graphics\Utils\WinUtils.h">
       <Filter>Graphics\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\IApiVertexBuffer.h" />
+    <ClInclude Include="Graphics\IDX11ApiVertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

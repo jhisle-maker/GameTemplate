@@ -190,6 +190,8 @@
   <ItemGroup>
     <ClInclude Include="Graphics\Effects\BasicEffect.h" />
     <ClInclude Include="Graphics\Cameras\SimpleCamera.h" />
+    <ClInclude Include="Graphics\IApiVertexBuffer.h" />
+    <ClInclude Include="Graphics\IDX11ApiVertexBuffer.h" />
     <ClInclude Include="Graphics\Utils\WinUtils.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />

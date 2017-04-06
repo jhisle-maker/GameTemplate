@@ -1,5 +1,8 @@
 #pragma once
 #include "DX11GraphicContext.h"
+#include "IApiVertexBuffer.h"
+#include "IDX11ApiVertexBuffer.h"
+
 #include <wrl/client.h>
 #include <d3d11_3.h>
 #include <stdint.h>
@@ -17,7 +20,7 @@ namespace GT
 		//Nothing to do here
 	}
 
-	void DX11GraphicContext::CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount, void*& o_oApiVertexBuffer) const
+	void DX11GraphicContext::CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount, IApiVertexBuffer*& o_oApiVertexBuffer) const
 	{
 		D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
 		vertexBufferData.pSysMem = i_paoVertexData;
@@ -26,12 +29,15 @@ namespace GT
 
 		CD3D11_BUFFER_DESC vertexBufferDesc(static_cast<uint32_t>(i_uiVertexSize * i_uiElementsCount), D3D11_BIND_VERTEX_BUFFER);
 
+		ID3D11Buffer* poBuffer = nullptr;
 		m_poDevice->CreateBuffer
 		(
 			&vertexBufferDesc,
 			&vertexBufferData,
-			reinterpret_cast<ID3D11Buffer**>(&o_oApiVertexBuffer)
+			&poBuffer
 		);
+
+		o_oApiVertexBuffer = new IDX11ApiVertexBuffer(poBuffer);
 	}
 
 	void DX11GraphicContext::CreateApiIndexBuffer(const void* i_paoIndexData, const size_t i_uiIndexSize, const size_t i_uiElementsCount, void*& o_oApiIndexBuffer) const
@@ -49,14 +55,6 @@ namespace GT
 			&indexBufferData,
 			reinterpret_cast<ID3D11Buffer**>(&o_oApiIndexBuffer)
 		);
-	}
-
-	void DX11GraphicContext::ReleaseApiVertexBuffer(void*& i_oApiVertexBuffer) const
-	{
-		if(i_oApiVertexBuffer != nullptr)
-		{ 
-			reinterpret_cast<ID3D11Buffer*>(i_oApiVertexBuffer)->Release();
-		}
 	}
 	
 	void DX11GraphicContext::ReleaseApiIndexBuffer(void*& i_oApiIndexBuffer) const

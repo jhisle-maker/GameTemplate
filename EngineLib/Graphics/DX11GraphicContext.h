@@ -3,6 +3,10 @@
 #include <d3d11_3.h>
 #include "IGraphicContext.h"
 
+//START FORWARD DECLS
+namespace GT { class IApiVertexBuffer; }
+//END FORWARD DECLS
+
 namespace GT
 {
 	class DX11GraphicContext : public IGraphicContext
@@ -12,12 +16,11 @@ namespace GT
 		virtual ~DX11GraphicContext();
 
 	public:
-		void CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount, void*& o_oApiVertexBuffer) const;
+		void CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount, IApiVertexBuffer*& o_oApiVertexBuffer) const;
 		void CreateApiIndexBuffer(const void* i_paoIndexData, const size_t i_uiIndexSize, const size_t i_uiElementsCount, void*& o_oApiIndexBuffer) const;
 	/*	void CreateApiVertexShader(const std::wstring& i_oShaderFileName, void*& o_oApiVertexShader) const;
 		void CreateApiPixelShader(const std::wstring& i_oPixelShaderFileName, void*& o_oApiPixelShader) const;*/
 
-		void ReleaseApiVertexBuffer(void*& i_oApiVertexBuffer) const;
 		void ReleaseApiIndexBuffer(void*& i_oApiIndexBuffer) const;
 
 	private:

@@ -4,6 +4,7 @@
 
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
+namespace GT { class IApiVertexBuffer; }
 struct ID3D11Buffer;
 //END FORWARD DECLS
 
@@ -18,9 +19,7 @@ namespace GT
 
 	public:
 		inline size_t GetVertexSize() const { return sizeof(VertexType); }
-
-		inline void* GetInnerBuffer() const { return m_poInnerBuffer; }
-		inline void* const* GetInnerBufferAddress() const { return &m_poInnerBuffer; }
+		inline const IApiVertexBuffer* GetApiVertexBuffer() const { return m_poApiVertexBuffer; }
 
 	public:
 		inline const ID3D11Buffer* GetD3D11Buffer() const { return reinterpret_cast<ID3D11Buffer*>(m_poInnerBuffer); }
@@ -28,7 +27,7 @@ namespace GT
 
 	private:
 		const IGraphicContext& m_oGraphicContext;
-		void* m_poInnerBuffer;
+		IApiVertexBuffer* m_poApiVertexBuffer;
 	};
 }
 
