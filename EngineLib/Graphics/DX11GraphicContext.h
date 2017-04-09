@@ -16,8 +16,8 @@ namespace GT
 		virtual ~DX11GraphicContext();
 
 	public:
-		void CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount, IApiVertexBuffer*& o_oApiVertexBuffer) const;
-		void CreateApiIndexBuffer(const void* i_paoIndexData, const size_t i_uiIndexSize, const size_t i_uiElementsCount, void*& o_oApiIndexBuffer) const;
+		std::unique_ptr<IApiBufferWrapper> CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount) const;
+		std::unique_ptr<IApiBufferWrapper> CreateApiIndexBuffer(const void* i_paoIndexData, const size_t i_uiIndexSize, const size_t i_uiElementsCount) const;
 	/*	void CreateApiVertexShader(const std::wstring& i_oShaderFileName, void*& o_oApiVertexShader) const;
 		void CreateApiPixelShader(const std::wstring& i_oPixelShaderFileName, void*& o_oApiPixelShader) const;*/
 

@@ -2,7 +2,8 @@
 
 #include "IVertexBuffer.h"
 #include "IIndexBuffer.h"
-#include "IDX11ApiVertexBuffer.h"
+#include "DX11ApiVertexBuffer.h"
+#include "DX11ApiIndexBuffer.h"
 
 namespace GT
 {
@@ -23,13 +24,13 @@ namespace GT
 		UINT stride = static_cast<UINT>(i_oVertexBuffer.GetVertexSize());
 		UINT offset = 0;
 
-		const IDX11ApiVertexBuffer* poApiBuffer = static_cast<const IDX11ApiVertexBuffer*>(i_oVertexBuffer.GetApiVertexBuffer());
+		const DX11ApiVertexBuffer& poApiBuffer = static_cast<const DX11ApiVertexBuffer&>(i_oVertexBuffer.GetApiBufferWrapper());
 		
 		m_poDeviceContext->IASetVertexBuffers
 		(
 			0u,
 			1u,
-			poApiBuffer->GetD3D11BufferAddress(),
+			poApiBuffer.GetD3D11BufferAddress(),
 			&stride,
 			reinterpret_cast<const UINT*>(&i_uiOffset)
 		);
@@ -48,9 +49,11 @@ namespace GT
 			break;
 		}
 
+		const DX11ApiIndexBuffer& poApiBuffer = static_cast<const DX11ApiIndexBuffer&>(i_oIndexBuffer.GetApiBufferWrapper());
+
 		m_poDeviceContext->IASetIndexBuffer
 		(
-			reinterpret_cast<ID3D11Buffer*>(i_oIndexBuffer.GetInnerBuffer()),
+			poApiBuffer.GetD3D11Buffer(),
 			eFormat,
 			static_cast<UINT>(i_uiOffset)
 		);

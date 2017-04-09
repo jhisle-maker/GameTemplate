@@ -14,18 +14,24 @@
     <Filter Include="Graphics\Effects">
       <UniqueIdentifier>{a38116de-21ee-4bf3-b79b-d8c169278854}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Utils">
-      <UniqueIdentifier>{1ef690cf-029d-4a8b-a92d-54802b687041}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\Cameras">
       <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\ApiBuffers">
+      <UniqueIdentifier>{5d8516f0-5baf-45d3-9361-5b167b82ba7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{1ef690cf-029d-4a8b-a92d-54802b687041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Buffers">
+      <UniqueIdentifier>{0c6dc1f3-7aa4-4e50-9ef2-47e1860517bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GraphicDevice">
+      <UniqueIdentifier>{4bf959f2-6547-4465-948b-8c4f5bbf1c43}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineLib.cpp" />
-    <ClCompile Include="Graphics\DX11GraphicDevice.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Matrix.cpp">
       <Filter>Math</Filter>
     </ClCompile>
@@ -35,31 +41,28 @@
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\DX11GraphicContext.cpp">
-      <Filter>Graphics</Filter>
+    <ClCompile Include="Graphics\DX11ApiIndexBuffer.cpp">
+      <Filter>Graphics\ApiBuffers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Effects\BasicEffect.cpp">
+    <ClCompile Include="Graphics\DX11ApiVertexBuffer.cpp">
+      <Filter>Graphics\ApiBuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SimpleCamera.cpp">
+      <Filter>Graphics\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\BasicEffect.cpp">
       <Filter>Graphics\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Cameras\SimpleCamera.cpp">
-      <Filter>Graphics\Cameras</Filter>
+    <ClCompile Include="Graphics\DX11GraphicContext.cpp">
+      <Filter>Graphics\GraphicDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DX11GraphicDevice.cpp">
+      <Filter>Graphics\GraphicDevice</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Graphics\DX11GraphicDevice.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IGraphicDevice.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IndexBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\VertexBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Matrix.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -69,36 +72,55 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IVertexBuffer.h">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="Utils\Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IApiBufferWrapper.h">
+      <Filter>Graphics\ApiBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiIndexBuffer.h">
+      <Filter>Graphics\ApiBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiVertexBuffer.h">
+      <Filter>Graphics\ApiBuffers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IIndexBuffer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\IndexBuffer.h">
+      <Filter>Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IVertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexBuffer.h">
+      <Filter>Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\SimpleCamera.h">
+      <Filter>Graphics\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\BasicEffect.h">
+      <Filter>Graphics\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11GraphicContext.h">
+      <Filter>Graphics\GraphicDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11GraphicDevice.h">
+      <Filter>Graphics\GraphicDevice</Filter>
+    </ClInclude>
     <ClInclude Include="Graphics\IGraphicContext.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\DX11GraphicContext.h">
+    <ClInclude Include="Graphics\IGraphicDevice.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Effects\BasicEffect.h">
-      <Filter>Graphics\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Cameras\SimpleCamera.h">
-      <Filter>Graphics\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Utils\WinUtils.h">
-      <Filter>Graphics\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IApiVertexBuffer.h" />
-    <ClInclude Include="Graphics\IDX11ApiVertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">
-      <Filter>Graphics</Filter>
+      <Filter>Graphics\Buffers</Filter>
     </None>
     <None Include="Graphics\VertexBuffer.inl">
-      <Filter>Graphics</Filter>
+      <Filter>Graphics\Buffers</Filter>
     </None>
   </ItemGroup>
 </Project>

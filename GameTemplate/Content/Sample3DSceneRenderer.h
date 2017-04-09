@@ -6,7 +6,7 @@
 
 #include "Graphics\IIndexBuffer.h"
 #include "Graphics\IVertexBuffer.h"
-#include "Graphics\Cameras\SimpleCamera.h"
+#include "Graphics\SimpleCamera.h"
 
 //Forward decls
 namespace GT { class IGraphicDevice; }
