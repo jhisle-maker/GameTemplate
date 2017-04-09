@@ -1,11 +1,12 @@
 #pragma once
 
+#include <memory>
 #include "IVertexBuffer.h"
+
 
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
-namespace GT { class IApiVertexBuffer; }
-struct ID3D11Buffer;
+namespace GT { class IApiBufferWrapper; }
 //END FORWARD DECLS
 
 namespace GT
@@ -19,15 +20,10 @@ namespace GT
 
 	public:
 		inline size_t GetVertexSize() const { return sizeof(VertexType); }
-		inline const IApiVertexBuffer* GetApiVertexBuffer() const { return m_poApiVertexBuffer; }
-
-	public:
-		inline const ID3D11Buffer* GetD3D11Buffer() const { return reinterpret_cast<ID3D11Buffer*>(m_poInnerBuffer); }
-		inline ID3D11Buffer* const* GetD3D11BufferAddress() const { return reinterpret_cast<ID3D11Buffer* const*>(&m_poInnerBuffer); }
+		inline const IApiBufferWrapper& GetApiBufferWrapper() const { return *m_poApiVertexBufferWrapper; }
 
 	private:
-		const IGraphicContext& m_oGraphicContext;
-		IApiVertexBuffer* m_poApiVertexBuffer;
+		std::unique_ptr<IApiBufferWrapper> m_poApiVertexBufferWrapper;
 	};
 }
 

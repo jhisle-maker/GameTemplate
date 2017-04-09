@@ -188,11 +188,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Graphics\Effects\BasicEffect.h" />
-    <ClInclude Include="Graphics\Cameras\SimpleCamera.h" />
-    <ClInclude Include="Graphics\IApiVertexBuffer.h" />
-    <ClInclude Include="Graphics\IDX11ApiVertexBuffer.h" />
-    <ClInclude Include="Graphics\Utils\WinUtils.h" />
+    <ClInclude Include="Graphics\DX11ApiIndexBuffer.h" />
+    <ClInclude Include="Graphics\BasicEffect.h" />
+    <ClInclude Include="Graphics\SimpleCamera.h" />
+    <ClInclude Include="Graphics\IApiBufferWrapper.h" />
+    <ClInclude Include="Graphics\DX11ApiVertexBuffer.h" />
+    <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
     <ClInclude Include="Graphics\DX11GraphicContext.h" />
@@ -208,8 +209,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Graphics\Effects\BasicEffect.cpp" />
-    <ClCompile Include="Graphics\Cameras\SimpleCamera.cpp" />
+    <ClCompile Include="Graphics\DX11ApiIndexBuffer.cpp" />
+    <ClCompile Include="Graphics\DX11ApiVertexBuffer.cpp" />
+    <ClCompile Include="Graphics\BasicEffect.cpp" />
+    <ClCompile Include="Graphics\SimpleCamera.cpp" />
     <ClCompile Include="EngineLib.cpp" />
     <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
     <ClCompile Include="Graphics\DX11GraphicDevice.cpp" />

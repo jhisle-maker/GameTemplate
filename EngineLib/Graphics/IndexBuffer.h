@@ -1,10 +1,11 @@
 #pragma once
 
 #include "IIndexBuffer.h"
+#include <memory>
 
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
-struct ID3D11Buffer;
+namespace GT { class IApiBufferWrapper; }
 //END FORWARD DECLS
 
 namespace GT
@@ -18,11 +19,10 @@ namespace GT
 
 	public:
 		inline size_t GetIndexSize() const { return sizeof(IndexType); }
-		inline void* GetInnerBuffer() const { return m_poInnerBuffer; }
+		virtual const IApiBufferWrapper& GetApiBufferWrapper() const { return *m_poApiIndexBufferWrapper; };
 
 	private:
-		const IGraphicContext& m_oGraphicContext;
-		void* m_poInnerBuffer;
+		std::unique_ptr<IApiBufferWrapper> m_poApiIndexBufferWrapper;
 	};
 }
 

@@ -8,7 +8,7 @@
 #include "Math\Vector3.h"
 
 #include "..\Common\DirectXHelper.h"
-#include "Graphics\Utils\WinUtils.h"
+#include "Utils\Utils.h"
 
 
 using namespace GameTemplate;

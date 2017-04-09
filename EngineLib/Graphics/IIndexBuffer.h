@@ -1,5 +1,9 @@
 #pragma once
 
+//START FORWARD DECLS
+namespace GT { class IApiBufferWrapper; }
+//END FORWARD DECLS
+
 namespace GT
 {
 	class IIndexBuffer
@@ -10,6 +14,6 @@ namespace GT
 
 	public:
 		virtual size_t GetIndexSize() const = 0;
-		virtual void* GetInnerBuffer() const = 0;
+		virtual const IApiBufferWrapper& GetApiBufferWrapper() const = 0;
 	};
 }
