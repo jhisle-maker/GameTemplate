@@ -14,12 +14,6 @@
     <Filter Include="Graphics\Effects">
       <UniqueIdentifier>{a38116de-21ee-4bf3-b79b-d8c169278854}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Cameras">
-      <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\ApiBuffers">
-      <UniqueIdentifier>{5d8516f0-5baf-45d3-9361-5b167b82ba7d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{1ef690cf-029d-4a8b-a92d-54802b687041}</UniqueIdentifier>
     </Filter>
@@ -28,6 +22,15 @@
     </Filter>
     <Filter Include="Graphics\GraphicDevice">
       <UniqueIdentifier>{4bf959f2-6547-4465-948b-8c4f5bbf1c43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\ApiWrappers">
+      <UniqueIdentifier>{5d8516f0-5baf-45d3-9361-5b167b82ba7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shaders">
+      <UniqueIdentifier>{a12e0eb1-1f7f-4878-9802-5fe2502dd7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Cameras">
+      <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,12 +44,6 @@
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\DX11ApiIndexBuffer.cpp">
-      <Filter>Graphics\ApiBuffers</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\DX11ApiVertexBuffer.cpp">
-      <Filter>Graphics\ApiBuffers</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\SimpleCamera.cpp">
       <Filter>Graphics\Cameras</Filter>
     </ClCompile>
@@ -59,6 +56,20 @@
     <ClCompile Include="Graphics\DX11GraphicDevice.cpp">
       <Filter>Graphics\GraphicDevice</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\DX11ApiVertexBufferWrapper.cpp">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DX11ApiIndexBufferWrapper.cpp">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DX11ApiPixelShaderWrapper.cpp">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DX11ApiVertexShaderWrapper.cpp">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PixelShader.cpp" />
+    <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -76,22 +87,13 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IApiBufferWrapper.h">
-      <Filter>Graphics\ApiBuffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\DX11ApiIndexBuffer.h">
-      <Filter>Graphics\ApiBuffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\DX11ApiVertexBuffer.h">
-      <Filter>Graphics\ApiBuffers</Filter>
+      <Filter>Graphics\ApiWrappers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IIndexBuffer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IndexBuffer.h">
       <Filter>Graphics\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IVertexBuffer.h">
-      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\VertexBuffer.h">
       <Filter>Graphics\Buffers</Filter>
@@ -108,12 +110,47 @@
     <ClInclude Include="Graphics\DX11GraphicDevice.h">
       <Filter>Graphics\GraphicDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IGraphicContext.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\IGraphicDevice.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\IGraphicContext.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IApiVertexShaderWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IApiPixelShaderWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiVertexBufferWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiIndexBufferWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiPixelShaderWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiVertexShaderWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IVertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexDeclaration.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PixelShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IPixelShader.h" />
+    <ClInclude Include="Graphics\IVertexShader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiConstantBufferWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">
@@ -121,6 +158,9 @@
     </None>
     <None Include="Graphics\VertexBuffer.inl">
       <Filter>Graphics\Buffers</Filter>
+    </None>
+    <None Include="Graphics\VertexShader.inl">
+      <Filter>Graphics\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

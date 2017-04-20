@@ -18,10 +18,9 @@ namespace GT
 	public:
 		std::unique_ptr<IApiBufferWrapper> CreateApiVertexBuffer(const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount) const;
 		std::unique_ptr<IApiBufferWrapper> CreateApiIndexBuffer(const void* i_paoIndexData, const size_t i_uiIndexSize, const size_t i_uiElementsCount) const;
-	/*	void CreateApiVertexShader(const std::wstring& i_oShaderFileName, void*& o_oApiVertexShader) const;
-		void CreateApiPixelShader(const std::wstring& i_oPixelShaderFileName, void*& o_oApiPixelShader) const;*/
-
-		void ReleaseApiIndexBuffer(void*& i_oApiIndexBuffer) const;
+		//std::unique_ptr<IApiBufferWrapper> CreateApiConstantBuffer(const void* i_poData) const;
+		std::unique_ptr<IApiVertexShaderWrapper> CreateApiVertexShader(const std::vector<uint8_t>& i_oShaderFileBytes, const VertexDeclaration& verteDeclaration) const;
+		std::unique_ptr<IApiPixelShaderWrapper> CreateApiPixelShader(const std::vector<uint8_t>& i_oShaderFileBytes) const;
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device> m_poDevice;

@@ -14,6 +14,6 @@ namespace GT
 
 	public:
 		virtual size_t GetIndexSize() const = 0;
-		virtual const IApiBufferWrapper& GetApiBufferWrapper() const = 0;
+		virtual const IApiBufferWrapper& GetApiWrapper() const = 0;
 	};
 }

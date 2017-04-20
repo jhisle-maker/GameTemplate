@@ -3,9 +3,12 @@
 
 #include "Graphics\VertexBuffer.h"
 #include "Graphics\IndexBuffer.h"
+#include "Graphics\VertexShader.h"
+#include "Graphics\PixelShader.h"
 #include "Graphics\DX11GraphicDevice.h"
 #include "Graphics\DX11GraphicContext.h"
 #include "Math\Vector3.h"
+#include "Math\Matrix.h"
 
 #include "..\Common\DirectXHelper.h"
 #include "Utils\Utils.h"
@@ -23,6 +26,10 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceRes
 	, m_indexCount(0)
 	, m_tracking(false)
 	, m_deviceResources(deviceResources)
+	, m_poIndexBuffer(nullptr)
+	, m_poVertexBuffer(nullptr)
+	, m_poVertexShader(nullptr)
+	, m_poPixelShader(nullptr)
 	, m_oGraphicDevice(i_oGraphicDevice)
 	, m_oGraphicContext(i_oGraphicContext)
 	, m_poCamera(nullptr)
@@ -44,8 +51,8 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 
 	m_poCamera = std::unique_ptr<GT::SimpleCamera>(new GT::SimpleCamera(aspectRatio, 70.0f, eye, at, up));
 
-	XMStoreFloat4x4(&m_constantBufferData.projection, m_poCamera->GetProjection().ToXMMatrix());
-	XMStoreFloat4x4(&m_constantBufferData.view, m_poCamera->GetView().ToXMMatrix());
+	m_constantBufferData.projection = m_poCamera->GetProjection();
+	m_constantBufferData.view = m_poCamera->GetView();
 }
 
 // Called once per frame, rotates the cube and calculates the model and view matrices.
@@ -66,7 +73,8 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 void Sample3DSceneRenderer::Rotate(float radians)
 {
 	// Prepare to pass the updated model matrix to the shader
-	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radians)));
+	m_constantBufferData.model = GT::Matrix::Transpose(GT::Matrix::RotationY(radians));
+	//XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationX(radians)));
 }
 
 void Sample3DSceneRenderer::StartTracking()
@@ -101,7 +109,8 @@ void Sample3DSceneRenderer::Render()
 	auto context = m_deviceResources->GetD3DDeviceContext();
 
 	// Prepare the constant buffer to send it to the graphics device.
-	context->UpdateSubresource1(
+	context->UpdateSubresource1
+	(
 		m_constantBuffer.Get(),
 		0,
 		NULL,
@@ -109,44 +118,19 @@ void Sample3DSceneRenderer::Render()
 		0,
 		0,
 		0
-		);
+	);
 
 	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
 	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
-
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	context->IASetInputLayout(m_inputLayout.Get());
-
-	// Attach our vertex shader.
-	context->VSSetShader(
-		m_vertexShader.Get(),
-		nullptr,
-		0
-		);
+	m_oGraphicDevice.BindVertexShader(*m_poVertexShader);
+	m_oGraphicDevice.BindPixelShader(*m_poPixelShader);
 
 	// Send the constant buffer to the graphics device.
-	context->VSSetConstantBuffers1(
-		0,
-		1,
-		m_constantBuffer.GetAddressOf(),
-		nullptr,
-		nullptr
-		);
-
-	// Attach our pixel shader.
-	context->PSSetShader(
-		m_pixelShader.Get(),
-		nullptr,
-		0
-		);
+	context->VSSetConstantBuffers1(0, 1, m_constantBuffer.GetAddressOf(), nullptr, nullptr);
 
 	// Draw the objects.
-	context->DrawIndexed(
-		m_indexCount,
-		0,
-		0
-		);
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->DrawIndexed(m_indexCount, 0, 0);
 }
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
@@ -157,67 +141,31 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	auto loadVertexShaderBufTask = create_task([]() -> std::vector<byte>
 	{ 
 		std::vector<byte> vertexShaderBuf;
-		GT::ReadFileBytes("SampleVertexShader.cso", vertexShaderBuf); 
-
+		GT::Utils::ReadFileBytes("SampleVertexShader.cso", vertexShaderBuf); 
 		return vertexShaderBuf;
 	});
 
 	auto loadPixelShaderBufTask = create_task([]() -> std::vector<byte>
 	{
 		std::vector<byte> pixelShaderBuf;
-		GT::ReadFileBytes("SamplePixelShader.cso", pixelShaderBuf);
+		GT::Utils::ReadFileBytes("SamplePixelShader.cso", pixelShaderBuf);
 		
 		return pixelShaderBuf;
 	});
 
-	
 	// After the vertex shader file is loaded, create the shader and input layout.
-	auto createVSTask = loadVertexShaderBufTask.then([this](std::vector<byte>& vertexShaderBuf) {
-		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateVertexShader(
-				&vertexShaderBuf[0],
-				vertexShaderBuf.size(),
-				nullptr,
-				&m_vertexShader
-				)
-			);
-
-		static const D3D11_INPUT_ELEMENT_DESC vertexDesc [] =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		};
-
-		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateInputLayout(
-				vertexDesc,
-				ARRAYSIZE(vertexDesc),
-				&vertexShaderBuf[0],
-				vertexShaderBuf.size(),
-				&m_inputLayout
-				)
-			);
+	auto createVSTask = loadVertexShaderBufTask.then([this](std::vector<byte>& vertexShaderBuf) 
+	{
+		m_poVertexShader = std::unique_ptr<GT::IVertexShader>(new GT::VertexShader<VertexPositionColor>(vertexShaderBuf, m_oGraphicContext));
 	});
 
 	// After the pixel shader file is loaded, create the shader and constant buffer.
-	auto createPSTask = loadPixelShaderBufTask.then([this](std::vector<byte>& pixelShaderBuf) {
-		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreatePixelShader(
-				&pixelShaderBuf[0],
-				pixelShaderBuf.size(),
-				nullptr,
-				&m_pixelShader
-				)
-			);
+	auto createPSTask = loadPixelShaderBufTask.then([this](std::vector<byte>& pixelShaderBuf) 
+	{
+		m_poPixelShader = std::unique_ptr<GT::IPixelShader>(new GT::PixelShader(pixelShaderBuf, m_oGraphicContext));
 
 		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(ModelViewProjectionConstantBuffer) , D3D11_BIND_CONSTANT_BUFFER);
-		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateBuffer(
-				&constantBufferDesc,
-				nullptr,
-				&m_constantBuffer
-				)
-			);
+		DX::ThrowIfFailed(m_deviceResources->GetD3DDevice()->CreateBuffer(&constantBufferDesc, nullptr, &m_constantBuffer));
 	});
 
 	// Once both shaders are loaded, create the mesh.
@@ -226,14 +174,14 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 		// Load mesh vertices. Each vertex has a position and a color.
 		static const VertexPositionColor cubeVertices[] = 
 		{
-			{XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f)},
-			{XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-			{XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-			{XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f, 1.0f, 1.0f)},
-			{XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-			{XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(1.0f, 0.0f, 1.0f)},
-			{XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(1.0f, 1.0f, 0.0f)},
-			{XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f)},
+			{GT::Vector3(-0.5f, -0.5f, -0.5f), GT::Vector3(0.0f, 0.0f, 0.0f)},
+			{GT::Vector3(-0.5f, -0.5f,  0.5f), GT::Vector3(0.0f, 0.0f, 1.0f)},
+			{GT::Vector3(-0.5f,  0.5f, -0.5f), GT::Vector3(0.0f, 1.0f, 0.0f)},
+			{GT::Vector3(-0.5f,  0.5f,  0.5f), GT::Vector3(0.0f, 1.0f, 1.0f)},
+			{GT::Vector3( 0.5f, -0.5f, -0.5f), GT::Vector3(1.0f, 0.0f, 0.0f)},
+			{GT::Vector3( 0.5f, -0.5f,  0.5f), GT::Vector3(1.0f, 0.0f, 1.0f)},
+			{GT::Vector3( 0.5f,  0.5f, -0.5f), GT::Vector3(1.0f, 1.0f, 0.0f)},
+			{GT::Vector3( 0.5f,  0.5f,  0.5f), GT::Vector3(1.0f, 1.0f, 1.0f)},
 		};
 
 		m_poVertexBuffer = std::unique_ptr<GT::IVertexBuffer>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
@@ -269,7 +217,8 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	});
 
 	// Once the cube is loaded, the object is ready to be rendered.
-	createCubeTask.then([this] () {
+	createCubeTask.then([this]() 
+	{
 		m_loadingComplete = true;
 	});
 }

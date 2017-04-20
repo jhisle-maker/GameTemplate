@@ -2,8 +2,12 @@
 
 #include "IVertexBuffer.h"
 #include "IIndexBuffer.h"
-#include "DX11ApiVertexBuffer.h"
-#include "DX11ApiIndexBuffer.h"
+#include "IVertexShader.h"
+#include "IPixelShader.h"
+#include "DX11ApiVertexBufferWrapper.h"
+#include "DX11ApiIndexBufferWrapper.h"
+#include "DX11ApiVertexShaderWrapper.h"
+#include "DX11ApiPixelShaderWrapper.h"
 
 namespace GT
 {
@@ -24,13 +28,13 @@ namespace GT
 		UINT stride = static_cast<UINT>(i_oVertexBuffer.GetVertexSize());
 		UINT offset = 0;
 
-		const DX11ApiVertexBuffer& poApiBuffer = static_cast<const DX11ApiVertexBuffer&>(i_oVertexBuffer.GetApiBufferWrapper());
-		
+		const DX11ApiVertexBufferWrapper& poApiBuffer = static_cast<const DX11ApiVertexBufferWrapper&>(i_oVertexBuffer.GetApiWrapper());
+
 		m_poDeviceContext->IASetVertexBuffers
 		(
 			0u,
 			1u,
-			poApiBuffer.GetD3D11BufferAddress(),
+			poApiBuffer.GetD3D11BufferPtrAddress(),
 			&stride,
 			reinterpret_cast<const UINT*>(&i_uiOffset)
 		);
@@ -49,14 +53,28 @@ namespace GT
 			break;
 		}
 
-		const DX11ApiIndexBuffer& poApiBuffer = static_cast<const DX11ApiIndexBuffer&>(i_oIndexBuffer.GetApiBufferWrapper());
+		const DX11ApiIndexBufferWrapper& poApiBuffer = static_cast<const DX11ApiIndexBufferWrapper&>(i_oIndexBuffer.GetApiWrapper());
 
 		m_poDeviceContext->IASetIndexBuffer
 		(
-			poApiBuffer.GetD3D11Buffer(),
+			poApiBuffer.GetD3D11BufferPtr(),
 			eFormat,
 			static_cast<UINT>(i_uiOffset)
 		);
+	}
+
+	void DX11GraphicDevice::BindVertexShader(const IVertexShader& i_oVertexShader) const
+	{
+		const DX11ApiVertexShaderWrapper& oApiShader = static_cast<const DX11ApiVertexShaderWrapper&>(i_oVertexShader.GetApiWrapper());
+
+		m_poDeviceContext->IASetInputLayout(oApiShader.GetDX11InputLayout());
+		m_poDeviceContext->VSSetShader(oApiShader.GetDX11VertexShader(), nullptr, 0);
+	}
+
+	void DX11GraphicDevice::BindPixelShader(const IPixelShader& i_oPixelShader) const
+	{
+		const DX11ApiPixelShaderWrapper& oApiShader = static_cast<const DX11ApiPixelShaderWrapper&>(i_oPixelShader.GetApiWrapper());
+		m_poDeviceContext->PSSetShader(oApiShader.GetDX11PixelShader(), nullptr, 0);
 	}
 
 	const Microsoft::WRL::ComPtr<ID3D11Device> DX11GraphicDevice::GetDevice() const
