@@ -1,8 +1,12 @@
 #pragma once
+#include "Utils\Utils.h"
 #include "DX11GraphicContext.h"
-#include "DX11ApiVertexBuffer.h"
-#include "DX11ApiIndexBuffer.h"
+#include "DX11ApiVertexBufferWrapper.h"
+#include "DX11ApiIndexBufferWrapper.h"
+#include "DX11ApiVertexShaderWrapper.h"
+#include "DX11ApiPixelShaderWrapper.h"
 
+#include <vector>
 #include <wrl/client.h>
 #include <d3d11_3.h>
 #include <stdint.h>
@@ -37,70 +41,82 @@ namespace GT
 			&poBuffer
 		);
 
-		return std::move(std::unique_ptr<IApiBufferWrapper>(new DX11ApiVertexBuffer(poBuffer)));
+		return std::move(std::unique_ptr<IApiBufferWrapper>(new DX11ApiVertexBufferWrapper(*poBuffer)));
 	}
 
 	std::unique_ptr<IApiBufferWrapper> DX11GraphicContext::CreateApiIndexBuffer(const void* i_paoIndexData, const size_t i_uiIndexSize, const size_t i_uiElementsCount) const
 	{
-		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-		indexBufferData.pSysMem = i_paoIndexData;
-		indexBufferData.SysMemPitch = 0;
-		indexBufferData.SysMemSlicePitch = 0;
+		return std::move(std::unique_ptr<IApiBufferWrapper>(new DX11ApiIndexBufferWrapper(m_poDevice, i_paoIndexData, i_uiIndexSize, i_uiElementsCount)));
+	}
 
-		CD3D11_BUFFER_DESC indexBufferDesc(static_cast<uint32_t>(i_uiIndexSize * i_uiElementsCount), D3D11_BIND_INDEX_BUFFER);
-		
-		ID3D11Buffer* poBuffer = nullptr;
-		m_poDevice->CreateBuffer
+	std::unique_ptr<IApiVertexShaderWrapper> DX11GraphicContext::CreateApiVertexShader(const std::vector<uint8_t>& i_oShaderFileBytes, const VertexDeclaration& vertexDeclaration) const
+	{
+		ID3D11VertexShader* poVertexShader = nullptr;
+		m_poDevice->CreateVertexShader
 		(
-			&indexBufferDesc,
-			&indexBufferData,
-			&poBuffer
+			i_oShaderFileBytes.data(),
+			i_oShaderFileBytes.size(),
+			nullptr,
+			reinterpret_cast<ID3D11VertexShader**>(&poVertexShader)
 		);
 
-		return std::move(std::unique_ptr<IApiBufferWrapper>(new DX11ApiIndexBuffer(poBuffer)));
-	}
-	
-	void DX11GraphicContext::ReleaseApiIndexBuffer(void*& i_oApiIndexBuffer) const
-	{
-		if (i_oApiIndexBuffer != nullptr)
+		std::vector<D3D11_INPUT_ELEMENT_DESC> vertexDescArray;
+		vertexDescArray.reserve(vertexDeclaration.VertexDeclarationItemsCount);
+
+		UINT alignedByteOffset = 0;
+		for (int index = 0; index < vertexDeclaration.VertexDeclarationItemsCount; ++index)
 		{
-			reinterpret_cast<ID3D11Buffer*>(i_oApiIndexBuffer)->Release();
+			char* semanticName = nullptr;
+			DXGI_FORMAT format;
+			UINT formatByteSize = 0;
+
+			VertexDeclarationItem vertexDeclarationItem = vertexDeclaration.VertexDeclarationItems[index];
+			switch (vertexDeclarationItem.Type)
+			{
+				case FLOAT32:
+					format = DXGI_FORMAT_R32G32B32_FLOAT;
+					formatByteSize = 12;
+					break;
+			}
+
+			switch (vertexDeclarationItem.Usage)
+			{
+				case POSITION:
+					semanticName = "POSITION";
+					break;
+				case COLOR:
+					semanticName = "COLOR";
+					break;
+				case TEXTURE:
+					semanticName = "TEXTURE";
+					break;
+				case NORMAL:
+					semanticName = "NORMAL";
+					break;
+			}
+
+			vertexDescArray.push_back({ semanticName, 0, format, 0, alignedByteOffset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+			alignedByteOffset += formatByteSize;
 		}
+
+		ID3D11InputLayout* poInputLayout = nullptr;
+		m_poDevice->CreateInputLayout
+		(
+			vertexDescArray.data(),
+			static_cast<UINT>(vertexDescArray.size()),
+			i_oShaderFileBytes.data(),
+			i_oShaderFileBytes.size(),
+			&poInputLayout
+		);
+
+		return std::unique_ptr<IApiVertexShaderWrapper>(new DX11ApiVertexShaderWrapper(*poVertexShader, *poInputLayout));
 	}
 
-	//void DX11GraphicContext::CreateApiVertexShader(const std::wstring& i_oShaderFileName, void*& o_oApiVertexShader) const
-	//{
-	//	/*auto loadVSTask = GT::ReadDataAsync(L"SampleVertexShader.cso");
+	std::unique_ptr<IApiPixelShaderWrapper> DX11GraphicContext::CreateApiPixelShader(const std::vector<uint8_t>& i_oShaderFileBytes) const
+	{
+		ID3D11PixelShader* poPixelShader = nullptr;
+		m_poDevice->CreatePixelShader(i_oShaderFileBytes.data(), i_oShaderFileBytes.size(), nullptr, &poPixelShader);
 
-	//	auto createShaderTask = loadVSTask.then([this, &o_oApiVertexShader](const std::vector<byte>& fileData)
-	//	{
-	//		m_poDevice->CreateVertexShader
-	//		(
-	//			&fileData[0],
-	//			fileData.size(),
-	//			nullptr,
-	//			reinterpret_cast<ID3D11VertexShader**>(&o_oApiVertexShader)
-	//		);
-	//	});
-
-	//	createShaderTask.wait();*/
-	//}
-
-	//void DX11GraphicContext::CreateApiPixelShader(const std::wstring& i_oPixelShaderFileName, void*& o_oApiPixelShader) const
-	//{
-	//	/*auto loadVSTask = GT::ReadDataAsync(L"SampleVertexShader.cso");
-
-	//	auto createShaderTask = loadVSTask.then([this, &o_oApiPixelShader](const std::vector<byte>& fileData)
-	//	{
-	//		m_poDevice->CreateVertexShader
-	//		(
-	//			&fileData[0],
-	//			fileData.size(),
-	//			nullptr,
-	//			reinterpret_cast<ID3D11VertexShader**>(&o_oApiPixelShader)
-	//		);
-	//	});
-
-	//	createShaderTask.wait();*/
-	//}
+		return std::unique_ptr<IApiPixelShaderWrapper>(new DX11ApiPixelShaderWrapper(*poPixelShader));
+	} 
 }

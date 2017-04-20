@@ -6,11 +6,14 @@
 
 #include "Graphics\IIndexBuffer.h"
 #include "Graphics\IVertexBuffer.h"
+#include "Graphics\IVertexShader.h"
+#include "Graphics\IPixelShader.h"
 #include "Graphics\SimpleCamera.h"
 
 //Forward decls
 namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
+
 
 namespace GameTemplate
 {
@@ -37,8 +40,11 @@ namespace GameTemplate
 		//GT stuff
 		const GT::IGraphicDevice& m_oGraphicDevice;
 		const GT::IGraphicContext& m_oGraphicContext;
+
 		std::unique_ptr<GT::IIndexBuffer> m_poIndexBuffer;
 		std::unique_ptr<GT::IVertexBuffer> m_poVertexBuffer;
+		std::unique_ptr<GT::IVertexShader> m_poVertexShader;
+		std::unique_ptr<GT::IPixelShader> m_poPixelShader;
 		std::unique_ptr<GT::SimpleCamera> m_poCamera;
 
 		// Cached pointer to device resources.

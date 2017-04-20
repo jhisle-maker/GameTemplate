@@ -31,6 +31,21 @@ namespace GT
 		return DirectX::XMMatrixPerspectiveFovRH(i_fFovY, i_fAspectRatio, i_fNearPlane, i_fFarPlane);
 	}
 
+	Matrix Matrix::RotationX(const float i_fRadians)
+	{
+		return DirectX::XMMatrixRotationX(i_fRadians);
+	}
+
+	Matrix Matrix::RotationY(const float i_fRadians)
+	{
+		return DirectX::XMMatrixRotationY(i_fRadians);
+	}
+
+	Matrix Matrix::RotationZ(const float i_fRadians)
+	{
+		return DirectX::XMMatrixRotationZ(i_fRadians);
+	}
+
 	Matrix Matrix::View(const Vector3& i_oPos, const Vector3& i_oLookAt, const Vector3& i_oUp)
 	{
 		return DirectX::XMMatrixLookAtRH

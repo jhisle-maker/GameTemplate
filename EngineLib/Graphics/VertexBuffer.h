@@ -3,7 +3,6 @@
 #include <memory>
 #include "IVertexBuffer.h"
 
-
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
 namespace GT { class IApiBufferWrapper; }
@@ -20,7 +19,7 @@ namespace GT
 
 	public:
 		inline size_t GetVertexSize() const { return sizeof(VertexType); }
-		inline const IApiBufferWrapper& GetApiBufferWrapper() const { return *m_poApiVertexBufferWrapper; }
+		inline const IApiBufferWrapper& GetApiWrapper() const { return *m_poApiVertexBufferWrapper; }
 
 	private:
 		std::unique_ptr<IApiBufferWrapper> m_poApiVertexBufferWrapper;
