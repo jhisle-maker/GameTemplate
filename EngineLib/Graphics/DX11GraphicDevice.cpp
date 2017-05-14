@@ -2,10 +2,12 @@
 
 #include "IVertexBuffer.h"
 #include "IIndexBuffer.h"
+#include "IConstBuffer.h"
 #include "IVertexShader.h"
 #include "IPixelShader.h"
 #include "DX11ApiVertexBufferWrapper.h"
 #include "DX11ApiIndexBufferWrapper.h"
+#include "DX11ApiConstantBufferWrapper.h"
 #include "DX11ApiVertexShaderWrapper.h"
 #include "DX11ApiPixelShaderWrapper.h"
 
@@ -71,10 +73,26 @@ namespace GT
 		m_poDeviceContext->VSSetShader(oApiShader.GetDX11VertexShader(), nullptr, 0);
 	}
 
+	void DX11GraphicDevice::BindVertexShader(const IVertexShader& i_oVertexShader, const IConstBuffer& i_oConstBuffer) const
+	{
+		BindVertexShader(i_oVertexShader);
+		const DX11ApiConstantBufferWrapper& oApiBuffer = static_cast<const DX11ApiConstantBufferWrapper&>(i_oConstBuffer.GetApiWrapper());
+		m_poDeviceContext->VSSetConstantBuffers(0, 1, oApiBuffer.GetD3D11BufferPtrAddress());
+	}
+
+
 	void DX11GraphicDevice::BindPixelShader(const IPixelShader& i_oPixelShader) const
 	{
 		const DX11ApiPixelShaderWrapper& oApiShader = static_cast<const DX11ApiPixelShaderWrapper&>(i_oPixelShader.GetApiWrapper());
 		m_poDeviceContext->PSSetShader(oApiShader.GetDX11PixelShader(), nullptr, 0);
+	}
+
+	
+	void DX11GraphicDevice::BindPixelShader(const IPixelShader& i_oPixelShader, const IConstBuffer& i_oConstBuffer) const
+	{
+		BindPixelShader(i_oPixelShader);
+		const DX11ApiConstantBufferWrapper& oApiBuffer = static_cast<const DX11ApiConstantBufferWrapper&>(i_oConstBuffer.GetApiWrapper());
+		m_poDeviceContext->PSSetConstantBuffers(0, 1, oApiBuffer.GetD3D11BufferPtrAddress());
 	}
 
 	const Microsoft::WRL::ComPtr<ID3D11Device> DX11GraphicDevice::GetDevice() const

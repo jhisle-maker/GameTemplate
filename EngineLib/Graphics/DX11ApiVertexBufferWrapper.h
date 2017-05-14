@@ -7,7 +7,7 @@ namespace GT
 	class DX11ApiVertexBufferWrapper : public IApiBufferWrapper
 	{
 	public:
-		DX11ApiVertexBufferWrapper(ID3D11Buffer& i_oD3D11Buffer);
+		DX11ApiVertexBufferWrapper(ID3D11Device& i_oDevice, const void* i_paoVertexData, const size_t i_uiVertexSize, const size_t i_uiElementsCount);
 		virtual ~DX11ApiVertexBufferWrapper();
 
 	public:

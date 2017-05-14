@@ -4,7 +4,7 @@
 
 namespace GT
 {
-	DX11ApiIndexBufferWrapper::DX11ApiIndexBufferWrapper(Microsoft::WRL::ComPtr<ID3D11Device> m_poDevice, const void* i_paoIndexData, size_t i_uiIndexSize, size_t i_uiElementsCount)
+	DX11ApiIndexBufferWrapper::DX11ApiIndexBufferWrapper(ID3D11Device& i_oDevice, const void* i_paoIndexData, size_t i_uiIndexSize, size_t i_uiElementsCount)
 		: m_poBuffer(nullptr)
 	{
 		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
@@ -14,7 +14,7 @@ namespace GT
 
 		CD3D11_BUFFER_DESC indexBufferDesc(static_cast<uint32_t>(i_uiIndexSize * i_uiElementsCount), D3D11_BIND_INDEX_BUFFER);
 
-		m_poDevice->CreateBuffer
+		i_oDevice.CreateBuffer
 		(
 			&indexBufferDesc,
 			&indexBufferData,

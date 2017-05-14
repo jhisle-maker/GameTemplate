@@ -3,6 +3,7 @@
 
 #include "Graphics\VertexBuffer.h"
 #include "Graphics\IndexBuffer.h"
+#include "Graphics\ConstBuffer.h"
 #include "Graphics\VertexShader.h"
 #include "Graphics\PixelShader.h"
 #include "Graphics\DX11GraphicDevice.h"
@@ -51,6 +52,7 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 
 	m_poCamera = std::unique_ptr<GT::SimpleCamera>(new GT::SimpleCamera(aspectRatio, 70.0f, eye, at, up));
 
+	m_constantBufferData.model = GT::Matrix::Identity;
 	m_constantBufferData.projection = m_poCamera->GetProjection();
 	m_constantBufferData.view = m_poCamera->GetView();
 }
@@ -106,29 +108,15 @@ void Sample3DSceneRenderer::Render()
 		return;
 	}
 
-	auto context = m_deviceResources->GetD3DDeviceContext();
-
-	// Prepare the constant buffer to send it to the graphics device.
-	context->UpdateSubresource1
-	(
-		m_constantBuffer.Get(),
-		0,
-		NULL,
-		&m_constantBufferData,
-		0,
-		0,
-		0
-	);
+	m_poConstBuffer->Update(m_constantBufferData);
 
 	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
 	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
-	m_oGraphicDevice.BindVertexShader(*m_poVertexShader);
+	m_oGraphicDevice.BindVertexShader(*m_poVertexShader, *m_poConstBuffer);
 	m_oGraphicDevice.BindPixelShader(*m_poPixelShader);
 
-	// Send the constant buffer to the graphics device.
-	context->VSSetConstantBuffers1(0, 1, m_constantBuffer.GetAddressOf(), nullptr, nullptr);
-
 	// Draw the objects.
+	auto context = m_deviceResources->GetD3DDeviceContext();
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	context->DrawIndexed(m_indexCount, 0, 0);
 }
@@ -163,9 +151,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	auto createPSTask = loadPixelShaderBufTask.then([this](std::vector<byte>& pixelShaderBuf) 
 	{
 		m_poPixelShader = std::unique_ptr<GT::IPixelShader>(new GT::PixelShader(pixelShaderBuf, m_oGraphicContext));
-
-		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(ModelViewProjectionConstantBuffer) , D3D11_BIND_CONSTANT_BUFFER);
-		DX::ThrowIfFailed(m_deviceResources->GetD3DDevice()->CreateBuffer(&constantBufferDesc, nullptr, &m_constantBuffer));
+		m_poConstBuffer = std::unique_ptr<GT::ConstBuffer<ModelViewProjectionConstantBuffer>>(new GT::ConstBuffer<ModelViewProjectionConstantBuffer>(m_constantBufferData, m_oGraphicContext));
 	});
 
 	// Once both shaders are loaded, create the mesh.
@@ -184,7 +170,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			{GT::Vector3( 0.5f,  0.5f,  0.5f), GT::Vector3(1.0f, 1.0f, 1.0f)},
 		};
 
-		m_poVertexBuffer = std::unique_ptr<GT::IVertexBuffer>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
+		m_poVertexBuffer = std::unique_ptr<GT::VertexBuffer<VertexPositionColor>>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
 
 		// Load mesh indices. Each trio of indices represents
 		// a triangle to be rendered on the screen.
@@ -212,7 +198,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 			1,7,5,
 		};
 
-		m_poIndexBuffer = std::unique_ptr<GT::IIndexBuffer>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicContext));
+		m_poIndexBuffer = std::unique_ptr<GT::IndexBuffer<USHORT>>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicContext));
 		m_indexCount = ARRAYSIZE(cubeIndices);
 	});
 

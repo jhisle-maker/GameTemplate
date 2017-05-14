@@ -3,6 +3,7 @@
 //START FORWARD DECL
 namespace GT { class IVertexBuffer; }
 namespace GT { class IIndexBuffer; }
+namespace GT { class IConstBuffer; }
 namespace GT { class IVertexShader; }
 namespace GT { class IPixelShader; }
 //END FORWARD DECL
@@ -20,5 +21,7 @@ namespace GT
 		virtual void SetIndexBuffer(const IIndexBuffer& i_oIndexBuffer, const size_t i_uiOffset = 0u) const = 0;
 		virtual void BindVertexShader(const IVertexShader& i_oVertexShader) const = 0;
 		virtual void BindPixelShader(const IPixelShader& i_oPixelShader) const = 0;
+		virtual void BindVertexShader(const IVertexShader& i_oVertexShader, const IConstBuffer& i_oConstBuffer) const = 0;
+		virtual void BindPixelShader(const IPixelShader& i_oPixelShader, const IConstBuffer& i_oConstBuffer) const = 0;
 	};
 }

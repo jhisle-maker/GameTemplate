@@ -2,10 +2,17 @@
 
 namespace GT
 {
-	DX11ApiConstantBufferWrapper::DX11ApiConstantBufferWrapper(ID3D11Buffer& i_oD3D11Buffer)
-		: m_poBuffer(&i_oD3D11Buffer)
+	DX11ApiConstantBufferWrapper::DX11ApiConstantBufferWrapper(ID3D11Device& i_oD3D11Device, const void* i_poData, size_t i_uiDataSize)
+		: m_poBuffer(nullptr)
 	{
-		//Nothing to do here
+		CD3D11_BUFFER_DESC constantBufferDesc(static_cast<UINT>(i_uiDataSize), D3D11_BIND_CONSTANT_BUFFER);
+		
+		D3D11_SUBRESOURCE_DATA oInitialData;
+		oInitialData.pSysMem = i_poData;
+		oInitialData.SysMemPitch = 0;
+		oInitialData.SysMemSlicePitch = 0;
+
+		i_oD3D11Device.CreateBuffer(&constantBufferDesc, &oInitialData, &m_poBuffer);
 	}
 
 	DX11ApiConstantBufferWrapper::~DX11ApiConstantBufferWrapper()

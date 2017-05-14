@@ -4,8 +4,10 @@
 #include "ShaderStructures.h"
 #include "..\Common\StepTimer.h"
 
-#include "Graphics\IIndexBuffer.h"
-#include "Graphics\IVertexBuffer.h"
+#include "Graphics\ConstBuffer.h"
+#include "Graphics\IndexBuffer.h"
+#include "Graphics\VertexBuffer.h"
+
 #include "Graphics\IVertexShader.h"
 #include "Graphics\IPixelShader.h"
 #include "Graphics\SimpleCamera.h"
@@ -41,8 +43,9 @@ namespace GameTemplate
 		const GT::IGraphicDevice& m_oGraphicDevice;
 		const GT::IGraphicContext& m_oGraphicContext;
 
-		std::unique_ptr<GT::IIndexBuffer> m_poIndexBuffer;
-		std::unique_ptr<GT::IVertexBuffer> m_poVertexBuffer;
+		std::unique_ptr<GT::IndexBuffer<USHORT>> m_poIndexBuffer;
+		std::unique_ptr<GT::VertexBuffer<VertexPositionColor>> m_poVertexBuffer;
+		std::unique_ptr<GT::ConstBuffer<ModelViewProjectionConstantBuffer>> m_poConstBuffer;
 		std::unique_ptr<GT::IVertexShader> m_poVertexShader;
 		std::unique_ptr<GT::IPixelShader> m_poPixelShader;
 		std::unique_ptr<GT::SimpleCamera> m_poCamera;
