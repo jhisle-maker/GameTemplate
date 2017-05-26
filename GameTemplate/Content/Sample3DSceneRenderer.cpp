@@ -152,6 +152,19 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	{
 		m_poPixelShader = std::unique_ptr<GT::IPixelShader>(new GT::PixelShader(pixelShaderBuf, m_oGraphicContext));
 		m_poConstBuffer = std::unique_ptr<GT::ConstBuffer<ModelViewProjectionConstantBuffer>>(new GT::ConstBuffer<ModelViewProjectionConstantBuffer>(m_constantBufferData, m_oGraphicContext));
+
+		D3D11_TEXTURE2D_DESC1 textureDesc;
+		memset(&textureDesc, 0, sizeof(D3D11_TEXTURE2D_DESC1));
+		textureDesc.Width = 1;
+		textureDesc.Height = 1;
+		textureDesc.MipLevels = 1;
+		textureDesc.ArraySize = 1;
+		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+
+
+
+		//m_deviceResources->GetD3DDevice()->CreateTexture2D1()
 	});
 
 	// Once both shaders are loaded, create the mesh.

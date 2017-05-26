@@ -1,7 +1,7 @@
 #pragma once
 
 //START FORWARD DECL
-namespace GT { class IApiBufferWrapper; }
+namespace GT { class IApiGraphicResource; }
 //END FORWARD DECLS
 
 namespace GT
@@ -13,6 +13,6 @@ namespace GT
 		virtual ~IConstBuffer() {}
 
 	public:
-		virtual const IApiBufferWrapper& GetApiWrapper() const = 0;
+		virtual const IApiGraphicResource& GetApiWrapper() const = 0;
 	};
 }

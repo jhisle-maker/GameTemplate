@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "IPixelShader.h"
-#include "IApiPixelShaderWrapper.h"
+#include "IApiGraphicResource.h"
 
 //START FORWARD DECLARATION
 namespace GT { class IGraphicContext; }
@@ -18,9 +18,9 @@ namespace GT
 		~PixelShader();
 
 	public:
-		inline const IApiPixelShaderWrapper& GetApiWrapper() const { return *m_poApiPixelShaderWrapper; }
+		inline const IApiGraphicResource& GetApiWrapper() const { return *m_poApiPixelShaderWrapper; }
 
 	private:
-		std::unique_ptr<IApiPixelShaderWrapper> m_poApiPixelShaderWrapper;
+		std::unique_ptr<IApiGraphicResource> m_poApiPixelShaderWrapper;
 	};
 }

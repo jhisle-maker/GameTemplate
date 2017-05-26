@@ -1,7 +1,7 @@
 #pragma once
 
 //START FORWARD DECL
-namespace GT { class IApiPixelShaderWrapper; }
+namespace GT { class IApiGraphicResource; }
 //END FORWARD DECL
 
 namespace GT
@@ -13,6 +13,6 @@ namespace GT
 		virtual ~IPixelShader() {}
 
 	public:
-		virtual const IApiPixelShaderWrapper& GetApiWrapper() const = 0;
+		virtual const IApiGraphicResource& GetApiWrapper() const = 0;
 	};
 }

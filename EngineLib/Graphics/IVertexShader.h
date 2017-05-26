@@ -1,7 +1,7 @@
 #pragma once
 
 //START FORWARD DECLS
-namespace GT { class IApiVertexShaderWrapper; }
+namespace GT { class IApiGraphicResource; }
 namespace GT { class IConstBuffer; }
 //END FORWARD DECLS
 
@@ -14,6 +14,6 @@ namespace GT
 		virtual ~IVertexShader() {}
 
 	public:
-		virtual const IApiVertexShaderWrapper& GetApiWrapper() const = 0;
+		virtual const IApiGraphicResource& GetApiWrapper() const = 0;
 	};
 }
