@@ -199,12 +199,10 @@
     <ClInclude Include="Graphics\DX11ApiPixelShaderWrapper.h" />
     <ClInclude Include="Graphics\DX11ApiVertexShaderWrapper.h" />
     <ClInclude Include="Graphics\SimpleCamera.h" />
-    <ClInclude Include="Graphics\IApiBufferWrapper.h" />
     <ClInclude Include="Graphics\DX11ApiVertexBufferWrapper.h" />
-    <ClInclude Include="Graphics\IApiPixelShaderWrapper.h" />
-    <ClInclude Include="Graphics\IApiVertexShaderWrapper.h" />
     <ClInclude Include="Graphics\IVertexShader.h" />
     <ClInclude Include="Graphics\PixelShader.h" />
+    <ClInclude Include="Graphics\IApiGraphicResource.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />

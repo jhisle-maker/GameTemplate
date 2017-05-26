@@ -88,9 +88,6 @@
     <ClInclude Include="Utils\Utils.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IApiBufferWrapper.h">
-      <Filter>Graphics\ApiWrappers</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\IIndexBuffer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -117,12 +114,6 @@
     </ClInclude>
     <ClInclude Include="Graphics\IGraphicContext.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IApiVertexShaderWrapper.h">
-      <Filter>Graphics\ApiWrappers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IApiPixelShaderWrapper.h">
-      <Filter>Graphics\ApiWrappers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\DX11ApiVertexBufferWrapper.h">
       <Filter>Graphics\ApiWrappers</Filter>
@@ -159,6 +150,9 @@
       <Filter>Graphics\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IConstBuffer.h" />
+    <ClInclude Include="Graphics\IApiGraphicResource.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

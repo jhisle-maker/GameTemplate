@@ -2,7 +2,7 @@
 #include <d3d11_4.h>
 #include <vector>
 
-#include "IApiVertexShaderWrapper.h"
+#include "IApiGraphicResource.h"
 
 //START FORWARD DECLS
 namespace GT { struct VertexDeclaration; }
@@ -10,7 +10,7 @@ namespace GT { struct VertexDeclaration; }
 
 namespace GT
 {
-	class DX11ApiVertexShaderWrapper : public IApiVertexShaderWrapper
+	class DX11ApiVertexShaderWrapper : public IApiGraphicResource
 	{
 	public:
 		DX11ApiVertexShaderWrapper(ID3D11Device& i_oDevice, const std::vector<uint8_t>& i_oShaderFileBytes, const VertexDeclaration& vertexDeclaration);

@@ -5,7 +5,7 @@
 
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
-namespace GT { class IApiBufferWrapper; }
+namespace GT { class IApiGraphicResource; }
 //END FORWARD DECLS
 
 namespace GT
@@ -19,10 +19,10 @@ namespace GT
 
 	public:
 		inline size_t GetVertexSize() const { return sizeof(VertexType); }
-		inline const IApiBufferWrapper& GetApiWrapper() const { return *m_poApiVertexBufferWrapper; }
+		inline const IApiGraphicResource& GetApiWrapper() const { return *m_poApiVertexBufferWrapper; }
 
 	private:
-		std::unique_ptr<IApiBufferWrapper> m_poApiVertexBufferWrapper;
+		std::unique_ptr<IApiGraphicResource> m_poApiVertexBufferWrapper;
 	};
 }
 

@@ -3,9 +3,8 @@
 #include "IConstBuffer.h"
 
 //START FORWARD DECLS
-namespace GT { class IApiBufferWrapper; }
 namespace GT { class IGraphicContext; }
-namespace GT { class IApiBufferWrapper; }
+namespace GT { class IApiGraphicResource; }
 //END FORWARD DECLS
 
 namespace GT
@@ -19,10 +18,10 @@ namespace GT
 
 	public:
 		void Update(const DataType& i_oData);
-		inline const IApiBufferWrapper& GetApiWrapper() const { return *m_poApiConstBufferWrapper; }
+		inline const IApiGraphicResource& GetApiWrapper() const { return *m_poApiConstBufferWrapper; }
 
 	private:
-		std::unique_ptr<IApiBufferWrapper> m_poApiConstBufferWrapper;
+		std::unique_ptr<IApiGraphicResource> m_poApiConstBufferWrapper;
 		const IGraphicContext& m_oGraphicContext;
 	};
 }
