@@ -68,10 +68,16 @@
     <ClCompile Include="Graphics\DX11ApiVertexShaderWrapper.cpp">
       <Filter>Graphics\ApiWrappers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\PixelShader.cpp" />
     <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp">
       <Filter>Graphics\ApiWrappers</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PixelShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -139,7 +145,6 @@
     <ClInclude Include="Graphics\PixelShader.h">
       <Filter>Graphics\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IPixelShader.h" />
     <ClInclude Include="Graphics\IVertexShader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -149,10 +154,19 @@
     <ClInclude Include="Graphics\ConstBuffer.h">
       <Filter>Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IConstBuffer.h" />
     <ClInclude Include="Graphics\IApiGraphicResource.h">
       <Filter>Graphics\ApiWrappers</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\IConstBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IPixelShader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Color.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

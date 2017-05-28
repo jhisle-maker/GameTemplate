@@ -188,6 +188,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\ConstBuffer.h" />
     <ClInclude Include="Graphics\DX11ApiConstantBufferWrapper.h" />
     <ClInclude Include="Graphics\IConstBuffer.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Graphics\IVertexShader.h" />
     <ClInclude Include="Graphics\PixelShader.h" />
     <ClInclude Include="Graphics\IApiGraphicResource.h" />
+    <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
     <ClCompile Include="Graphics\DX11ApiIndexBufferWrapper.cpp" />
     <ClCompile Include="Graphics\DX11ApiPixelShaderWrapper.cpp" />
@@ -233,6 +236,7 @@
     <ClCompile Include="Math\Matrix.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="Math\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\ConstBuffer.inl" />
