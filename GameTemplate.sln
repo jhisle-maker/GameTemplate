@@ -9,14 +9,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineLib", "EngineLib\Engi
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|ARM.ActiveCfg = Debug|ARM
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|ARM.Build.0 = Debug|ARM
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -26,6 +29,7 @@ Global
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|x86.ActiveCfg = Debug|Win32
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|x86.Build.0 = Debug|Win32
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Debug|x86.Deploy.0 = Debug|Win32
+		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|Any CPU.ActiveCfg = Release|Win32
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|ARM.ActiveCfg = Release|ARM
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|ARM.Build.0 = Release|ARM
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|ARM.Deploy.0 = Release|ARM
@@ -35,12 +39,14 @@ Global
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|x86.ActiveCfg = Release|Win32
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|x86.Build.0 = Release|Win32
 		{577BE116-E553-4E07-8C79-79561DAEF459}.Release|x86.Deploy.0 = Release|Win32
+		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|ARM.ActiveCfg = Debug|ARM
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|ARM.Build.0 = Debug|ARM
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|x64.ActiveCfg = Debug|x64
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|x64.Build.0 = Debug|x64
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|x86.ActiveCfg = Debug|Win32
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Debug|x86.Build.0 = Debug|Win32
+		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Release|Any CPU.ActiveCfg = Release|Win32
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Release|ARM.ActiveCfg = Release|ARM
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Release|ARM.Build.0 = Release|ARM
 		{2252AE5D-FA08-4A7A-9336-B9B65E98E592}.Release|x64.ActiveCfg = Release|x64

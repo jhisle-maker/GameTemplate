@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "IVertexShader.h"
-#include "IApiGraphicResource.h"
+#include "IApiGraphicResourceWrapper.h"
 
 //START FORWARD DECLARATION
 namespace GT { class IGraphicContext; }
@@ -18,11 +18,15 @@ namespace GT
 		VertexShader(const std::vector<uint8_t>& i_oShaderFileData, const IGraphicContext& i_oGraphicContext);
 		~VertexShader();
 
+		void BindConstantBuffer(const IConstBuffer& i_oConstBuffer) const;
+		void BindTexture(const ITexture& i_oTexture) const;
+
 	public:
-		inline const IApiGraphicResource& GetApiWrapper() const { return *m_poApiVertexShaderWrapper; }
+		inline const IApiGraphicResourceWrapper& GetApiWrapper() const { return *m_poApiVertexShaderWrapper; }
 
 	private:
-		std::unique_ptr<IApiGraphicResource> m_poApiVertexShaderWrapper;
+		const IGraphicContext& m_oGraphicContext;
+		std::unique_ptr<IApiGraphicResourceWrapper> m_poApiVertexShaderWrapper;
 	};
 }
 

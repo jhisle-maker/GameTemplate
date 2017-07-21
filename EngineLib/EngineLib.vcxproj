@@ -168,6 +168,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
+      <CompileAsManaged>false</CompileAsManaged>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -191,8 +192,10 @@
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\ConstBuffer.h" />
     <ClInclude Include="Graphics\DX11ApiConstantBufferWrapper.h" />
+    <ClInclude Include="Graphics\DX11ApiTexture2DWrapper.h" />
     <ClInclude Include="Graphics\IConstBuffer.h" />
     <ClInclude Include="Graphics\IPixelShader.h" />
+    <ClInclude Include="Graphics\Texture2D.h" />
     <ClInclude Include="Graphics\VertexDeclaration.h" />
     <ClInclude Include="Graphics\VertexShader.h" />
     <ClInclude Include="Graphics\DX11ApiIndexBufferWrapper.h" />
@@ -203,8 +206,12 @@
     <ClInclude Include="Graphics\DX11ApiVertexBufferWrapper.h" />
     <ClInclude Include="Graphics\IVertexShader.h" />
     <ClInclude Include="Graphics\PixelShader.h" />
-    <ClInclude Include="Graphics\IApiGraphicResource.h" />
+    <ClInclude Include="Graphics\IApiGraphicResourceWrapper.h" />
+    <ClInclude Include="Graphics\ITexture.h" />
+    <ClInclude Include="Loaders\ITextureLoader.h" />
+    <ClInclude Include="Loaders\IFileLoader.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Loaders\WicTexture2DLoader.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
@@ -225,6 +232,7 @@
     <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
     <ClCompile Include="Graphics\DX11ApiIndexBufferWrapper.cpp" />
     <ClCompile Include="Graphics\DX11ApiPixelShaderWrapper.cpp" />
+    <ClCompile Include="Graphics\DX11ApiTexture2DWrapper.cpp" />
     <ClCompile Include="Graphics\DX11ApiVertexBufferWrapper.cpp" />
     <ClCompile Include="Graphics\BasicEffect.cpp" />
     <ClCompile Include="Graphics\DX11ApiVertexShaderWrapper.cpp" />
@@ -233,10 +241,12 @@
     <ClCompile Include="EngineLib.cpp" />
     <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
     <ClCompile Include="Graphics\DX11GraphicDevice.cpp" />
+    <ClCompile Include="Graphics\Texture2D.cpp" />
     <ClCompile Include="Math\Matrix.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="Loaders\WicTexture2DLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\ConstBuffer.inl" />

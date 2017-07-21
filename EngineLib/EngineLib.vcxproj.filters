@@ -32,6 +32,12 @@
     <Filter Include="Graphics\Cameras">
       <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Texture">
+      <UniqueIdentifier>{5db6bad2-1f42-46c9-949b-43f85b161ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loaders">
+      <UniqueIdentifier>{a0142adc-6ee3-441f-845c-590bcc9abe86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineLib.cpp" />
@@ -77,7 +83,18 @@
     <ClCompile Include="Graphics\PixelShader.cpp">
       <Filter>Graphics\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Color.cpp" />
+    <ClCompile Include="Graphics\Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DX11ApiTexture2DWrapper.cpp">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Texture2D.cpp">
+      <Filter>Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Loaders\WicTexture2DLoader.cpp">
+      <Filter>Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -110,9 +127,6 @@
       <Filter>Graphics\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\DX11GraphicContext.h">
-      <Filter>Graphics\GraphicDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\DX11GraphicDevice.h">
       <Filter>Graphics\GraphicDevice</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IGraphicDevice.h">
@@ -154,9 +168,6 @@
     <ClInclude Include="Graphics\ConstBuffer.h">
       <Filter>Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IApiGraphicResource.h">
-      <Filter>Graphics\ApiWrappers</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\IConstBuffer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -166,7 +177,33 @@
     <ClInclude Include="Math\Vector4.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Color.h" />
+    <ClInclude Include="Graphics\Color.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11GraphicDevice.h">
+      <Filter>Graphics\GraphicDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Texture2D.h">
+      <Filter>Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IApiGraphicResourceWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DX11ApiTexture2DWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ITexture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders\IFileLoader.h">
+      <Filter>Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders\ITextureLoader.h">
+      <Filter>Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders\WicTexture2DLoader.h">
+      <Filter>Loaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

@@ -1,5 +1,5 @@
 #include "IGraphicContext.h"
-#include "IApiGraphicResource.h"
+#include "IApiGraphicResourceWrapper.h"
 
 namespace GT
 {

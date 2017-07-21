@@ -2,10 +2,20 @@
 
 namespace GT
 {
-	Color::Color(float i_fR, float i_fG, float i_fB, float i_fA)
-		: Vector4(i_fR, i_fG, i_fB, i_fA)
+	Color::Color()
 	{
-		//Nothing to do here
+		m_oColorData.rgba.R = 0u;
+		m_oColorData.rgba.G = 0u;
+		m_oColorData.rgba.B = 0u;
+		m_oColorData.rgba.A = 0u;
+	}
+		
+	Color::Color(const uint8_t i_uiR, const uint8_t i_uiG, const uint8_t i_uiB, const uint8_t i_uiA)
+	{
+		m_oColorData.rgba.R = i_uiR;
+		m_oColorData.rgba.G = i_uiG;
+		m_oColorData.rgba.B = i_uiB;
+		m_oColorData.rgba.A = i_uiA;
 	}
 
 	Color::~Color()

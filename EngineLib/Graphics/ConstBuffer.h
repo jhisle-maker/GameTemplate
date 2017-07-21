@@ -4,7 +4,7 @@
 
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
-namespace GT { class IApiGraphicResource; }
+namespace GT { class IApiGraphicResourceWrapper; }
 //END FORWARD DECLS
 
 namespace GT
@@ -18,10 +18,10 @@ namespace GT
 
 	public:
 		void Update(const DataType& i_oData);
-		inline const IApiGraphicResource& GetApiWrapper() const { return *m_poApiConstBufferWrapper; }
+		inline const IApiGraphicResourceWrapper& GetApiWrapper() const { return *m_poApiConstBufferWrapper; }
 
 	private:
-		std::unique_ptr<IApiGraphicResource> m_poApiConstBufferWrapper;
+		std::unique_ptr<IApiGraphicResourceWrapper> m_poApiConstBufferWrapper;
 		const IGraphicContext& m_oGraphicContext;
 	};
 }

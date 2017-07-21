@@ -8,6 +8,7 @@
 //FORWARD DECLS
 namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
+namespace GT { class IFileLoader; }
 
 // Renders Direct2D and 3D content on the screen.
 namespace GameTemplate
@@ -30,6 +31,7 @@ namespace GameTemplate
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<GT::IGraphicDevice> m_poGraphicDevice;
 		std::unique_ptr<GT::IGraphicContext> m_poGraphicContext;
+		std::unique_ptr<GT::IFileLoader> m_poFileLoader;
 
 		// TODO: Replace with your own content renderers.
 		std::unique_ptr<Sample3DSceneRenderer> m_sceneRenderer;

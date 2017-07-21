@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
-#include "Sample3DSceneRenderer.h"
+#include <ppltasks.h>
 
+#include "Sample3DSceneRenderer.h"
 #include "Graphics\VertexBuffer.h"
 #include "Graphics\IndexBuffer.h"
 #include "Graphics\ConstBuffer.h"
@@ -10,29 +11,32 @@
 #include "Graphics\DX11GraphicContext.h"
 #include "Math\Vector3.h"
 #include "Math\Matrix.h"
-
-#include "..\Common\DirectXHelper.h"
 #include "Utils\Utils.h"
+#include "UWPEngine\UWPFileLoader.h"
+#include "Loaders\WicTexture2DLoader.h"
 
 
 using namespace GameTemplate;
 
 using namespace DirectX;
 using namespace Windows::Foundation;
+using namespace Windows::Storage;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext) 
-	: m_loadingComplete(false)
+Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IFileLoader& i_oFileLoader) 
+	: m_oGraphicDevice(i_oGraphicDevice)
+	, m_oGraphicContext(i_oGraphicContext)
+	, m_oFileLoader(i_oFileLoader)
+	, m_loadingComplete(false)
 	, m_degreesPerSecond(45)
 	, m_indexCount(0)
 	, m_tracking(false)
 	, m_deviceResources(deviceResources)
 	, m_poIndexBuffer(nullptr)
 	, m_poVertexBuffer(nullptr)
+	, m_poTexture(nullptr)
 	, m_poVertexShader(nullptr)
 	, m_poPixelShader(nullptr)
-	, m_oGraphicDevice(i_oGraphicDevice)
-	, m_oGraphicContext(i_oGraphicContext)
 	, m_poCamera(nullptr)
 {	
 	CreateDeviceDependentResources();
@@ -110,9 +114,12 @@ void Sample3DSceneRenderer::Render()
 
 	m_poConstBuffer->Update(m_constantBufferData);
 
+	m_poVertexShader->BindConstantBuffer(*m_poConstBuffer);
+	m_poPixelShader->BindTexture(*m_poTexture);
+
 	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
 	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
-	m_oGraphicDevice.BindVertexShader(*m_poVertexShader, *m_poConstBuffer);
+	m_oGraphicDevice.BindVertexShader(*m_poVertexShader);
 	m_oGraphicDevice.BindPixelShader(*m_poPixelShader);
 
 	// Draw the objects.
@@ -126,25 +133,27 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	using namespace Concurrency;
 
 	// Load shaders asynchronously.
-	auto loadVertexShaderBufTask = create_task([]() -> std::vector<byte>
+	auto loadVertexShaderBufTask = create_task([this]() -> std::vector<byte>
 	{ 
+		Platform::String^ path = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
+
 		std::vector<byte> vertexShaderBuf;
-		GT::Utils::ReadFileBytes("SampleVertexShader.cso", vertexShaderBuf); 
+		m_oFileLoader.Load("PositionColorTextureVertexShader.cso", vertexShaderBuf);
 		return vertexShaderBuf;
 	});
 
-	auto loadPixelShaderBufTask = create_task([]() -> std::vector<byte>
+	auto loadPixelShaderBufTask = create_task([this]() -> std::vector<byte>
 	{
 		std::vector<byte> pixelShaderBuf;
-		GT::Utils::ReadFileBytes("SamplePixelShader.cso", pixelShaderBuf);
-		
+		m_oFileLoader.Load("PositionColorTexturePixelShader.cso", pixelShaderBuf);
+	
 		return pixelShaderBuf;
 	});
 
 	// After the vertex shader file is loaded, create the shader and input layout.
 	auto createVSTask = loadVertexShaderBufTask.then([this](std::vector<byte>& vertexShaderBuf) 
 	{
-		m_poVertexShader = std::unique_ptr<GT::IVertexShader>(new GT::VertexShader<VertexPositionColor>(vertexShaderBuf, m_oGraphicContext));
+		m_poVertexShader = std::unique_ptr<GT::IVertexShader>(new GT::VertexShader<VertexPositionColorTexture>(vertexShaderBuf, m_oGraphicContext));
 	});
 
 	// After the pixel shader file is loaded, create the shader and constant buffer.
@@ -152,72 +161,86 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	{
 		m_poPixelShader = std::unique_ptr<GT::IPixelShader>(new GT::PixelShader(pixelShaderBuf, m_oGraphicContext));
 		m_poConstBuffer = std::unique_ptr<GT::ConstBuffer<ModelViewProjectionConstantBuffer>>(new GT::ConstBuffer<ModelViewProjectionConstantBuffer>(m_constantBufferData, m_oGraphicContext));
-
-		D3D11_TEXTURE2D_DESC1 textureDesc;
-		memset(&textureDesc, 0, sizeof(D3D11_TEXTURE2D_DESC1));
-		textureDesc.Width = 1;
-		textureDesc.Height = 1;
-		textureDesc.MipLevels = 1;
-		textureDesc.ArraySize = 1;
-		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-
-
-
-		//m_deviceResources->GetD3DDevice()->CreateTexture2D1()
 	});
 
 	// Once both shaders are loaded, create the mesh.
 	auto createCubeTask = (createPSTask && createVSTask).then([this] () {
 
 		// Load mesh vertices. Each vertex has a position and a color.
-		static const VertexPositionColor cubeVertices[] = 
+		/*static const VertexPositionColorTexture cubeVertices[] = 
 		{
-			{GT::Vector3(-0.5f, -0.5f, -0.5f), GT::Vector3(0.0f, 0.0f, 0.0f)},
-			{GT::Vector3(-0.5f, -0.5f,  0.5f), GT::Vector3(0.0f, 0.0f, 1.0f)},
-			{GT::Vector3(-0.5f,  0.5f, -0.5f), GT::Vector3(0.0f, 1.0f, 0.0f)},
-			{GT::Vector3(-0.5f,  0.5f,  0.5f), GT::Vector3(0.0f, 1.0f, 1.0f)},
-			{GT::Vector3( 0.5f, -0.5f, -0.5f), GT::Vector3(1.0f, 0.0f, 0.0f)},
-			{GT::Vector3( 0.5f, -0.5f,  0.5f), GT::Vector3(1.0f, 0.0f, 1.0f)},
-			{GT::Vector3( 0.5f,  0.5f, -0.5f), GT::Vector3(1.0f, 1.0f, 0.0f)},
-			{GT::Vector3( 0.5f,  0.5f,  0.5f), GT::Vector3(1.0f, 1.0f, 1.0f)},
+			{GT::Vector3(-0.5f, -0.5f, -0.5f), GT::Vector3(0.0f, 0.0f, 0.0f), GT::Vector2(0.0f, 0.0f) },
+			{GT::Vector3(-0.5f, -0.5f,  0.5f), GT::Vector3(0.0f, 0.0f, 1.0f), GT::Vector2(0.0f, 0.0f) },
+			{GT::Vector3(-0.5f,  0.5f, -0.5f), GT::Vector3(0.0f, 1.0f, 0.0f), GT::Vector2(0.0f, 1.0f) },
+			{GT::Vector3(-0.5f,  0.5f,  0.5f), GT::Vector3(0.0f, 1.0f, 1.0f), GT::Vector2(0.0f, 0.0f) },
+			{GT::Vector3( 0.5f, -0.5f, -0.5f), GT::Vector3(1.0f, 0.0f, 0.0f), GT::Vector2(0.0f, 0.0f) },
+			{GT::Vector3( 0.5f, -0.5f,  0.5f), GT::Vector3(1.0f, 0.0f, 1.0f), GT::Vector2(0.0f, 0.0f) },
+			{GT::Vector3( 0.5f,  0.5f, -0.5f), GT::Vector3(1.0f, 1.0f, 0.0f), GT::Vector2(1.0f, 0.0f) },
+			{GT::Vector3( 0.5f,  0.5f,  0.5f), GT::Vector3(1.0f, 1.0f, 1.0f), GT::Vector2(0.0f, 0.0f) },
+		};*/
+
+		static const VertexPositionColorTexture quadVertices[] = 
+		{
+			{GT::Vector3(-0.5f, -0.5f, 0.0f), GT::Vector3(0.0f, 0.0f, 0.0f), GT::Vector2(0.0f, 1.0f) },
+			{GT::Vector3(-0.5f,  0.5f, 0.0f), GT::Vector3(0.0f, 0.0f, 0.0f), GT::Vector2(0.0f, 0.0f) },
+			{GT::Vector3( 0.5f,  0.5f, 0.0f), GT::Vector3(0.0f, 0.0f, 0.0f), GT::Vector2(1.0f, 0.0f) },
+			{GT::Vector3( 0.5f, -0.5f, 0.0f), GT::Vector3(0.0f, 0.0f, 0.0f), GT::Vector2(1.0f, 1.0f) },
 		};
 
-		m_poVertexBuffer = std::unique_ptr<GT::VertexBuffer<VertexPositionColor>>(new GT::VertexBuffer<VertexPositionColor>(cubeVertices, 8, m_oGraphicContext));
+		m_poVertexBuffer = std::unique_ptr<GT::VertexBuffer<VertexPositionColorTexture>>(new GT::VertexBuffer<VertexPositionColorTexture>(quadVertices, 4, m_oGraphicContext));
 
 		// Load mesh indices. Each trio of indices represents
 		// a triangle to be rendered on the screen.
 		// For example: 0,2,1 means that the vertices with indexes
 		// 0, 2 and 1 from the vertex buffer compose the 
 		// first triangle of this mesh.
-		static const unsigned short cubeIndices [] =
+		//static const unsigned short cubeIndices [] =
+		//{
+		//	0,2,1, // -x
+		//	1,2,3,
+
+		//	4,5,6, // +x
+		//	5,7,6,
+
+		//	0,1,5, // -y
+		//	0,5,4,
+
+		//	2,6,7, // +y
+		//	2,7,3,
+
+		//	0,4,6, // -z
+		//	0,6,2,
+
+		//	1,3,7, // +z
+		//	1,7,5,
+		//};
+
+		static const unsigned short quadIndices [] =
 		{
-			0,2,1, // -x
-			1,2,3,
-
-			4,5,6, // +x
-			5,7,6,
-
-			0,1,5, // -y
-			0,5,4,
-
-			2,6,7, // +y
-			2,7,3,
-
-			0,4,6, // -z
-			0,6,2,
-
-			1,3,7, // +z
-			1,7,5,
+			0,1,2, // -x
+			2,3,0,
 		};
 
-		m_poIndexBuffer = std::unique_ptr<GT::IndexBuffer<USHORT>>(new GT::IndexBuffer<USHORT>(cubeIndices, 36, m_oGraphicContext));
-		m_indexCount = ARRAYSIZE(cubeIndices);
+		m_poIndexBuffer = std::unique_ptr<GT::IndexBuffer<USHORT>>(new GT::IndexBuffer<USHORT>(quadIndices, 6, m_oGraphicContext));
+		m_indexCount = ARRAYSIZE(quadIndices);
 	});
 
 	// Once the cube is loaded, the object is ready to be rendered.
 	createCubeTask.then([this]() 
 	{
+		std::vector<GT::Color> textureData;
+		textureData.push_back(GT::Color(255, 0, 0, 0));
+		textureData.push_back(GT::Color(0, 255, 0, 0));
+		textureData.push_back(GT::Color(0, 0, 255, 0));
+		//textureData.push_back(GT::Color(0, 0, 255, 0));
+
+		size_t asd = sizeof(GT::Color);
+
+		GT::WicTexture2DLoader loader(m_oFileLoader, m_oGraphicContext);
+		m_poTexture = loader.Load("test.png");
+
+		//m_poTexture = std::unique_ptr<GT::ITexture>(new GT::Texture2D(textureData, 3, 1, m_oGraphicContext));
+
 		m_loadingComplete = true;
 	});
 }

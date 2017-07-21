@@ -1,7 +1,7 @@
 #pragma once
 #include <wrl/client.h>
 #include <d3d11_4.h>
-#include "IApiGraphicResource.h"
+#include "IApiGraphicResourceWrapper.h"
 
 //START FORWARD DECL
 struct ID3D11Buffer;
@@ -9,7 +9,7 @@ struct ID3D11Buffer;
 
 namespace GT
 {
-	class DX11ApiIndexBufferWrapper : public IApiGraphicResource
+	class DX11ApiIndexBufferWrapper : public IApiGraphicResourceWrapper
 	{
 	public:
 		DX11ApiIndexBufferWrapper(ID3D11Device& i_oDevice, const void* i_paoIndexData, size_t i_uiIndexSize, size_t i_uiElementsCount);

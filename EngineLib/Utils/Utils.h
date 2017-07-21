@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <cstdint>
+#include <wincodec.h>
 
 namespace GT
 {
@@ -11,18 +12,35 @@ namespace GT
 	class Utils
 	{
 	public:
-		static inline void ReadFileBytes(const std::string& i_oFileName, std::vector<uint8_t>& o_oBuffer)
-		{
-			o_oBuffer.clear();
-			std::ifstream fileStream = std::ifstream();
+		//static inline void LoadBmp(const std::string& i_oImagePath)
+		//{
+		//	std::vector<uint8_t> imgBuffer;
+		//	ReadFileBytes(i_oImagePath, imgBuffer);
 
-			fileStream.open(i_oFileName.c_str(), std::ios::in | std::ios::binary);
-			if (fileStream.is_open())
-			{
-				o_oBuffer.assign(std::istreambuf_iterator<char>(fileStream), std::istreambuf_iterator<char>());
-			}
-			fileStream.close();
-		}
+		//	IWICImagingFactory2* poImageFactory = nullptr;
+		//	HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&poImageFactory));
+
+		//	IWICStream* poStream = nullptr;
+		//	poImageFactory->CreateStream(&poStream);
+		//	poStream->InitializeFromMemory(imgBuffer.data(), imgBuffer.size());
+
+		//	IWICBitmapDecoder* poBpmDecoder = nullptr;
+		//	poImageFactory->CreateDecoderFromStream(poStream, nullptr, WICDecodeOptions::WICDecodeMetadataCacheOnDemand, &poBpmDecoder);
+
+		//	IWICBitmapFrameDecode* bmp = nullptr;
+		//	poBpmDecoder->GetFrame(0, &bmp);
+
+
+		//	UINT width;
+		//	UINT height;
+		//	bmp->GetSize(&width, &height);
+
+		//	std::vector<uint8_t> sourceBuffer;
+		//	sourceBuffer.resize(100);
+
+		//	bmp->CopyPixels(nullptr, width, 100, sourceBuffer.data());
+		//	//poImageFactory->CreateDecoder()
+		//}
 	};
 }
 

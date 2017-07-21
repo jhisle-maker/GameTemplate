@@ -62,20 +62,34 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
+    <Filter Include="UWPEngine">
+      <UniqueIdentifier>{2e1ac94e-6061-4dbc-a1f7-8c45e6770793}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="GameTemplateMain.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Content\ShaderStructures.cpp" />
+    <ClCompile Include="UWPEngine\UWPFileLoader.cpp">
+      <Filter>UWPEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\ShaderStructures.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="GameTemplateMain.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="UWPEngine\UWPFileLoader.h">
+      <Filter>UWPEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\test.bmp">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
@@ -84,5 +98,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="GameTemplate_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Content\PositionColorTextureVertexShader.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\PositionColorTexturePixelShader.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

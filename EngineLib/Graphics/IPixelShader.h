@@ -1,7 +1,9 @@
 #pragma once
 
 //START FORWARD DECL
-namespace GT { class IApiGraphicResource; }
+namespace GT { class IApiGraphicResourceWrapper; }
+namespace GT { class IConstBuffer; }
+namespace GT { class ITexture; }
 //END FORWARD DECL
 
 namespace GT
@@ -13,6 +15,8 @@ namespace GT
 		virtual ~IPixelShader() {}
 
 	public:
-		virtual const IApiGraphicResource& GetApiWrapper() const = 0;
+		virtual void BindConstantBuffer(const IConstBuffer& i_oConstBuffer) const = 0;
+		virtual void BindTexture(const ITexture& i_oTexture) const = 0;
+		virtual const IApiGraphicResourceWrapper& GetApiWrapper() const = 0;
 	};
 }

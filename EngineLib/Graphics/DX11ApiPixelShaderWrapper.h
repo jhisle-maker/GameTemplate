@@ -3,11 +3,11 @@
 #include <d3d11_4.h>
 #include <vector>
 
-#include "IApiGraphicResource.h"
+#include "IApiGraphicResourceWrapper.h"
 
 namespace GT
 {
-	class DX11ApiPixelShaderWrapper : public IApiGraphicResource
+	class DX11ApiPixelShaderWrapper : public IApiGraphicResourceWrapper
 	{
 	public:
 		DX11ApiPixelShaderWrapper(ID3D11Device& i_oDevice, const std::vector<uint8_t>& i_oShaderFileBytes);

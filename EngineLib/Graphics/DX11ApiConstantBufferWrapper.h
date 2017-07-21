@@ -1,10 +1,10 @@
 #pragma once
 #include <d3d11_3.h>
-#include "IApiGraphicResource.h"
+#include "IApiGraphicResourceWrapper.h"
 
 namespace GT
 {
-	class DX11ApiConstantBufferWrapper : public IApiGraphicResource
+	class DX11ApiConstantBufferWrapper : public IApiGraphicResourceWrapper
 	{
 	public:
 		DX11ApiConstantBufferWrapper(ID3D11Device& i_oDevice, const void* i_poData, size_t i_uiDataSize);

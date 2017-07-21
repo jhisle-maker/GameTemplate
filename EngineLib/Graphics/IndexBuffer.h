@@ -5,7 +5,7 @@
 
 //START FORWARD DECLS
 namespace GT { class IGraphicContext; }
-namespace GT { class IApiGraphicResource; }
+namespace GT { class IApiGraphicResourceWrapper; }
 //END FORWARD DECLS
 
 namespace GT
@@ -19,10 +19,10 @@ namespace GT
 
 	public:
 		inline size_t GetIndexSize() const { return sizeof(IndexType); }
-		virtual const IApiGraphicResource& GetApiWrapper() const { return *m_poApiIndexBufferWrapper; };
+		virtual const IApiGraphicResourceWrapper& GetApiWrapper() const { return *m_poApiIndexBufferWrapper; };
 
 	private:
-		std::unique_ptr<IApiGraphicResource> m_poApiIndexBufferWrapper;
+		std::unique_ptr<IApiGraphicResourceWrapper> m_poApiIndexBufferWrapper;
 	};
 }
 

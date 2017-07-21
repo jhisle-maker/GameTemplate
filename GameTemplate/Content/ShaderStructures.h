@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Math\Vector2.h"
 #include "Math\Vector3.h"
 #include "Math\Matrix.h"
 #include "Graphics\VertexDeclaration.h"
@@ -25,5 +26,15 @@ namespace GameTemplate
 
 		GT::Vector3 pos;
 		GT::Vector3 color;
+	};
+
+	struct VertexPositionColorTexture
+	{
+		const static GT::VertexDeclarationItem VertexDeclarationItems[3];
+		const static GT::VertexDeclaration VertexDeclaration;
+
+		GT::Vector3 pos;
+		GT::Vector3 color;
+		GT::Vector2 uv;
 	};
 }

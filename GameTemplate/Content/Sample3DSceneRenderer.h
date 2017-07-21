@@ -7,15 +7,18 @@
 #include "Graphics\ConstBuffer.h"
 #include "Graphics\IndexBuffer.h"
 #include "Graphics\VertexBuffer.h"
+#include "Graphics\Texture2D.h"
 
 #include "Graphics\IVertexShader.h"
 #include "Graphics\IPixelShader.h"
 #include "Graphics\SimpleCamera.h"
 
+#include "Loaders\IFileLoader.h"
+
 //Forward decls
 namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
-
+namespace GT { class IFileLoader; }
 
 namespace GameTemplate
 {
@@ -23,7 +26,7 @@ namespace GameTemplate
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext);
+		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IFileLoader& i_oFileLoader);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
@@ -42,13 +45,16 @@ namespace GameTemplate
 		//GT stuff
 		const GT::IGraphicDevice& m_oGraphicDevice;
 		const GT::IGraphicContext& m_oGraphicContext;
+		const GT::IFileLoader& m_oFileLoader;
 
 		std::unique_ptr<GT::IndexBuffer<USHORT>> m_poIndexBuffer;
-		std::unique_ptr<GT::VertexBuffer<VertexPositionColor>> m_poVertexBuffer;
+		std::unique_ptr<GT::VertexBuffer<VertexPositionColorTexture>> m_poVertexBuffer;
 		std::unique_ptr<GT::ConstBuffer<ModelViewProjectionConstantBuffer>> m_poConstBuffer;
+		std::unique_ptr<GT::ITexture> m_poTexture;
 		std::unique_ptr<GT::IVertexShader> m_poVertexShader;
 		std::unique_ptr<GT::IPixelShader> m_poPixelShader;
 		std::unique_ptr<GT::SimpleCamera> m_poCamera;
+
 
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;

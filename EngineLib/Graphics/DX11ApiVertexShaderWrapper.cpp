@@ -26,9 +26,14 @@ GT::DX11ApiVertexShaderWrapper::DX11ApiVertexShaderWrapper(ID3D11Device& i_oDevi
 		VertexDeclarationItem vertexDeclarationItem = vertexDeclaration.VertexDeclarationItems[index];
 		switch (vertexDeclarationItem.Type)
 		{
-		case FLOAT32:
+		case VertexType::FLOAT32:
 			format = DXGI_FORMAT_R32G32B32_FLOAT;
 			formatByteSize = 12;
+			break;
+
+		case VertexType::UINT8:
+			format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatByteSize = 3;
 			break;
 		}
 
@@ -41,7 +46,7 @@ GT::DX11ApiVertexShaderWrapper::DX11ApiVertexShaderWrapper(ID3D11Device& i_oDevi
 			semanticName = "COLOR";
 			break;
 		case TEXTURE:
-			semanticName = "TEXTURE";
+			semanticName = "TEXCOORD";
 			break;
 		case NORMAL:
 			semanticName = "NORMAL";
