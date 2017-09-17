@@ -70,9 +70,6 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="GameTemplateMain.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="UWPEngine\UWPFileLoader.cpp">
-      <Filter>UWPEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Content\ShaderStructures.cpp">
       <Filter>Content</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="GameTemplateMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="UWPEngine\UWPFileLoader.h">
-      <Filter>UWPEngine</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

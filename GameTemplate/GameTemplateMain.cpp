@@ -1,10 +1,13 @@
 ﻿#include "pch.h"
 #include "GameTemplateMain.h"
 #include "Common\DirectXHelper.h"
-#include "UWPEngine\UWPFileLoader.h"
+#include "FileLoader\UWPFileLoader.h"
 
 #include "Graphics\DX11GraphicDevice.h"
 #include "Graphics\DX11GraphicContext.h"
+
+#include "Logger\Logger.h"
+#include "Logger\VSLogger.h"
 
 
 using namespace GameTemplate;
@@ -16,6 +19,11 @@ using namespace Concurrency;
 GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
 	m_deviceResources(deviceResources)
 {
+	m_poLogger = std::unique_ptr<GT::ILogger>(new GT::VSLogger());
+
+	GT::Logger::Init(*m_poLogger);
+	GT::Logger::Log("***** LOG STARTED *****");
+
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);
 

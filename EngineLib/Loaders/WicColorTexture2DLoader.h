@@ -7,11 +7,11 @@ namespace GT { class IFileLoader; }
 
 namespace GT
 {
-	class WicTexture2DLoader : ITextureLoader
+	class WicColorTexture2DLoader : ITextureLoader
 	{
 	public:
-		WicTexture2DLoader(const IFileLoader& i_oFileLoader, const IGraphicContext& i_oGraphicContext);
-		~WicTexture2DLoader();
+		WicColorTexture2DLoader(const IFileLoader& i_oFileLoader, const IGraphicContext& i_oGraphicContext);
+		~WicColorTexture2DLoader();
 
 	public:
 		std::unique_ptr<ITexture> Load(const std::string& i_oTexturePath) const;

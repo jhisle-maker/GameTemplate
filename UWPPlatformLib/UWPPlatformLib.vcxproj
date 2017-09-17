@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
@@ -26,28 +26,41 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileLoader\UWPFileLoader.h" />
+    <ClInclude Include="Logger\VSLogger.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FileLoader\UWPFileLoader.cpp" />
+    <ClCompile Include="Logger\VSLogger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EngineLib\EngineLib.vcxproj">
+      <Project>{2252ae5d-fa08-4a7a-9336-b9b65e98e592}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2252ae5d-fa08-4a7a-9336-b9b65e98e592}</ProjectGuid>
+    <ProjectGuid>{91dbf905-e959-4382-9878-f5170fde5649}</ProjectGuid>
     <Keyword>StaticLibrary</Keyword>
-    <RootNamespace>EngineLib</RootNamespace>
+    <RootNamespace>UWPPlatformLib</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.10586.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -58,19 +71,19 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -117,8 +130,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <CompileAsWinRT>true</CompileAsWinRT>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -141,7 +154,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
@@ -166,15 +179,19 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
+      <CompileAsWinRT>true</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
-      <CompileAsManaged>false</CompileAsManaged>
+      <AdditionalIncludeDirectories>..\EngineLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
+    <Lib>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -188,75 +205,6 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Graphics\Color.h" />
-    <ClInclude Include="Graphics\ConstBuffer.h" />
-    <ClInclude Include="Graphics\DX11ApiConstantBufferWrapper.h" />
-    <ClInclude Include="Graphics\DX11ApiTexture2DWrapper.h" />
-    <ClInclude Include="Graphics\IConstBuffer.h" />
-    <ClInclude Include="Graphics\IPixelShader.h" />
-    <ClInclude Include="Graphics\Texture2D.h" />
-    <ClInclude Include="Graphics\VertexDeclaration.h" />
-    <ClInclude Include="Graphics\VertexShader.h" />
-    <ClInclude Include="Graphics\DX11ApiIndexBufferWrapper.h" />
-    <ClInclude Include="Graphics\BasicEffect.h" />
-    <ClInclude Include="Graphics\DX11ApiPixelShaderWrapper.h" />
-    <ClInclude Include="Graphics\DX11ApiVertexShaderWrapper.h" />
-    <ClInclude Include="Graphics\SimpleCamera.h" />
-    <ClInclude Include="Graphics\DX11ApiVertexBufferWrapper.h" />
-    <ClInclude Include="Graphics\IVertexShader.h" />
-    <ClInclude Include="Graphics\PixelShader.h" />
-    <ClInclude Include="Graphics\IApiGraphicResourceWrapper.h" />
-    <ClInclude Include="Graphics\ITexture.h" />
-    <ClInclude Include="Loaders\ITextureLoader.h" />
-    <ClInclude Include="Loaders\IFileLoader.h" />
-    <ClInclude Include="Logger\ILogger.h" />
-    <ClInclude Include="Logger\Logger.h" />
-    <ClInclude Include="Math\Vector4.h" />
-    <ClInclude Include="Loaders\WicColorTexture2DLoader.h" />
-    <ClInclude Include="Utils\Common.h" />
-    <ClInclude Include="EngineLib.h" />
-    <ClInclude Include="Graphics\DX11GraphicDevice.h" />
-    <ClInclude Include="Graphics\DX11GraphicContext.h" />
-    <ClInclude Include="Graphics\IGraphicContext.h" />
-    <ClInclude Include="Graphics\IGraphicDevice.h" />
-    <ClInclude Include="Graphics\IndexBuffer.h" />
-    <ClInclude Include="Graphics\VertexBuffer.h" />
-    <ClInclude Include="Graphics\IIndexBuffer.h" />
-    <ClInclude Include="Graphics\IVertexBuffer.h" />
-    <ClInclude Include="Math\Matrix.h" />
-    <ClInclude Include="Math\Vector2.h" />
-    <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="targetver.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Graphics\Color.cpp" />
-    <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
-    <ClCompile Include="Graphics\DX11ApiIndexBufferWrapper.cpp" />
-    <ClCompile Include="Graphics\DX11ApiPixelShaderWrapper.cpp" />
-    <ClCompile Include="Graphics\DX11ApiTexture2DWrapper.cpp" />
-    <ClCompile Include="Graphics\DX11ApiVertexBufferWrapper.cpp" />
-    <ClCompile Include="Graphics\BasicEffect.cpp" />
-    <ClCompile Include="Graphics\DX11ApiVertexShaderWrapper.cpp" />
-    <ClCompile Include="Graphics\PixelShader.cpp" />
-    <ClCompile Include="Graphics\SimpleCamera.cpp" />
-    <ClCompile Include="EngineLib.cpp" />
-    <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
-    <ClCompile Include="Graphics\DX11GraphicDevice.cpp" />
-    <ClCompile Include="Graphics\Texture2D.cpp" />
-    <ClCompile Include="Logger\Logger.cpp" />
-    <ClCompile Include="Math\Matrix.cpp" />
-    <ClCompile Include="Math\Vector2.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="Math\Vector4.cpp" />
-    <ClCompile Include="Loaders\WicColorTexture2DLoader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Graphics\ConstBuffer.inl" />
-    <None Include="Graphics\IndexBuffer.inl" />
-    <None Include="Graphics\VertexBuffer.inl" />
-    <None Include="Graphics\VertexShader.inl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

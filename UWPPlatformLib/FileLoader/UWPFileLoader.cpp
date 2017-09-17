@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "UWPFileLoader.h"
 #include <ppltasks.h>
 #include <locale>

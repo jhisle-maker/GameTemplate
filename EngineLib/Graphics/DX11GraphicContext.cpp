@@ -1,5 +1,4 @@
 #pragma once
-#include "Utils\Utils.h"
 #include "DX11GraphicContext.h"
 #include "DX11ApiVertexBufferWrapper.h"
 #include "DX11ApiIndexBufferWrapper.h"

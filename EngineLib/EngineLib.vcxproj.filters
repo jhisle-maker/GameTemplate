@@ -38,6 +38,9 @@
     <Filter Include="Loaders">
       <UniqueIdentifier>{a0142adc-6ee3-441f-845c-590bcc9abe86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{98e5b8dd-5780-4a82-99ba-c30ba4c18080}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineLib.cpp" />
@@ -92,7 +95,8 @@
     <ClCompile Include="Graphics\Texture2D.cpp">
       <Filter>Graphics\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Loaders\WicTexture2DLoader.cpp">
+    <ClCompile Include="Logger\Logger.cpp" />
+    <ClCompile Include="Loaders\WicColorTexture2DLoader.cpp">
       <Filter>Loaders</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,9 +111,6 @@
     </ClInclude>
     <ClInclude Include="Math\Vector3.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Utils.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\IIndexBuffer.h">
       <Filter>Graphics</Filter>
@@ -201,7 +202,12 @@
     <ClInclude Include="Loaders\ITextureLoader.h">
       <Filter>Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="Loaders\WicTexture2DLoader.h">
+    <ClInclude Include="Logger\ILogger.h" />
+    <ClInclude Include="Logger\Logger.h" />
+    <ClInclude Include="Utils\Common.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders\WicColorTexture2DLoader.h">
       <Filter>Loaders</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,9 +11,8 @@
 #include "Graphics\DX11GraphicContext.h"
 #include "Math\Vector3.h"
 #include "Math\Matrix.h"
-#include "Utils\Utils.h"
-#include "UWPEngine\UWPFileLoader.h"
-#include "Loaders\WicTexture2DLoader.h"
+#include "FileLoader\UWPFileLoader.h"
+#include "Loaders\WicColorTexture2DLoader.h"
 
 
 using namespace GameTemplate;
@@ -236,7 +235,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 
 		size_t asd = sizeof(GT::Color);
 
-		GT::WicTexture2DLoader loader(m_oFileLoader, m_oGraphicContext);
+		GT::WicColorTexture2DLoader loader(m_oFileLoader, m_oGraphicContext);
 		m_poTexture = loader.Load("test.png");
 
 		//m_poTexture = std::unique_ptr<GT::ITexture>(new GT::Texture2D(textureData, 3, 1, m_oGraphicContext));
