@@ -22,6 +22,7 @@ namespace GT
 		std::unique_ptr<IApiGraphicResourceWrapper> CreateApiVertexShader(const std::vector<uint8_t>& i_oShaderFileBytes, const VertexDeclaration& vertexDeclaration) const;
 		std::unique_ptr<IApiGraphicResourceWrapper> CreateApiPixelShader(const std::vector<uint8_t>& i_oShaderFileBytes) const;
 		std::unique_ptr<IApiGraphicResourceWrapper> CreateApiTexture2D(const std::vector<Color>& i_aoTextureData, const size_t i_uiWidth, const size_t i_uiHeight) const;
+		std::unique_ptr<IApiGraphicResourceWrapper> CreateApiSamplerState() const;
 
 		void UpdateApiConstantBuffer(const IApiGraphicResourceWrapper& i_oConstBufferApiWrapper, const void* i_poUpdateData) const;
 		void BindVertexShaderConstBuffer(const IApiGraphicResourceWrapper& i_oConstBufferApiWrapper) const;
@@ -29,6 +30,11 @@ namespace GT
 		
 		void BindVertexShaderTexture(const IApiGraphicResourceWrapper& i_oTexture) const;
 		void BindPixelShaderTexture(const IApiGraphicResourceWrapper& i_oTexture) const;
+
+		void BindPixelShaderSampler(const IApiGraphicResourceWrapper& i_oSampler) const;
+	private:
+		DX11GraphicContext(const DX11GraphicContext& i_oOther) {};
+		DX11GraphicContext& operator=(const DX11GraphicContext& i_oOther) {};
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device> m_poDevice;

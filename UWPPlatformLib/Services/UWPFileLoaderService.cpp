@@ -1,4 +1,4 @@
-#include "UWPFileLoader.h"
+#include "UWPFileLoaderService.h"
 #include <ppltasks.h>
 #include <locale>
 #include <codecvt>
@@ -10,17 +10,17 @@ using namespace Concurrency;
 
 namespace GT
 {
-	UWPFileLoader::UWPFileLoader()
+	UWPFileLoaderService::UWPFileLoaderService()
 	{
 		//Nothing to do here
 	}
 
-	UWPFileLoader::~UWPFileLoader()
+	UWPFileLoaderService::~UWPFileLoaderService()
 	{
 		//Nothing to do here
 	}
 
-	void UWPFileLoader::Load(const std::string& i_ofilePath, std::vector<uint8_t>& o_oFileData) const
+	void UWPFileLoaderService::Load(const std::string& i_ofilePath, std::vector<uint8_t>& o_oFileData) const
 	{
 		bool bLoadFinished = false;
 

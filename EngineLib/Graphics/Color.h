@@ -34,6 +34,5 @@ namespace GT
 		};
 
 		ColorData m_oColorData;
-		
 	};
 }

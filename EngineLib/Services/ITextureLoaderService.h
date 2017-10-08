@@ -8,11 +8,11 @@ namespace GT { class ITexture; }
 
 namespace GT
 {
-	class ITextureLoader
+	class ITextureLoaderService
 	{
 	public:
-		ITextureLoader() {}
-		~ITextureLoader() {}
+		ITextureLoaderService() {}
+		virtual ~ITextureLoaderService() {}
 
 	public: 
 		virtual std::unique_ptr<ITexture> Load(const std::string& i_oTexturePath) const = 0;

@@ -15,6 +15,10 @@ namespace GT
 		inline ID3D11Buffer* const* GetD3D11BufferPtrAddress() const { return &m_poBuffer; }
 
 	private:
+		DX11ApiConstantBufferWrapper(const DX11ApiConstantBufferWrapper& i_oOther) {};
+		DX11ApiConstantBufferWrapper& operator=(const DX11ApiConstantBufferWrapper& i_oOther) {};
+
+	private:
 		ID3D11Buffer* m_poBuffer;
 	};
 }

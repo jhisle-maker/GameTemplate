@@ -5,11 +5,11 @@
 
 namespace GT
 {
-	class IFileLoader
+	class IFileLoaderService
 	{
 	public:
-		IFileLoader() {}
-		virtual ~IFileLoader() {}
+		IFileLoaderService() {}
+		virtual ~IFileLoaderService() {}
 
 	public:
 		virtual void Load(const std::string& i_ofilePath, std::vector<uint8_t>& o_oFileData) const = 0;

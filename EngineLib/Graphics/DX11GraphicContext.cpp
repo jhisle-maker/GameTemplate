@@ -6,6 +6,7 @@
 #include "DX11ApiVertexShaderWrapper.h"
 #include "DX11ApiPixelShaderWrapper.h"
 #include "DX11ApiTexture2DWrapper.h"
+#include "DX11ApiSamplerStateWrapper.h"
 #include "Color.h"
 
 #include <vector>
@@ -57,6 +58,11 @@ namespace GT
 		return std::unique_ptr<IApiGraphicResourceWrapper>(new DX11ApiTexture2DWrapper(*m_poDevice.Get(), i_aoTextureData.data(), i_uiWidth, i_uiHeight));
 	}
 
+	std::unique_ptr<IApiGraphicResourceWrapper> DX11GraphicContext::CreateApiSamplerState() const
+	{
+		return std::unique_ptr<IApiGraphicResourceWrapper>(new DX11ApiSamplerStateWrapper(*m_poDevice.Get()));
+	}
+
 	void DX11GraphicContext::UpdateApiConstantBuffer(const IApiGraphicResourceWrapper& constBufferWrapper, const void* i_poUpdateData) const
 	{
 		const DX11ApiConstantBufferWrapper& apiWrapper = static_cast<const DX11ApiConstantBufferWrapper&>(constBufferWrapper);
@@ -85,5 +91,11 @@ namespace GT
 	{
 		const DX11ApiTexture2DWrapper& oApiTexture2D = static_cast<const DX11ApiTexture2DWrapper&>(i_oTextureApiWrapper);
 		m_poContext->PSSetShaderResources(0, 1, oApiTexture2D.GetSRVAddress());
+	}
+
+	void DX11GraphicContext::BindPixelShaderSampler(const IApiGraphicResourceWrapper& i_oSampler) const
+	{
+		const DX11ApiSamplerStateWrapper& oSamplerState = static_cast<const DX11ApiSamplerStateWrapper&>(i_oSampler);
+		m_poContext->PSSetSamplers(0, 1, oSamplerState.GetSamplerStateAddress());
 	}
 }

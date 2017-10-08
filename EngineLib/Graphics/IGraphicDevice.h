@@ -1,12 +1,10 @@
 #pragma once
 
 //START FORWARD DECL
-namespace GT { class IVertexBuffer; }
-namespace GT { class IIndexBuffer; }
-namespace GT { class IConstBuffer; }
-namespace GT { class ITexture2D; }
 namespace GT { class IVertexShader; }
 namespace GT { class IPixelShader; }
+namespace GT { class IVertexBuffer; }
+namespace GT { class IIndexBuffer; }
 //END FORWARD DECL
 
 namespace GT

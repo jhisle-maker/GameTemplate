@@ -14,5 +14,9 @@ namespace GT
 
 	public:
 		virtual const IApiGraphicResourceWrapper& GetApiWrapper() const = 0;
+
+	private:
+		ITexture(const ITexture& i_oOther) {};
+		ITexture& operator=(const ITexture& i_oOther) {};
 	};
 }

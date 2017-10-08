@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ShaderStructures.h"
 
-namespace GameTemplate
+namespace GT
 {
 	const GT::VertexDeclarationItem VertexPositionColor::VertexDeclarationItems[2] =
 	{

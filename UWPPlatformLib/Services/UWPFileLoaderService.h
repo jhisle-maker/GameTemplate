@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Loaders\IFileLoader.h"
+#include "Services\IFileLoaderService.h"
 
 namespace GT
 {
-	class UWPFileLoader : public IFileLoader
+	class UWPFileLoaderService : public IFileLoaderService
 	{
 	public:
-		UWPFileLoader();
-		~UWPFileLoader();
+		UWPFileLoaderService();
+		~UWPFileLoaderService();
 
 	public:
 		virtual void Load(const std::string& i_ofilePath, std::vector<uint8_t>& o_oFileData) const;

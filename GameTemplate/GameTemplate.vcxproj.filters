@@ -65,6 +65,9 @@
     <Filter Include="UWPEngine">
       <UniqueIdentifier>{2e1ac94e-6061-4dbc-a1f7-8c45e6770793}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Services">
+      <UniqueIdentifier>{ef7e6417-2fef-453f-a4f9-04649e44c9ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -73,11 +76,14 @@
     <ClCompile Include="Content\ShaderStructures.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Services\ServicesContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="GameTemplateMain.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Services\IServicesContext.h" />
+    <ClInclude Include="Services\ServicesContext.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

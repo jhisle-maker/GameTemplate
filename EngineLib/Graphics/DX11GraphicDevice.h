@@ -28,6 +28,10 @@ namespace GT
 		const Microsoft::WRL::ComPtr<ID3D11DeviceContext> GetDeviceContext() const;
 
 	private:
+		DX11GraphicDevice(const DX11GraphicDevice& i_oOther) {};
+		DX11GraphicDevice& operator=(const DX11GraphicDevice& i_oOther) {};
+
+	private:
 		Microsoft::WRL::ComPtr<ID3D11Device> m_poDevice;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_poDeviceContext;
 	};

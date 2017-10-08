@@ -21,6 +21,10 @@ namespace GT
 		inline const IApiGraphicResourceWrapper& GetApiWrapper() const { return *m_poApiConstBufferWrapper; }
 
 	private:
+		ConstBuffer(const ConstBuffer&  i_oOther) {};
+		ConstBuffer& operator=(const ConstBuffer& i_oOther) {};
+
+	private:
 		std::unique_ptr<IApiGraphicResourceWrapper> m_poApiConstBufferWrapper;
 		const IGraphicContext& m_oGraphicContext;
 	};

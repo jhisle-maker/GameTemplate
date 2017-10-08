@@ -16,6 +16,10 @@ namespace GT
 		ID3D11ShaderResourceView* const* GetSRVAddress() const { return &m_poTexture2DSRV; }
 
 	private:
+		DX11ApiTexture2DWrapper(const DX11ApiTexture2DWrapper& i_oOther) {};
+		DX11ApiTexture2DWrapper& operator=(const DX11ApiTexture2DWrapper& i_oOther) {};
+
+	private:
 		ID3D11Texture2D* m_poTexture2D;
 		ID3D11ShaderResourceView* m_poTexture2DSRV;
 	};

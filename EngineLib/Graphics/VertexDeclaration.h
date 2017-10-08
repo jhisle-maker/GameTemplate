@@ -25,6 +25,6 @@ namespace GT
 	struct VertexDeclaration
 	{
 		const VertexDeclarationItem* VertexDeclarationItems;
-		const size_t VertexDeclarationItemsCount;
+		const size_t VertexDeclarationItemsCount = 0u;
 	};
 }

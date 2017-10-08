@@ -21,6 +21,10 @@ namespace GT
 		inline ID3D11InputLayout* GetDX11InputLayout() const { return m_poInputLayout; }
 
 	private:
+		DX11ApiVertexShaderWrapper(const DX11ApiVertexShaderWrapper& i_oOther) {};
+		DX11ApiVertexShaderWrapper& operator=(const DX11ApiVertexShaderWrapper& i_oOther) {};
+
+	private:
 		ID3D11VertexShader* m_poVertexShader;
 		ID3D11InputLayout* m_poInputLayout;
 	};

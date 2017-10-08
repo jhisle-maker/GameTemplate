@@ -8,11 +8,11 @@ namespace GT
 {
 	class Vector3;
 
-	class SimpleCamera
+	class ProjectionCamera
 	{
 	public:
-		SimpleCamera(float i_fAspectRatio, float i_fGradFovY, const Vector3& i_oPos, const Vector3& i_oLookAt, const Vector3& i_oUp);
-		virtual ~SimpleCamera();
+		ProjectionCamera(float i_fAspectRatio, float i_fGradFovY, const Vector3& i_oPos, const Vector3& i_oLookAt, const Vector3& i_oUp);
+		virtual ~ProjectionCamera();
 
 	public:
 		void SetPos(const Vector3& i_oCameraPos);

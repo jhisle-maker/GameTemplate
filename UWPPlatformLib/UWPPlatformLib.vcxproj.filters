@@ -13,11 +13,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileLoader\UWPFileLoader.h" />
     <ClInclude Include="Logger\VSLogger.h" />
+    <ClInclude Include="Services\UWPFileLoaderService.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileLoader\UWPFileLoader.cpp" />
     <ClCompile Include="Logger\VSLogger.cpp" />
+    <ClCompile Include="Services\UWPFileLoaderService.cpp" />
   </ItemGroup>
 </Project>

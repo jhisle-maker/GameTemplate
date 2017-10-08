@@ -17,6 +17,10 @@ namespace GT
 		ID3D11PixelShader* GetDX11PixelShader() const { return m_poPixelShader; }
 
 	private:
+		DX11ApiPixelShaderWrapper(const DX11ApiPixelShaderWrapper& i_oOther) {};
+		DX11ApiPixelShaderWrapper& operator=(const DX11ApiPixelShaderWrapper& i_oOther) {};
+
+	private:
 		ID3D11PixelShader* m_poPixelShader;
 	};
 }

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{623022f3-a3ef-4ff0-8b2a-2164fe49ff54}</UniqueIdentifier>
     </Filter>
@@ -29,17 +25,24 @@
     <Filter Include="Graphics\Shaders">
       <UniqueIdentifier>{a12e0eb1-1f7f-4878-9802-5fe2502dd7ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Cameras">
-      <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\Texture">
       <UniqueIdentifier>{5db6bad2-1f42-46c9-949b-43f85b161ab5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Loaders">
-      <UniqueIdentifier>{a0142adc-6ee3-441f-845c-590bcc9abe86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Logger">
       <UniqueIdentifier>{98e5b8dd-5780-4a82-99ba-c30ba4c18080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\SamplerStates">
+      <UniqueIdentifier>{1499a517-e33d-4ed3-a917-28aad7812b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cameras">
+      <UniqueIdentifier>{080dc560-a676-41b6-b7f7-c716531e8269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services">
+      <UniqueIdentifier>{c02832b1-620c-4c7f-9e3a-d7894e9ec17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,12 +55,6 @@
     </ClCompile>
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\SimpleCamera.cpp">
-      <Filter>Graphics\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\BasicEffect.cpp">
-      <Filter>Graphics\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\DX11GraphicContext.cpp">
       <Filter>Graphics\GraphicDevice</Filter>
@@ -92,13 +89,28 @@
     <ClCompile Include="Graphics\DX11ApiTexture2DWrapper.cpp">
       <Filter>Graphics\ApiWrappers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Texture2D.cpp">
-      <Filter>Graphics\Texture</Filter>
+    <ClCompile Include="Graphics\DX11ApiSamplerStateWrapper.cpp">
+      <Filter>Graphics\ApiWrappers</Filter>
     </ClCompile>
-    <ClCompile Include="Logger\Logger.cpp" />
-    <ClCompile Include="Loaders\WicColorTexture2DLoader.cpp">
-      <Filter>Loaders</Filter>
+    <ClCompile Include="Logger\Logger.cpp">
+      <Filter>Logger</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\SamplerState.cpp">
+      <Filter>Graphics\SamplerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Cameras\ProjectionCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\BasicEffect.cpp">
+      <Filter>Graphics\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\ShaderLoaderService.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -120,12 +132,6 @@
     </ClInclude>
     <ClInclude Include="Graphics\VertexBuffer.h">
       <Filter>Graphics\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\SimpleCamera.h">
-      <Filter>Graphics\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\BasicEffect.h">
-      <Filter>Graphics\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\DX11GraphicContext.h">
       <Filter>Graphics\GraphicDevice</Filter>
@@ -196,32 +202,57 @@
     <ClInclude Include="Graphics\ITexture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Loaders\IFileLoader.h">
-      <Filter>Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Loaders\ITextureLoader.h">
-      <Filter>Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger\ILogger.h" />
-    <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Utils\Common.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Loaders\WicColorTexture2DLoader.h">
-      <Filter>Loaders</Filter>
+    <ClInclude Include="Graphics\DX11ApiSamplerStateWrapper.h">
+      <Filter>Graphics\ApiWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger\ILogger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ISamplerState.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger\Logger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\SamplerState.h">
+      <Filter>Graphics\SamplerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Cameras\ProjectionCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\BasicEffect.h">
+      <Filter>Graphics\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\IFileLoaderService.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\ITextureLoaderService.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\WicColorTexture2DLoaderService.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\ShaderLoaderService.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\IShaderLoaderService.h">
+      <Filter>Services</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">
       <Filter>Graphics\Buffers</Filter>
     </None>
-    <None Include="Graphics\VertexBuffer.inl">
+    <None Include="Graphics\ConstBuffer.inl">
       <Filter>Graphics\Buffers</Filter>
     </None>
-    <None Include="Graphics\VertexShader.inl">
-      <Filter>Graphics\Shaders</Filter>
+    <None Include="Graphics\Texture2D.inl">
+      <Filter>Graphics\Texture</Filter>
     </None>
-    <None Include="Graphics\ConstBuffer.inl">
+    <None Include="Graphics\VertexBuffer.inl">
       <Filter>Graphics\Buffers</Filter>
     </None>
   </ItemGroup>

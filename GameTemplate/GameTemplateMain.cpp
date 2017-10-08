@@ -1,7 +1,11 @@
 ﻿#include "pch.h"
 #include "GameTemplateMain.h"
 #include "Common\DirectXHelper.h"
-#include "FileLoader\UWPFileLoader.h"
+
+#include "Services\ServicesContext.h"
+#include "Services\UWPFileLoaderService.h"
+#include "Services\ShaderLoaderService.h"
+#include "Services\WicColorTexture2DLoaderService.h"
 
 #include "Graphics\DX11GraphicDevice.h"
 #include "Graphics\DX11GraphicContext.h"
@@ -27,13 +31,25 @@ GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& d
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);
 
-	// TODO: Replace this with your app's content initialization.
-	m_poGraphicDevice = std::unique_ptr<GT::IGraphicDevice>(new GT::DX11GraphicDevice(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext()));
-	m_poGraphicContext = std::unique_ptr<GT::IGraphicContext>(new GT::DX11GraphicContext(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext()));
-	m_poFileLoader = std::unique_ptr<GT::IFileLoader>(new GT::UWPFileLoader());
-	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources, *m_poGraphicDevice, *m_poGraphicContext, *m_poFileLoader));
+	//Graphic stuff
+	m_poGraphicDevice = std::make_unique<GT::DX11GraphicDevice>(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
+	m_poGraphicContext = std::make_unique<GT::DX11GraphicContext>(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
+	
+	//Services
+	m_poFileLoaderService = std::make_unique<GT::UWPFileLoaderService>();
+	m_poShaderLoaderService = std::make_unique<GT::ShaderLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
+	m_poTextureLoaderService = std::make_unique<GT::WicColorTexture2DLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
+	
+	m_poServicesContext = std::make_unique<GT::ServicesContext>
+	(
+		*m_poFileLoaderService,
+		*m_poShaderLoaderService,
+		*m_poTextureLoaderService
+	);
 
-	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
+	//Renderers
+	m_sceneRenderer = std::make_unique<GT::Sample3DSceneRenderer>(m_deviceResources, *m_poGraphicDevice, *m_poGraphicContext, *m_poServicesContext);
+	m_fpsTextRenderer = std::make_unique<SampleFpsTextRenderer>(m_deviceResources);
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:

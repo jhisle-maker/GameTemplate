@@ -5,28 +5,30 @@
 #include "..\Common\StepTimer.h"
 
 #include "Graphics\ConstBuffer.h"
-#include "Graphics\IndexBuffer.h"
-#include "Graphics\VertexBuffer.h"
-#include "Graphics\Texture2D.h"
+#include "Graphics\IIndexBuffer.h"
+#include "Graphics\IVertexBuffer.h"
+#include "Graphics\ITexture.h"
+#include "Graphics\ISamplerState.h"
 
 #include "Graphics\IVertexShader.h"
 #include "Graphics\IPixelShader.h"
-#include "Graphics\SimpleCamera.h"
 
-#include "Loaders\IFileLoader.h"
+#include "Cameras\ProjectionCamera.h"
+
+#include "Services\IFileLoaderService.h"
 
 //Forward decls
 namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
-namespace GT { class IFileLoader; }
+namespace GT { class IServicesContext; }
 
-namespace GameTemplate
+namespace GT
 {
 	// This sample renderer instantiates a basic rendering pipeline.
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IFileLoader& i_oFileLoader);
+		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IServicesContext& i_oServicesContext);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
@@ -42,33 +44,26 @@ namespace GameTemplate
 		void Rotate(float radians);
 
 	private:
+
 		//GT stuff
-		const GT::IGraphicDevice& m_oGraphicDevice;
-		const GT::IGraphicContext& m_oGraphicContext;
-		const GT::IFileLoader& m_oFileLoader;
+		const IGraphicDevice& m_oGraphicDevice;
+		const IGraphicContext& m_oGraphicContext;
+		const IServicesContext& m_oServicesContext;
 
-		std::unique_ptr<GT::IndexBuffer<USHORT>> m_poIndexBuffer;
-		std::unique_ptr<GT::VertexBuffer<VertexPositionColorTexture>> m_poVertexBuffer;
-		std::unique_ptr<GT::ConstBuffer<ModelViewProjectionConstantBuffer>> m_poConstBuffer;
-		std::unique_ptr<GT::ITexture> m_poTexture;
-		std::unique_ptr<GT::IVertexShader> m_poVertexShader;
-		std::unique_ptr<GT::IPixelShader> m_poPixelShader;
-		std::unique_ptr<GT::SimpleCamera> m_poCamera;
-
-
+		std::unique_ptr<IIndexBuffer> m_poIndexBuffer;
+		std::unique_ptr<IVertexBuffer> m_poVertexBuffer;
+		std::unique_ptr<ConstBuffer<ModelViewProjectionData>> m_poConstBuffer;
+		std::unique_ptr<ITexture> m_poTexture;
+		std::unique_ptr<IVertexShader> m_poVertexShader;
+		std::unique_ptr<IPixelShader> m_poPixelShader;
+		std::unique_ptr<ProjectionCamera> m_poCamera;
+		std::unique_ptr<ISamplerState> m_poSamplerState;
+		
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
-		// Direct3D resources for cube geometry.
-		Microsoft::WRL::ComPtr<ID3D11InputLayout>	m_inputLayout;
-		Microsoft::WRL::ComPtr<ID3D11Buffer>		m_vertexBuffer;
-		Microsoft::WRL::ComPtr<ID3D11Buffer>		m_indexBuffer;
-		Microsoft::WRL::ComPtr<ID3D11VertexShader>	m_vertexShader;
-		Microsoft::WRL::ComPtr<ID3D11PixelShader>	m_pixelShader;
-		Microsoft::WRL::ComPtr<ID3D11Buffer>		m_constantBuffer;
-
 		// System resources for cube geometry.
-		ModelViewProjectionConstantBuffer	m_constantBufferData;
+		ModelViewProjectionData	m_constantBufferData;
 		uint32	m_indexCount;
 
 		// Variables used with the rendering loop.

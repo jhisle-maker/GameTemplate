@@ -2,6 +2,7 @@
 #include "IGraphicContext.h"
 #include "IConstBuffer.h"
 #include "ITexture.h"
+#include "ISamplerState.h"
 
 namespace GT
 {
@@ -25,5 +26,10 @@ namespace GT
 	void PixelShader::BindTexture(const ITexture& i_oTexture) const
 	{
 		m_oGraphicContext.BindPixelShaderTexture(i_oTexture.GetApiWrapper());
+	}
+
+	void PixelShader::BindSamplerState(const ISamplerState& i_oSamplerState) const
+	{
+		m_oGraphicContext.BindPixelShaderSampler(i_oSamplerState.GetApiWrapper());
 	}
 }
