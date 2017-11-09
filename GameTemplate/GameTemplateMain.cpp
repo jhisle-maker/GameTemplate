@@ -5,6 +5,7 @@
 #include "Services\ServicesContext.h"
 #include "Services\UWPFileLoaderService.h"
 #include "Services\ShaderLoaderService.h"
+#include "Services\ShaderManagerService.h"
 #include "Services\WicColorTexture2DLoaderService.h"
 
 #include "Graphics\DX11GraphicDevice.h"
@@ -38,13 +39,17 @@ GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& d
 	//Services
 	m_poFileLoaderService = std::make_unique<GT::UWPFileLoaderService>();
 	m_poShaderLoaderService = std::make_unique<GT::ShaderLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
+	m_poShaderManagerService = std::make_unique<GT::ShaderManagerService>(*m_poShaderLoaderService);
 	m_poTextureLoaderService = std::make_unique<GT::WicColorTexture2DLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
 	
-	m_poServicesContext = std::make_unique<GT::ServicesContext>
+	m_poServicesContext = std::make_unique<GT::Context>
 	(
+		*m_poGraphicDevice,
+		*m_poGraphicContext,
 		*m_poFileLoaderService,
 		*m_poShaderLoaderService,
-		*m_poTextureLoaderService
+		*m_poTextureLoaderService,
+		*m_poShaderManagerService
 	);
 
 	//Renderers

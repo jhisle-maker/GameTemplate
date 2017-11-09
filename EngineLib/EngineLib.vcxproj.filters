@@ -111,6 +111,9 @@
       <Filter>Services</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\VertexShader.cpp" />
+    <ClCompile Include="Services\ServicesContext.cpp" />
+    <ClCompile Include="Services\ShaderManagerService.cpp" />
+    <ClCompile Include="VertexDeclarations\BasicVertexDeclarations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -241,6 +244,12 @@
     <ClInclude Include="Services\IShaderLoaderService.h">
       <Filter>Services</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\PrimitiveType.h" />
+    <ClInclude Include="Services\IServicesContext.h" />
+    <ClInclude Include="Services\ServicesContext.h" />
+    <ClInclude Include="Services\IShaderManagerService.h" />
+    <ClInclude Include="Services\ShaderManagerService.h" />
+    <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

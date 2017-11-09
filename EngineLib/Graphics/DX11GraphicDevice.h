@@ -24,12 +24,19 @@ namespace GT
 		void BindVertexShader(const IVertexShader& i_oVertexShader) const;
 		void BindPixelShader(const IPixelShader& i_oPixelShader) const;
 
+		void Draw(const PrimitiveType i_ePrimitiveType, const size_t i_uiVertexCount, const size_t i_uiVertexOffset = 0u) const;
+		void DrawIndexed(const PrimitiveType i_ePrimitiveType, const size_t i_uiIndexCount, const size_t i_uiIndexOffset = 0u, const size_t i_uiVertexOffset = 0u) const;
+
+		void EnableFaceCulling(const bool i_bEnabled) const;
+
 		const Microsoft::WRL::ComPtr<ID3D11Device> GetDevice() const;
 		const Microsoft::WRL::ComPtr<ID3D11DeviceContext> GetDeviceContext() const;
 
 	private:
-		DX11GraphicDevice(const DX11GraphicDevice& i_oOther) {};
-		DX11GraphicDevice& operator=(const DX11GraphicDevice& i_oOther) {};
+		DX11GraphicDevice(const DX11GraphicDevice& i_oOther) = delete;
+		DX11GraphicDevice& operator=(const DX11GraphicDevice& i_oOther) = delete;
+
+		void SetPrimitiveTopology(const PrimitiveType i_ePrimitiveType) const;
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device> m_poDevice;

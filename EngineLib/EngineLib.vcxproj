@@ -189,6 +189,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\ConstBuffer.h" />
     <ClInclude Include="Graphics\DX11ApiConstantBufferWrapper.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Graphics\IConstBuffer.h" />
     <ClInclude Include="Graphics\IPixelShader.h" />
     <ClInclude Include="Graphics\ISamplerState.h" />
+    <ClInclude Include="Graphics\PrimitiveType.h" />
     <ClInclude Include="Graphics\SamplerState.h" />
     <ClInclude Include="Graphics\Texture2D.h" />
     <ClInclude Include="Graphics\VertexDeclaration.h" />
@@ -211,12 +213,16 @@
     <ClInclude Include="Graphics\PixelShader.h" />
     <ClInclude Include="Graphics\IApiGraphicResourceWrapper.h" />
     <ClInclude Include="Graphics\ITexture.h" />
+    <ClInclude Include="Services\IServicesContext.h" />
     <ClInclude Include="Services\IShaderLoaderService.h" />
+    <ClInclude Include="Services\IShaderManagerService.h" />
     <ClInclude Include="Services\ITextureLoaderService.h" />
     <ClInclude Include="Services\IFileLoaderService.h" />
     <ClInclude Include="Logger\ILogger.h" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Services\ServicesContext.h" />
+    <ClInclude Include="Services\ShaderManagerService.h" />
     <ClInclude Include="Services\WicColorTexture2DLoaderService.h" />
     <ClInclude Include="Services\ShaderLoaderService.h" />
     <ClInclude Include="Utils\Common.h" />
@@ -235,6 +241,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="VertexDeclarations\BasicVertexDeclarations.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
     <ClCompile Include="Graphics\DX11ApiIndexBufferWrapper.cpp" />
@@ -256,6 +263,8 @@
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="Services\ServicesContext.cpp" />
+    <ClCompile Include="Services\ShaderManagerService.cpp" />
     <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp" />
     <ClCompile Include="Services\ShaderLoaderService.cpp" />
   </ItemGroup>

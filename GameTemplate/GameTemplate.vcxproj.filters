@@ -76,14 +76,11 @@
     <ClCompile Include="Content\ShaderStructures.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Services\ServicesContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="GameTemplateMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Services\IServicesContext.h" />
-    <ClInclude Include="Services\ServicesContext.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

@@ -8,8 +8,12 @@
 #include "Graphics\PixelShader.h"
 #include "Graphics\VertexShader.h"
 #include "Graphics\SamplerState.h"
+#include "Graphics\PrimitiveType.h"
+#include "Graphics\Texture2D.h"
 
 #include "Services\IServicesContext.h"
+#include "Services\IShaderLoaderService.h"
+#include "Services\IShaderManagerService.h"
 
 #include "Graphics\DX11GraphicDevice.h"
 #include "Graphics\DX11GraphicContext.h"
@@ -24,7 +28,7 @@ using namespace Windows::Foundation;
 using namespace Windows::Storage;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IServicesContext& i_oServicesContext) 
+Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IContext& i_oServicesContext) 
 	: m_oGraphicDevice(i_oGraphicDevice)
 	, m_oGraphicContext(i_oGraphicContext)
 	, m_oServicesContext(i_oServicesContext)
@@ -39,6 +43,7 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceRes
 	, m_poVertexShader(nullptr)
 	, m_poPixelShader(nullptr)
 	, m_poCamera(nullptr)
+	, m_oBasicEffect(i_oGraphicDevice, i_oGraphicContext, i_oServicesContext.GetShaderManagerService())
 {	
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
@@ -57,9 +62,13 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 
 	m_poCamera = std::make_unique<ProjectionCamera>(aspectRatio, 70.0f, eye, at, up);
 
-	m_constantBufferData.model = Matrix::Identity;
+	m_oBasicEffect.SetModel(Matrix::Identity);
+	m_oBasicEffect.SetView(m_poCamera->GetView());
+	m_oBasicEffect.SetProjection(m_poCamera->GetProjection());
+
+	/*m_constantBufferData.model = Matrix::Identity;
 	m_constantBufferData.projection = m_poCamera->GetProjection();
-	m_constantBufferData.view = m_poCamera->GetView();
+	m_constantBufferData.view = m_poCamera->GetView();*/
 }
 
 // Called once per frame, rotates the cube and calculates the model and view matrices.
@@ -70,7 +79,8 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 	double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 	float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
 
-	m_constantBufferData.model = Matrix::Transpose(Matrix::RotationY(radians));
+	m_oBasicEffect.SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
+	/*m_constantBufferData.model = Matrix::Transpose(Matrix::RotationY(radians));*/
 }
 
 
@@ -83,23 +93,22 @@ void Sample3DSceneRenderer::Render()
 		return;
 	}
 
-	m_poConstBuffer->Update(m_constantBufferData);
+	m_oBasicEffect.Apply();
+	/*m_poConstBuffer->Update(m_constantBufferData);
 
 	m_poVertexShader->BindConstantBuffer(*m_poConstBuffer);
 	
 	m_poPixelShader->BindTexture(*m_poTexture);
 	m_poPixelShader->BindSamplerState(*m_poSamplerState);
 
-	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
-	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
 	m_oGraphicDevice.BindVertexShader(*m_poVertexShader);
 	m_oGraphicDevice.BindPixelShader(*m_poPixelShader);
 	
+	m_oGraphicDevice.EnableFaceCulling(false);*/
 
-	// Draw the objects.
-	auto context = m_deviceResources->GetD3DDeviceContext();
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	context->DrawIndexed(m_indexCount, 0, 0);
+	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
+	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
+	m_oGraphicDevice.DrawIndexed(eTRIANGLE_LIST, m_indexCount);
 }
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
@@ -110,11 +119,13 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	// After the pixel shader file is loaded, create the shader and constant buffer.
 	auto createResourcesTask = create_task([this]() 
 	{
-		m_poVertexShader = m_oServicesContext.GetShaderLoaderService().LoadVertexShader("PositionColorTextureVertexShader.cso", VertexPositionColorTexture::VertexDeclaration);
-		m_poPixelShader = m_oServicesContext.GetShaderLoaderService().LoadPixelShader("PositionColorTexturePixelShader.cso");
+		m_oServicesContext.GetShaderManagerService().LoadShaders();
 
-		m_poConstBuffer = std::make_unique<ConstBuffer<ModelViewProjectionData>>(m_constantBufferData, m_oGraphicContext);
-		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);
+	/*	m_poVertexShader = m_oServicesContext.GetShaderLoaderService().LoadVertexShader("PositionColorTextureVertexShader.cso", VertexPositionColorTexture::VertexDeclaration);
+		m_poPixelShader = m_oServicesContext.GetShaderLoaderService().LoadPixelShader("PositionColorTexturePixelShader.cso");*/
+
+		/*m_poConstBuffer = std::make_unique<ConstBuffer<ModelViewProjectionData>>(m_constantBufferData, m_oGraphicContext);
+		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);*/
 	});
 
 	// Once both shaders are loaded, create the mesh.
@@ -143,6 +154,10 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	createQuadTask.then([this]()
 	{
 		m_poTexture = m_oServicesContext.GetTextureLoaderService().Load("test.png");
+
+		m_oBasicEffect.SetTextureEnabled(true);
+		m_oBasicEffect.SetTexture(*m_poTexture);
+
 		m_loadingComplete = true;
 	});
 }

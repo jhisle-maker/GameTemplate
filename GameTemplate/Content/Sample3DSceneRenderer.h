@@ -10,17 +10,17 @@
 #include "Graphics\ITexture.h"
 #include "Graphics\ISamplerState.h"
 
+#include "Effects\BasicEffect.h"
+
 #include "Graphics\IVertexShader.h"
 #include "Graphics\IPixelShader.h"
-
 #include "Cameras\ProjectionCamera.h"
-
 #include "Services\IFileLoaderService.h"
 
 //Forward decls
 namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
-namespace GT { class IServicesContext; }
+namespace GT { class IContext; }
 
 namespace GT
 {
@@ -28,7 +28,7 @@ namespace GT
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IServicesContext& i_oServicesContext);
+		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IContext& i_oServicesContext);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
@@ -48,7 +48,9 @@ namespace GT
 		//GT stuff
 		const IGraphicDevice& m_oGraphicDevice;
 		const IGraphicContext& m_oGraphicContext;
-		const IServicesContext& m_oServicesContext;
+		const IContext& m_oServicesContext;
+
+		BasicEffect m_oBasicEffect;
 
 		std::unique_ptr<IIndexBuffer> m_poIndexBuffer;
 		std::unique_ptr<IVertexBuffer> m_poVertexBuffer;

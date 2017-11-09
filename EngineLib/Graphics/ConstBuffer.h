@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "IConstBuffer.h"
 
 //START FORWARD DECLS
@@ -21,8 +22,8 @@ namespace GT
 		inline const IApiGraphicResourceWrapper& GetApiWrapper() const { return *m_poApiConstBufferWrapper; }
 
 	private:
-		ConstBuffer(const ConstBuffer&  i_oOther) {};
-		ConstBuffer& operator=(const ConstBuffer& i_oOther) {};
+		ConstBuffer(const ConstBuffer&  i_oOther) = delete;
+		ConstBuffer& operator=(const ConstBuffer& i_oOther) = delete;
 
 	private:
 		std::unique_ptr<IApiGraphicResourceWrapper> m_poApiConstBufferWrapper;

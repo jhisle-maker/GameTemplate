@@ -10,8 +10,10 @@ namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
 namespace GT { class IFileLoaderService; }
 namespace GT { class IShaderLoaderService; }
+namespace GT { class IShaderManagerService; }
 namespace GT { class ITextureLoaderService; }
 namespace GT { class ILogger; }
+namespace GT { class IContext; }
 
 // Renders Direct2D and 3D content on the screen.
 namespace GameTemplate
@@ -38,8 +40,9 @@ namespace GameTemplate
 		//Services
 		std::unique_ptr<GT::IFileLoaderService> m_poFileLoaderService;
 		std::unique_ptr<GT::IShaderLoaderService> m_poShaderLoaderService;
+		std::unique_ptr<GT::IShaderManagerService> m_poShaderManagerService;
 		std::unique_ptr<GT::ITextureLoaderService> m_poTextureLoaderService;
-		std::unique_ptr<GT::IServicesContext> m_poServicesContext;
+		std::unique_ptr<GT::IContext> m_poServicesContext;
 		
 		std::unique_ptr<GT::ILogger> m_poLogger;
 
