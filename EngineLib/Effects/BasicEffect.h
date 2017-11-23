@@ -10,6 +10,7 @@ namespace GT { class IVertexShader; }
 namespace GT { class IPixelShader; }
 namespace GT { class IShaderManagerService; }
 namespace GT { class ITexture; }
+namespace GT { class ISamplerState; }
 //END FORWARD DECL
 
 namespace GT
@@ -24,8 +25,10 @@ namespace GT
 		void SetView(const Matrix& i_oView);
 		void SetProjection(const Matrix& i_oProjection);
 		void SetModel(const Matrix& i_oModel);
+
 		void SetTexture(const ITexture& i_oTexture);
 		void SetTextureEnabled(const bool i_bEnabled);
+		void SetTextureSampler(const ISamplerState& i_oSamplerState);
 
 		void Apply();
 
@@ -56,6 +59,7 @@ namespace GT
 		const Matrix* m_poProjectionPtr;
 
 		const ITexture* m_poTexture;
+		const ISamplerState* m_poSamplerState;
 
 		ConstBufferData m_oConstBufferData;
 		ConstBuffer<ConstBufferData> m_oConstBuffer;

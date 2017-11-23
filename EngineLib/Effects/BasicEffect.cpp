@@ -4,6 +4,7 @@
 #include "Graphics\IVertexShader.h"
 #include "Graphics\IPixelShader.h"
 #include "Graphics\ITexture.h"
+#include "Graphics\ISamplerState.h"
 #include "Graphics\Color.h"
 #include "Services\IShaderManagerService.h"
 #include "Math\Matrix.h"
@@ -58,6 +59,11 @@ namespace GT
 		m_eSelectedShader = static_cast<SelectedShader>(i_bEnabled);
 	}
 
+	void BasicEffect::SetTextureSampler(const ISamplerState& i_oSamplerState)
+	{
+		m_poSamplerState = &i_oSamplerState;
+	}
+
 	void BasicEffect::Apply()
 	{
 		if (m_bUpdateConstBuffer == true)
@@ -87,7 +93,8 @@ namespace GT
 
 			oPositionColorTextureVS.BindConstantBuffer(m_oConstBuffer);
 			oPositionColorTexturePS.BindTexture(*m_poTexture);
-			//m_poPositionColorTexturePixelShader.BindSamplerState(*m_poSamplerState);
+
+			oPositionColorTexturePS.BindSamplerState(*m_poSamplerState);
 
 			m_oGraphicDevice.BindVertexShader(oPositionColorTextureVS);
 			m_oGraphicDevice.BindPixelShader(oPositionColorTexturePS);

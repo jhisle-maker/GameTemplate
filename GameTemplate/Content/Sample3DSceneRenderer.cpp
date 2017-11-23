@@ -65,10 +65,6 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 	m_oBasicEffect.SetModel(Matrix::Identity);
 	m_oBasicEffect.SetView(m_poCamera->GetView());
 	m_oBasicEffect.SetProjection(m_poCamera->GetProjection());
-
-	/*m_constantBufferData.model = Matrix::Identity;
-	m_constantBufferData.projection = m_poCamera->GetProjection();
-	m_constantBufferData.view = m_poCamera->GetView();*/
 }
 
 // Called once per frame, rotates the cube and calculates the model and view matrices.
@@ -80,7 +76,6 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 	float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
 
 	m_oBasicEffect.SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
-	/*m_constantBufferData.model = Matrix::Transpose(Matrix::RotationY(radians));*/
 }
 
 
@@ -94,17 +89,8 @@ void Sample3DSceneRenderer::Render()
 	}
 
 	m_oBasicEffect.Apply();
-	/*m_poConstBuffer->Update(m_constantBufferData);
-
-	m_poVertexShader->BindConstantBuffer(*m_poConstBuffer);
 	
-	m_poPixelShader->BindTexture(*m_poTexture);
-	m_poPixelShader->BindSamplerState(*m_poSamplerState);
-
-	m_oGraphicDevice.BindVertexShader(*m_poVertexShader);
-	m_oGraphicDevice.BindPixelShader(*m_poPixelShader);
-	
-	m_oGraphicDevice.EnableFaceCulling(false);*/
+	//m_oGraphicDevice.EnableFaceCulling(false);
 
 	m_oGraphicDevice.SetVertexBuffer(*m_poVertexBuffer);
 	m_oGraphicDevice.SetIndexBuffer(*m_poIndexBuffer);
@@ -115,17 +101,11 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 {
 	using namespace Concurrency;
 
-
 	// After the pixel shader file is loaded, create the shader and constant buffer.
 	auto createResourcesTask = create_task([this]() 
 	{
 		m_oServicesContext.GetShaderManagerService().LoadShaders();
-
-	/*	m_poVertexShader = m_oServicesContext.GetShaderLoaderService().LoadVertexShader("PositionColorTextureVertexShader.cso", VertexPositionColorTexture::VertexDeclaration);
-		m_poPixelShader = m_oServicesContext.GetShaderLoaderService().LoadPixelShader("PositionColorTexturePixelShader.cso");*/
-
-		/*m_poConstBuffer = std::make_unique<ConstBuffer<ModelViewProjectionData>>(m_constantBufferData, m_oGraphicContext);
-		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);*/
+		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);
 	});
 
 	// Once both shaders are loaded, create the mesh.
@@ -157,6 +137,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 
 		m_oBasicEffect.SetTextureEnabled(true);
 		m_oBasicEffect.SetTexture(*m_poTexture);
+		m_oBasicEffect.SetTextureSampler(*m_poSamplerState);
 
 		m_loadingComplete = true;
 	});

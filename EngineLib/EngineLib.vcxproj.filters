@@ -250,6 +250,7 @@
     <ClInclude Include="Services\IShaderManagerService.h" />
     <ClInclude Include="Services\ShaderManagerService.h" />
     <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
+    <ClInclude Include="Services\ISamplerStatesService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

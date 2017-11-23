@@ -189,6 +189,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Services\ISamplerStatesService.h" />
     <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\ConstBuffer.h" />
