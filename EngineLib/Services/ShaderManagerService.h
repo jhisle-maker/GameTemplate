@@ -15,19 +15,19 @@ namespace GT
 		~ShaderManagerService();
 
 	public:
-		void LoadShaders();
+		void LoadShaders(const std::map<std::string, std::string>& i_oShaderFileRegistry);
 
-		inline const IPixelShader& GetPositionColorPS() const { return *i_poPositionColorPS; }
-		inline const IVertexShader& GetPositionColorVS() const { return *i_poPositionColorVS; }
-		inline const IPixelShader& GetPositionColorTexturePS() const { return *i_poPositionColorTexturePS; }
-		inline const IVertexShader& GetPositionColorTextureVS() const { return *i_poPositionColorTextureVS; }
+		inline const IPixelShader& GetPositionColorPS() const { return *m_poPositionColorPS; }
+		inline const IVertexShader& GetPositionColorVS() const { return *m_poPositionColorVS; }
+		inline const IPixelShader& GetPositionColorTexturePS() const { return *m_poPositionColorTexturePS; }
+		inline const IVertexShader& GetPositionColorTextureVS() const { return *m_poPositionColorTextureVS; }
 
 	private:
 		const IShaderLoaderService& m_oShaderLoaderService;
 
-		std::unique_ptr<IPixelShader> i_poPositionColorPS;
-		std::unique_ptr<IVertexShader> i_poPositionColorVS;
-		std::unique_ptr<IPixelShader> i_poPositionColorTexturePS;
-		std::unique_ptr<IVertexShader> i_poPositionColorTextureVS;
+		std::unique_ptr<IPixelShader> m_poPositionColorPS;
+		std::unique_ptr<IVertexShader> m_poPositionColorVS;
+		std::unique_ptr<IPixelShader> m_poPositionColorTexturePS;
+		std::unique_ptr<IVertexShader> m_poPositionColorTextureVS;
 	};
 }

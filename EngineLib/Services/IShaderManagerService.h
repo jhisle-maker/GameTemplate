@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 //START FORWARD DECL
 namespace GT
 {
@@ -18,7 +21,7 @@ namespace GT
 		virtual ~IShaderManagerService() {}
 
 	public:
-		virtual void LoadShaders() = 0;
+		virtual void LoadShaders(const std::map<std::string, std::string>& i_oShaderFileRegistry) = 0;
 
 		virtual const IPixelShader& GetPositionColorPS() const = 0;
 		virtual const IVertexShader& GetPositionColorVS() const = 0;

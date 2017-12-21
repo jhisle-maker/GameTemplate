@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include "pch.h"
-#include "Common\DeviceResources.h"
+#include "Common\GraphicDeviceResources.h"
+#include "Common\InputDeviceResources.h"
 #include "GameTemplateMain.h"
 
 namespace GameTemplate
@@ -36,8 +37,10 @@ namespace GameTemplate
 		void OnDisplayContentsInvalidated(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 
 	private:
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+		std::unique_ptr<GT::InputDeviceResources> m_poInputDeviceResources;
+		std::unique_ptr<DX::GraphicDeviceResources> m_poGraphicDeviceResources;
 		std::unique_ptr<GameTemplateMain> m_main;
+
 		bool m_windowClosed;
 		bool m_windowVisible;
 	};

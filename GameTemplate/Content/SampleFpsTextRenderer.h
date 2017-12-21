@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <string>
-#include "..\Common\DeviceResources.h"
+#include "..\Common\GraphicDeviceResources.h"
 #include "..\Common\StepTimer.h"
 
 namespace GameTemplate
@@ -10,7 +10,7 @@ namespace GameTemplate
 	class SampleFpsTextRenderer
 	{
 	public:
-		SampleFpsTextRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		SampleFpsTextRenderer(DX::GraphicDeviceResources& deviceResources);
 		void CreateDeviceDependentResources();
 		void ReleaseDeviceDependentResources();
 		void Update(DX::StepTimer const& timer);
@@ -18,7 +18,7 @@ namespace GameTemplate
 
 	private:
 		// Cached pointer to device resources.
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+		DX::GraphicDeviceResources& m_deviceResources;
 
 		// Resources related to text rendering.
 		std::wstring                                    m_text;

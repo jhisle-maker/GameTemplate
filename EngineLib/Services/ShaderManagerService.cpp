@@ -8,10 +8,10 @@ namespace GT
 {
 	ShaderManagerService::ShaderManagerService(const IShaderLoaderService& i_oShaderLoaderService)
 		: m_oShaderLoaderService(i_oShaderLoaderService)
-		, i_poPositionColorPS(nullptr)
-		, i_poPositionColorVS(nullptr)
-		, i_poPositionColorTexturePS(nullptr)
-		, i_poPositionColorTextureVS(nullptr)
+		, m_poPositionColorPS(nullptr)
+		, m_poPositionColorVS(nullptr)
+		, m_poPositionColorTexturePS(nullptr)
+		, m_poPositionColorTextureVS(nullptr)
 	{
 		//Nothing to do here
 	}
@@ -21,12 +21,12 @@ namespace GT
 		//Nothing to do here
 	}
 
-	void ShaderManagerService::LoadShaders()
+	void ShaderManagerService::LoadShaders(const std::map<std::string, std::string>& i_oShaderFileRegistry)
 	{ 
-		i_poPositionColorPS = m_oShaderLoaderService.LoadPixelShader("SamplePixelShader.cso");
-		i_poPositionColorVS = m_oShaderLoaderService.LoadVertexShader("SampleVertexShader.cso", VertexPositionColor::VertexDeclaration);
-		i_poPositionColorTexturePS = m_oShaderLoaderService.LoadPixelShader("PositionColorTexturePixelShader.cso");
-		i_poPositionColorTextureVS = m_oShaderLoaderService.LoadVertexShader("PositionColorTextureVertexShader.cso", VertexPositionColorTexture::VertexDeclaration);
+		m_poPositionColorPS = m_oShaderLoaderService.LoadPixelShader(i_oShaderFileRegistry.at("SamplePixelShader"));
+		m_poPositionColorVS = m_oShaderLoaderService.LoadVertexShader(i_oShaderFileRegistry.at("SampleVertexShader"), VertexPositionColor::VertexDeclaration);
+		m_poPositionColorTexturePS = m_oShaderLoaderService.LoadPixelShader(i_oShaderFileRegistry.at("PositionColorTexturePixelShader"));
+		m_poPositionColorTextureVS = m_oShaderLoaderService.LoadVertexShader(i_oShaderFileRegistry.at("PositionColorTextureVertexShader"), VertexPositionColorTexture::VertexDeclaration);
 	}
 }
 

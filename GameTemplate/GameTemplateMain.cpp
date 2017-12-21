@@ -2,6 +2,9 @@
 #include "GameTemplateMain.h"
 #include "Common\DirectXHelper.h"
 
+#include "Input\UWPKeyboardController.h"
+#include "GameLogic\IPlayerController.h"
+
 #include "Services\ServicesContext.h"
 #include "Services\UWPFileLoaderService.h"
 #include "Services\ShaderLoaderService.h"
@@ -18,11 +21,12 @@
 using namespace GameTemplate;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
+using namespace Windows::UI::Core;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
-	m_deviceResources(deviceResources)
+GameTemplateMain::GameTemplateMain(DX::GraphicDeviceResources& deviceResources)
+	: m_oGraphicDeviceResources(deviceResources)
 {
 	m_poLogger = std::unique_ptr<GT::ILogger>(new GT::VSLogger());
 
@@ -30,12 +34,15 @@ GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& d
 	GT::Logger::Log("***** LOG STARTED *****");
 
 	// Register to be notified if the Device is lost or recreated
-	m_deviceResources->RegisterDeviceNotify(this);
+	m_oGraphicDeviceResources.RegisterDeviceNotify(this);
 
 	//Graphic stuff
-	m_poGraphicDevice = std::make_unique<GT::DX11GraphicDevice>(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
-	m_poGraphicContext = std::make_unique<GT::DX11GraphicContext>(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
-	
+	m_poGraphicDevice = std::make_unique<GT::DX11GraphicDevice>(m_oGraphicDeviceResources.GetD3DDevice(), m_oGraphicDeviceResources.GetD3DDeviceContext());
+	m_poGraphicContext = std::make_unique<GT::DX11GraphicContext>(m_oGraphicDeviceResources.GetD3DDevice(), m_oGraphicDeviceResources.GetD3DDeviceContext());
+
+	//Input
+	//m_poKeyboardController = std::make_unique<GT::UWPKeyboardController>(window);
+
 	//Services
 	m_poFileLoaderService = std::make_unique<GT::UWPFileLoaderService>();
 	m_poShaderLoaderService = std::make_unique<GT::ShaderLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
@@ -53,8 +60,8 @@ GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& d
 	);
 
 	//Renderers
-	m_sceneRenderer = std::make_unique<GT::Sample3DSceneRenderer>(m_deviceResources, *m_poGraphicDevice, *m_poGraphicContext, *m_poServicesContext);
-	m_fpsTextRenderer = std::make_unique<SampleFpsTextRenderer>(m_deviceResources);
+	m_sceneRenderer = std::make_unique<GT::Sample3DSceneRenderer>(m_oGraphicDeviceResources, *m_poGraphicDevice, *m_poGraphicContext, *m_poServicesContext);
+	m_fpsTextRenderer = std::make_unique<SampleFpsTextRenderer>(m_oGraphicDeviceResources);
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -67,7 +74,7 @@ GameTemplateMain::GameTemplateMain(const std::shared_ptr<DX::DeviceResources>& d
 GameTemplateMain::~GameTemplateMain()
 {
 	// Deregister device notification
-	m_deviceResources->RegisterDeviceNotify(nullptr);
+	m_oGraphicDeviceResources.RegisterDeviceNotify(nullptr);
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
@@ -99,19 +106,19 @@ bool GameTemplateMain::Render()
 		return false;
 	}
 
-	auto context = m_deviceResources->GetD3DDeviceContext();
+	auto context = m_oGraphicDeviceResources.GetD3DDeviceContext();
 
 	// Reset the viewport to target the whole screen.
-	auto viewport = m_deviceResources->GetScreenViewport();
+	auto viewport = m_oGraphicDeviceResources.GetScreenViewport();
 	context->RSSetViewports(1, &viewport);
 
 	// Reset render targets to the screen.
-	ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
-	context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
+	ID3D11RenderTargetView *const targets[1] = { m_oGraphicDeviceResources.GetBackBufferRenderTargetView() };
+	context->OMSetRenderTargets(1, targets, m_oGraphicDeviceResources.GetDepthStencilView());
 
 	// Clear the back buffer and depth stencil view.
-	context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
-	context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	context->ClearRenderTargetView(m_oGraphicDeviceResources.GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
+	context->ClearDepthStencilView(m_oGraphicDeviceResources.GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	// Render the scene objects.
 	// TODO: Replace this with your app's content rendering functions.

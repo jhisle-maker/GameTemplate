@@ -189,7 +189,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cameras\OrtographicalCamera.h" />
+    <ClInclude Include="Input\IKeyboardController.h" />
     <ClInclude Include="Services\ISamplerStatesService.h" />
+    <ClInclude Include="Services\ShaderLoaderService.h" />
+    <ClInclude Include="Services\ShaderManagerService.h" />
+    <ClInclude Include="Services\WicColorTexture2DLoaderService.h" />
     <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\ConstBuffer.h" />
@@ -208,7 +213,7 @@
     <ClInclude Include="Effects\BasicEffect.h" />
     <ClInclude Include="Graphics\DX11ApiPixelShaderWrapper.h" />
     <ClInclude Include="Graphics\DX11ApiVertexShaderWrapper.h" />
-    <ClInclude Include="Cameras\ProjectionCamera.h" />
+    <ClInclude Include="Cameras\PerspectiveCamera.h" />
     <ClInclude Include="Graphics\DX11ApiVertexBufferWrapper.h" />
     <ClInclude Include="Graphics\IVertexShader.h" />
     <ClInclude Include="Graphics\PixelShader.h" />
@@ -223,9 +228,6 @@
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Services\ServicesContext.h" />
-    <ClInclude Include="Services\ShaderManagerService.h" />
-    <ClInclude Include="Services\WicColorTexture2DLoaderService.h" />
-    <ClInclude Include="Services\ShaderLoaderService.h" />
     <ClInclude Include="Utils\Common.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
@@ -242,6 +244,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cameras\OrtographicalCamera.cpp" />
+    <ClCompile Include="Services\ShaderLoaderService.cpp" />
+    <ClCompile Include="Services\ShaderManagerService.cpp" />
+    <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp" />
     <ClCompile Include="VertexDeclarations\BasicVertexDeclarations.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
@@ -254,7 +260,7 @@
     <ClCompile Include="Graphics\DX11ApiVertexShaderWrapper.cpp" />
     <ClCompile Include="Graphics\PixelShader.cpp" />
     <ClCompile Include="Graphics\SamplerState.cpp" />
-    <ClCompile Include="Cameras\ProjectionCamera.cpp" />
+    <ClCompile Include="Cameras\PerspectiveCamera.cpp" />
     <ClCompile Include="EngineLib.cpp" />
     <ClCompile Include="Graphics\DX11GraphicContext.cpp" />
     <ClCompile Include="Graphics\DX11GraphicDevice.cpp" />
@@ -265,9 +271,6 @@
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Services\ServicesContext.cpp" />
-    <ClCompile Include="Services\ShaderManagerService.cpp" />
-    <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp" />
-    <ClCompile Include="Services\ShaderLoaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\ConstBuffer.inl" />

@@ -15,9 +15,11 @@
   <ItemGroup>
     <ClInclude Include="Logger\VSLogger.h" />
     <ClInclude Include="Services\UWPFileLoaderService.h" />
+    <ClInclude Include="Input\UWPKeyboardController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger\VSLogger.cpp" />
     <ClCompile Include="Services\UWPFileLoaderService.cpp" />
+    <ClCompile Include="Input\UWPKeyboardController.cpp" />
   </ItemGroup>
 </Project>

@@ -44,6 +44,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{657caccc-38f6-4ede-acf6-9f15631d900a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineLib.cpp" />
@@ -98,22 +101,27 @@
     <ClCompile Include="Graphics\SamplerState.cpp">
       <Filter>Graphics\SamplerStates</Filter>
     </ClCompile>
-    <ClCompile Include="Cameras\ProjectionCamera.cpp">
-      <Filter>Cameras</Filter>
-    </ClCompile>
     <ClCompile Include="Effects\BasicEffect.cpp">
       <Filter>Graphics\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp">
+    <ClCompile Include="Cameras\PerspectiveCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexDeclarations\BasicVertexDeclarations.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\ServicesContext.cpp">
       <Filter>Services</Filter>
     </ClCompile>
-    <ClCompile Include="Services\ShaderLoaderService.cpp">
-      <Filter>Services</Filter>
+    <ClCompile Include="Cameras\OrtographicalCamera.cpp">
+      <Filter>Cameras</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\VertexShader.cpp" />
-    <ClCompile Include="Services\ServicesContext.cpp" />
+    <ClCompile Include="Graphics\VertexShader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp" />
     <ClCompile Include="Services\ShaderManagerService.cpp" />
-    <ClCompile Include="VertexDeclarations\BasicVertexDeclarations.cpp" />
+    <ClCompile Include="Services\ShaderLoaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -223,9 +231,6 @@
     <ClInclude Include="Graphics\SamplerState.h">
       <Filter>Graphics\SamplerStates</Filter>
     </ClInclude>
-    <ClInclude Include="Cameras\ProjectionCamera.h">
-      <Filter>Cameras</Filter>
-    </ClInclude>
     <ClInclude Include="Effects\BasicEffect.h">
       <Filter>Graphics\Effects</Filter>
     </ClInclude>
@@ -235,22 +240,39 @@
     <ClInclude Include="Services\ITextureLoaderService.h">
       <Filter>Services</Filter>
     </ClInclude>
-    <ClInclude Include="Services\WicColorTexture2DLoaderService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="Services\ShaderLoaderService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
     <ClInclude Include="Services\IShaderLoaderService.h">
       <Filter>Services</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\PrimitiveType.h" />
-    <ClInclude Include="Services\IServicesContext.h" />
-    <ClInclude Include="Services\ServicesContext.h" />
-    <ClInclude Include="Services\IShaderManagerService.h" />
+    <ClInclude Include="Cameras\PerspectiveCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\ISamplerStatesService.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\ServicesContext.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\IServicesContext.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\IShaderManagerService.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\IKeyboardController.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Cameras\OrtographicalCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PrimitiveType.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\WicColorTexture2DLoaderService.h" />
     <ClInclude Include="Services\ShaderManagerService.h" />
-    <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
-    <ClInclude Include="Services\ISamplerStatesService.h" />
+    <ClInclude Include="Services\ShaderLoaderService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

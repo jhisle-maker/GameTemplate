@@ -27,10 +27,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Input\UWPKeyboardController.h" />
     <ClInclude Include="Services\UWPFileLoaderService.h" />
     <ClInclude Include="Logger\VSLogger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Input\UWPKeyboardController.cpp" />
     <ClCompile Include="Services\UWPFileLoaderService.cpp" />
     <ClCompile Include="Logger\VSLogger.cpp" />
   </ItemGroup>

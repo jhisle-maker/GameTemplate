@@ -28,32 +28,45 @@ namespace GT
 
 	Matrix Matrix::Perspective(const float i_fFovY, const float i_fAspectRatio, const float i_fNearPlane, const float i_fFarPlane)
 	{
-		return DirectX::XMMatrixPerspectiveFovRH(i_fFovY, i_fAspectRatio, i_fNearPlane, i_fFarPlane);
+		return Transpose(DirectX::XMMatrixPerspectiveFovRH(i_fFovY, i_fAspectRatio, i_fNearPlane, i_fFarPlane));
+	}
+
+	Matrix Matrix::Ortographic(const float i_fWidth, const float i_fHeight, const float i_fNearPlane, const float i_fFarPlane)
+	{
+		return Transpose(DirectX::XMMatrixOrthographicRH(i_fWidth, i_fHeight, i_fNearPlane,  i_fFarPlane));
 	}
 
 	Matrix Matrix::RotationX(const float i_fRadians)
 	{
-		return DirectX::XMMatrixRotationX(i_fRadians);
+		return Transpose(DirectX::XMMatrixRotationX(i_fRadians));
 	}
 
 	Matrix Matrix::RotationY(const float i_fRadians)
 	{
-		return DirectX::XMMatrixRotationY(i_fRadians);
+		return Transpose(DirectX::XMMatrixRotationY(i_fRadians));
 	}
 
 	Matrix Matrix::RotationZ(const float i_fRadians)
 	{
-		return DirectX::XMMatrixRotationZ(i_fRadians);
+		return Transpose(DirectX::XMMatrixRotationZ(i_fRadians));
 	}
 
 	Matrix Matrix::View(const Vector3& i_oPos, const Vector3& i_oLookAt, const Vector3& i_oUp)
 	{
-		return DirectX::XMMatrixLookAtRH
+		
+		return Transpose(DirectX::XMMatrixLookAtRH
 		(
 			DirectX::XMLoadFloat3(&i_oPos.GetXMData()),
 			DirectX::XMLoadFloat3(&i_oLookAt.GetXMData()),
 			DirectX::XMLoadFloat3(&i_oUp.GetXMData())
-		);
+		));
+	}
+
+	void Matrix::SetTranslation(const Vector3& i_oTranslation)
+	{
+		m_oInnerMatrix._14 = i_oTranslation.X();
+		m_oInnerMatrix._24 = i_oTranslation.Y();
+		m_oInnerMatrix._34 = i_oTranslation.Z();
 	}
 
 	const Matrix Matrix::Identity(1.0f, 0.0f, 0.0f, 0.0f,

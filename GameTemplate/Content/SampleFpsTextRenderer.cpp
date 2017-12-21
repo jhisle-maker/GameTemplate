@@ -7,7 +7,7 @@ using namespace GameTemplate;
 using namespace Microsoft::WRL;
 
 // Initializes D2D resources used for text rendering.
-SampleFpsTextRenderer::SampleFpsTextRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources) : 
+SampleFpsTextRenderer::SampleFpsTextRenderer(DX::GraphicDeviceResources& deviceResources) : 
 	m_text(L""),
 	m_deviceResources(deviceResources)
 {
@@ -16,7 +16,7 @@ SampleFpsTextRenderer::SampleFpsTextRenderer(const std::shared_ptr<DX::DeviceRes
 	// Create device independent resources
 	ComPtr<IDWriteTextFormat> textFormat;
 	DX::ThrowIfFailed(
-		m_deviceResources->GetDWriteFactory()->CreateTextFormat(
+		m_deviceResources.GetDWriteFactory()->CreateTextFormat(
 			L"Segoe UI",
 			nullptr,
 			DWRITE_FONT_WEIGHT_LIGHT,
@@ -37,7 +37,7 @@ SampleFpsTextRenderer::SampleFpsTextRenderer(const std::shared_ptr<DX::DeviceRes
 		);
 
 	DX::ThrowIfFailed(
-		m_deviceResources->GetD2DFactory()->CreateDrawingStateBlock(&m_stateBlock)
+		m_deviceResources.GetD2DFactory()->CreateDrawingStateBlock(&m_stateBlock)
 		);
 
 	CreateDeviceDependentResources();
@@ -53,7 +53,7 @@ void SampleFpsTextRenderer::Update(DX::StepTimer const& timer)
 
 	ComPtr<IDWriteTextLayout> textLayout;
 	DX::ThrowIfFailed(
-		m_deviceResources->GetDWriteFactory()->CreateTextLayout(
+		m_deviceResources.GetDWriteFactory()->CreateTextLayout(
 			m_text.c_str(),
 			(uint32) m_text.length(),
 			m_textFormat.Get(),
@@ -75,8 +75,8 @@ void SampleFpsTextRenderer::Update(DX::StepTimer const& timer)
 // Renders a frame to the screen.
 void SampleFpsTextRenderer::Render()
 {
-	ID2D1DeviceContext* context = m_deviceResources->GetD2DDeviceContext();
-	Windows::Foundation::Size logicalSize = m_deviceResources->GetLogicalSize();
+	ID2D1DeviceContext* context = m_deviceResources.GetD2DDeviceContext();
+	Windows::Foundation::Size logicalSize = m_deviceResources.GetLogicalSize();
 
 	context->SaveDrawingState(m_stateBlock.Get());
 	context->BeginDraw();
@@ -87,7 +87,7 @@ void SampleFpsTextRenderer::Render()
 		logicalSize.Height - m_textMetrics.height
 		);
 
-	context->SetTransform(screenTranslation * m_deviceResources->GetOrientationTransform2D());
+	context->SetTransform(screenTranslation * m_deviceResources.GetOrientationTransform2D());
 
 	DX::ThrowIfFailed(
 		m_textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING)
@@ -113,7 +113,7 @@ void SampleFpsTextRenderer::Render()
 void SampleFpsTextRenderer::CreateDeviceDependentResources()
 {
 	DX::ThrowIfFailed(
-		m_deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &m_whiteBrush)
+		m_deviceResources.GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &m_whiteBrush)
 		);
 }
 void SampleFpsTextRenderer::ReleaseDeviceDependentResources()

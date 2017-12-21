@@ -28,7 +28,7 @@ using namespace Windows::Foundation;
 using namespace Windows::Storage;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IContext& i_oServicesContext) 
+Sample3DSceneRenderer::Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IContext& i_oServicesContext) 
 	: m_oGraphicDevice(i_oGraphicDevice)
 	, m_oGraphicContext(i_oGraphicContext)
 	, m_oServicesContext(i_oServicesContext)
@@ -52,15 +52,17 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceRes
 // Initializes view parameters when the window size changes.
 void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 {
-	Size outputSize = m_deviceResources->GetOutputSize();
+	
+	Size outputSize = m_deviceResources.GetOutputSize();
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
 
-	Vector3 eye(0.0, 0.7f, 1.5f);
-	Vector3 at(0.0, -0.1f, 0.0f);
-	Vector3 up(0.0, 1.0, 0.0f);
+	Vector3 eye(0.0f, 0.0f, 10.0f);
+	Vector3 at(0.0f, 0.0f, 0.0f);
+	Vector3 up(0.0f, 1.0f, 0.0f);
 
-	m_poCamera = std::make_unique<ProjectionCamera>(aspectRatio, 70.0f, eye, at, up);
+	//m_poCamera = std::make_unique<PerspectiveCamera>(aspectRatio, 70.0f, eye, at, up);
+	m_poCamera = std::make_unique<OrtographicalCamera>(5.0f, 5.0f, eye, at, up);
 
 	m_oBasicEffect.SetModel(Matrix::Identity);
 	m_oBasicEffect.SetView(m_poCamera->GetView());
@@ -70,12 +72,22 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 // Called once per frame, rotates the cube and calculates the model and view matrices.
 void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 {
+	static float y = 0.0f;
+
 	// Convert degrees to radians, then convert seconds to rotation angle
 	float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
 	double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 	float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
 
+	Vector3 translation(0.0f, y, 0.0f);
+
+	Matrix matrix = Matrix::Identity;
+	matrix.SetTranslation(translation);
+
 	m_oBasicEffect.SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
+	//m_oBasicEffect.SetModel(matrix);
+
+	y += 0.01f;
 }
 
 
@@ -104,6 +116,13 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	// After the pixel shader file is loaded, create the shader and constant buffer.
 	auto createResourcesTask = create_task([this]() 
 	{
+		std::map<std::string, std::string> shaderMap;
+
+		m_poPositionColorPS = m_oShaderLoaderService.LoadPixelShader(i_oShaderFileRegistry.at("SamplePixelShader"));
+		m_poPositionColorVS = m_oShaderLoaderService.LoadVertexShader(i_oShaderFileRegistry.at("SampleVertexShader"), VertexPositionColor::VertexDeclaration);
+		m_poPositionColorTexturePS = m_oShaderLoaderService.LoadPixelShader(i_oShaderFileRegistry.at("PositionColorTexturePixelShader"));
+		m_poPositionColorTextureVS = m_oShaderLoaderService.LoadVertexShader(i_oShaderFileRegistry.at("PositionColorTextureVertexShader"), VertexPositionColorTexture::VertexDeclaration);
+
 		m_oServicesContext.GetShaderManagerService().LoadShaders();
 		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);
 	});

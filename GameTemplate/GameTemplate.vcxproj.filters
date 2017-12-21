@@ -17,12 +17,6 @@
     <ClInclude Include="Common\StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Common\DeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClCompile Include="Common\DeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClInclude Include="Content\Sample3DSceneRenderer.h">
       <Filter>Content</Filter>
     </ClInclude>
@@ -68,6 +62,9 @@
     <Filter Include="Services">
       <UniqueIdentifier>{ef7e6417-2fef-453f-a4f9-04649e44c9ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic">
+      <UniqueIdentifier>{f9d85b25-ffe6-4ed0-970c-715a82a8773a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -76,11 +73,24 @@
     <ClCompile Include="Content\ShaderStructures.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Common\GraphicDeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\InputDeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="GameTemplateMain.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="GameLogic\IPlayerController.h" />
+    <ClInclude Include="Common\GraphicDeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\InputDeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

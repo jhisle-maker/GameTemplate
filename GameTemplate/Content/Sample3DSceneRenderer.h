@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "..\Common\DeviceResources.h"
+#include "..\Common\GraphicDeviceResources.h"
 #include "ShaderStructures.h"
 #include "..\Common\StepTimer.h"
 
@@ -14,7 +14,8 @@
 
 #include "Graphics\IVertexShader.h"
 #include "Graphics\IPixelShader.h"
-#include "Cameras\ProjectionCamera.h"
+#include "Cameras\PerspectiveCamera.h"
+#include "Cameras\OrtographicalCamera.h"
 #include "Services\IFileLoaderService.h"
 
 //Forward decls
@@ -28,7 +29,7 @@ namespace GT
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IContext& i_oServicesContext);
+		Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IContext& i_oServicesContext);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
@@ -58,11 +59,11 @@ namespace GT
 		std::unique_ptr<ITexture> m_poTexture;
 		std::unique_ptr<IVertexShader> m_poVertexShader;
 		std::unique_ptr<IPixelShader> m_poPixelShader;
-		std::unique_ptr<ProjectionCamera> m_poCamera;
+		std::unique_ptr<OrtographicalCamera> m_poCamera;
 		std::unique_ptr<ISamplerState> m_poSamplerState;
 		
 		// Cached pointer to device resources.
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+		DX::GraphicDeviceResources& m_deviceResources;
 
 		// System resources for cube geometry.
 		ModelViewProjectionData	m_constantBufferData;
