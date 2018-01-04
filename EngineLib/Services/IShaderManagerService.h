@@ -9,6 +9,8 @@ namespace GT
 	class IPixelShader;
 	class IVertexShader;
 	class IShaderLoaderService;
+	class ShadersRegistryService;
+	class ObjectId;
 }
 //END FORWARD DECL
 
@@ -21,11 +23,9 @@ namespace GT
 		virtual ~IShaderManagerService() {}
 
 	public:
-		virtual void LoadShaders(const std::map<std::string, std::string>& i_oShaderFileRegistry) = 0;
+		virtual void LoadShaders(const ShadersRegistryService& i_oShadersRegistry) = 0;
 
-		virtual const IPixelShader& GetPositionColorPS() const = 0;
-		virtual const IVertexShader& GetPositionColorVS() const = 0;
-		virtual const IPixelShader& GetPositionColorTexturePS() const = 0;
-		virtual const IVertexShader& GetPositionColorTextureVS() const = 0;
+		virtual const IPixelShader& GetPixelShader(const ObjectId& i_oObjectId) const = 0;
+		virtual const IVertexShader& GetVertexShader(const ObjectId& i_oObjectId) const = 0;
 	};
 }

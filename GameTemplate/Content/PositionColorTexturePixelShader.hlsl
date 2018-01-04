@@ -2,7 +2,7 @@
 struct PixelShaderInput
 {
 	float4 pos : SV_POSITION;
-	float3 color : COLOR0;
+	float4 color : COLOR0;
 	float2 uv : TEXCOORD0;
 };
 
@@ -13,5 +13,5 @@ Texture2D g_texture;
 float4 main(PixelShaderInput input) : SV_TARGET
 {
 	float4 texColor = g_texture.Sample(g_samplerState, input.uv);
-	return float4(input.color, 1.0f) + texColor;
+	return input.color + texColor;
 }

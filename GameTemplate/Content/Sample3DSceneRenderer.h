@@ -51,7 +51,7 @@ namespace GT
 		const IGraphicContext& m_oGraphicContext;
 		const IContext& m_oServicesContext;
 
-		BasicEffect m_oBasicEffect;
+		std::unique_ptr<BasicEffect> m_poBasicEffect;
 
 		std::unique_ptr<IIndexBuffer> m_poIndexBuffer;
 		std::unique_ptr<IVertexBuffer> m_poVertexBuffer;
@@ -59,7 +59,7 @@ namespace GT
 		std::unique_ptr<ITexture> m_poTexture;
 		std::unique_ptr<IVertexShader> m_poVertexShader;
 		std::unique_ptr<IPixelShader> m_poPixelShader;
-		std::unique_ptr<OrtographicalCamera> m_poCamera;
+		std::unique_ptr<PerspectiveCamera> m_poCamera;
 		std::unique_ptr<ISamplerState> m_poSamplerState;
 		
 		// Cached pointer to device resources.

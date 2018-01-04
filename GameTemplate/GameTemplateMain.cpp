@@ -5,7 +5,7 @@
 #include "Input\UWPKeyboardController.h"
 #include "GameLogic\IPlayerController.h"
 
-#include "Services\ServicesContext.h"
+#include "Services\Context.h"
 #include "Services\UWPFileLoaderService.h"
 #include "Services\ShaderLoaderService.h"
 #include "Services\ShaderManagerService.h"

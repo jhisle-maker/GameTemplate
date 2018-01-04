@@ -1,4 +1,6 @@
 #include "BasicEffect.h"
+#include "Utils\Common.h"
+#include "Math\Matrix.h"
 #include "Graphics\IGraphicDevice.h"
 #include "Graphics\IGraphicContext.h"
 #include "Graphics\IVertexShader.h"
@@ -7,11 +9,20 @@
 #include "Graphics\ISamplerState.h"
 #include "Graphics\Color.h"
 #include "Services\IShaderManagerService.h"
-#include "Math\Matrix.h"
 
 namespace GT
 {
-	BasicEffect::BasicEffect(const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IShaderManagerService& i_oShaderManagerService)
+	const ObjectId BasicEffect::s_oPositionColorPSId = ObjectId("PositionColorPS");
+	const ObjectId BasicEffect::s_oPositionColorVSId = ObjectId("PositionColorVS");
+	const ObjectId BasicEffect::s_oPositionColorTexturePSId = ObjectId("PositionColorTexturePS");
+	const ObjectId BasicEffect::s_oPositionColorTextureVSId = ObjectId("PositionColorTextureVS");
+
+	BasicEffect::BasicEffect
+	(
+		const IGraphicDevice& i_oGraphicDevice, 
+		const IGraphicContext& i_oGraphicContext, 
+		IShaderManagerService& i_oShaderManagerService
+	)
 		: m_oGraphicDevice(i_oGraphicDevice)
 		, m_oGraphicContext(i_oGraphicContext)
 		, m_oShaderManagerService(i_oShaderManagerService)
@@ -22,6 +33,10 @@ namespace GT
 		, m_poTexture(nullptr)
 		, m_oConstBuffer(m_oConstBufferData, i_oGraphicContext)
 		, m_eSelectedShader(SelectedShader::ePOSITIONCOLOR)
+		, m_oPositionColorPS(i_oShaderManagerService.GetPixelShader(s_oPositionColorPSId))
+		, m_oPositionColorVS(i_oShaderManagerService.GetVertexShader(s_oPositionColorVSId))
+		, m_oPositionColorTexturePS(i_oShaderManagerService.GetPixelShader(s_oPositionColorTexturePSId))
+		, m_oPositionColorTextureVS(i_oShaderManagerService.GetVertexShader(s_oPositionColorTextureVSId))
 	{
 		//Nothing to do here
 	}
@@ -76,28 +91,22 @@ namespace GT
 		{
 		case GT::BasicEffect::ePOSITIONCOLOR:
 		{
-				const IVertexShader& oPositionColorVS = m_oShaderManagerService.GetPositionColorVS();
-				const IPixelShader& oPositionColorPS = m_oShaderManagerService.GetPositionColorPS();
+				m_oPositionColorVS.BindConstantBuffer(m_oConstBuffer);
 
-				oPositionColorVS.BindConstantBuffer(m_oConstBuffer);
-
-				m_oGraphicDevice.BindVertexShader(oPositionColorVS);
-				m_oGraphicDevice.BindPixelShader(oPositionColorPS);
+				m_oGraphicDevice.BindVertexShader(m_oPositionColorVS);
+				m_oGraphicDevice.BindPixelShader(m_oPositionColorPS);
 		}
 		break;
 
 		case GT::BasicEffect::ePOSITIONTEXTURE:
 		{
-			const IVertexShader& oPositionColorTextureVS = m_oShaderManagerService.GetPositionColorTextureVS();
-			const IPixelShader& oPositionColorTexturePS = m_oShaderManagerService.GetPositionColorTexturePS();
+			m_oPositionColorTextureVS.BindConstantBuffer(m_oConstBuffer);
+			m_oPositionColorTexturePS.BindTexture(*m_poTexture);
 
-			oPositionColorTextureVS.BindConstantBuffer(m_oConstBuffer);
-			oPositionColorTexturePS.BindTexture(*m_poTexture);
+			m_oPositionColorTexturePS.BindSamplerState(*m_poSamplerState);
 
-			oPositionColorTexturePS.BindSamplerState(*m_poSamplerState);
-
-			m_oGraphicDevice.BindVertexShader(oPositionColorTextureVS);
-			m_oGraphicDevice.BindPixelShader(oPositionColorTexturePS);
+			m_oGraphicDevice.BindVertexShader(m_oPositionColorTextureVS);
+			m_oGraphicDevice.BindPixelShader(m_oPositionColorTexturePS);
 		}
 		break;
 

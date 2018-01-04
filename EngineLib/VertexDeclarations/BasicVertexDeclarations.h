@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Graphics\VertexDeclaration.h"
+#include "Graphics\Color.h"
 #include "Math\Vector3.h"
 #include "Math\Vector2.h"
 
@@ -12,8 +13,8 @@ namespace GT
 		const static GT::VertexDeclarationItem VertexDeclarationItems[2];
 		const static GT::VertexDeclaration VertexDeclaration;
 
-		GT::Vector3 pos;
-		GT::Vector3 color;
+		Vector3 pos;
+		Color color;
 	};
 
 	struct VertexPositionColorTexture
@@ -21,8 +22,8 @@ namespace GT
 		const static GT::VertexDeclarationItem VertexDeclarationItems[3];
 		const static GT::VertexDeclaration VertexDeclaration;
 
-		GT::Vector3 pos;
-		GT::Vector3 color;
-		GT::Vector2 uv;
+		Vector3 pos;
+		Color color;
+		Vector2 uv;
 	};
 }

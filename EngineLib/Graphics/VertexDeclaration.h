@@ -12,8 +12,9 @@ namespace GT
 
 	enum VertexType
 	{
-		FLOAT32 = 0u,
-		UINT8 = 1u
+		RGB_FLOAT32 = 0u,
+		RGBA_UINT8 = 1u,
+		RG_FLOAT32 = 2u,
 	};
 
 	struct VertexDeclarationItem

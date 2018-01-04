@@ -26,14 +26,19 @@ GT::DX11ApiVertexShaderWrapper::DX11ApiVertexShaderWrapper(ID3D11Device& i_oDevi
 		VertexDeclarationItem vertexDeclarationItem = vertexDeclaration.VertexDeclarationItems[index];
 		switch (vertexDeclarationItem.Type)
 		{
-		case VertexType::FLOAT32:
+		case VertexType::RGB_FLOAT32:
 			format = DXGI_FORMAT_R32G32B32_FLOAT;
 			formatByteSize = 12;
 			break;
 
-		case VertexType::UINT8:
+		case VertexType::RGBA_UINT8:
 			format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			formatByteSize = 3;
+			formatByteSize = 4;
+			break;
+
+		case VertexType::RG_FLOAT32:
+			format = DXGI_FORMAT_R32G32_FLOAT;
+			formatByteSize = 8;
 			break;
 		}
 

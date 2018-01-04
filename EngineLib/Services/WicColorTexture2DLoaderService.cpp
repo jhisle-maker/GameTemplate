@@ -104,7 +104,7 @@ namespace GT
 
 			if (SUCCEEDED(result) && poFormatConverter != nullptr)
 			{
-				result = poFormatConverter->Initialize(i_poBitmapFrameDecode, GUID_WICPixelFormat32bppRGBA, WICBitmapDitherTypeNone, nullptr, 0.0f, WICBitmapPaletteTypeCustom);
+				result = poFormatConverter->Initialize(i_poBitmapFrameDecode, GUID_WICPixelFormat32bppRGBA, WICBitmapDitherTypeNone, nullptr, 0.0f, WICBitmapPaletteTypeMedianCut);
 				GTASSERTL(SUCCEEDED(result), "Error initializing FormatConverter in WicColorTexture2DLoader::GetConvertedSource");
 
 				if (SUCCEEDED(result))

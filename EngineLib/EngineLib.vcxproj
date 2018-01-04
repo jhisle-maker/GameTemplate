@@ -34,8 +34,8 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.16299.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -189,12 +189,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Cameras\OrtographicalCamera.h" />
     <ClInclude Include="Input\IKeyboardController.h" />
     <ClInclude Include="Services\ISamplerStatesService.h" />
     <ClInclude Include="Services\ShaderLoaderService.h" />
     <ClInclude Include="Services\ShaderManagerService.h" />
     <ClInclude Include="Services\WicColorTexture2DLoaderService.h" />
+    <ClInclude Include="Services\ShadersRegistryService.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="VertexDeclarations\BasicVertexDeclarations.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\ConstBuffer.h" />
@@ -219,7 +222,7 @@
     <ClInclude Include="Graphics\PixelShader.h" />
     <ClInclude Include="Graphics\IApiGraphicResourceWrapper.h" />
     <ClInclude Include="Graphics\ITexture.h" />
-    <ClInclude Include="Services\IServicesContext.h" />
+    <ClInclude Include="Services\IContext.h" />
     <ClInclude Include="Services\IShaderLoaderService.h" />
     <ClInclude Include="Services\IShaderManagerService.h" />
     <ClInclude Include="Services\ITextureLoaderService.h" />
@@ -227,7 +230,7 @@
     <ClInclude Include="Logger\ILogger.h" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Math\Vector4.h" />
-    <ClInclude Include="Services\ServicesContext.h" />
+    <ClInclude Include="Services\Context.h" />
     <ClInclude Include="Utils\Common.h" />
     <ClInclude Include="EngineLib.h" />
     <ClInclude Include="Graphics\DX11GraphicDevice.h" />
@@ -244,10 +247,12 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="Cameras\OrtographicalCamera.cpp" />
     <ClCompile Include="Services\ShaderLoaderService.cpp" />
     <ClCompile Include="Services\ShaderManagerService.cpp" />
     <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp" />
+    <ClCompile Include="Services\ShadersRegistryService.cpp" />
     <ClCompile Include="VertexDeclarations\BasicVertexDeclarations.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\DX11ApiConstantBufferWrapper.cpp" />
@@ -270,7 +275,7 @@
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
-    <ClCompile Include="Services\ServicesContext.cpp" />
+    <ClCompile Include="Services\Context.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\ConstBuffer.inl" />

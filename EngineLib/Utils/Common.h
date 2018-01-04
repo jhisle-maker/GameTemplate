@@ -1,5 +1,5 @@
 #pragma once
-#include <assert.h>
+#include <cassert>
 #include <string>
 #include <Logger\Logger.h>
 
@@ -12,5 +12,11 @@ namespace GT
 #else 
 	#define GTASSERT 
 #endif
+
+	class ObjectId : public std::string
+	{
+	public:
+		ObjectId(const char* i_szId) : std::string(i_szId) {};
+	};
 }
 

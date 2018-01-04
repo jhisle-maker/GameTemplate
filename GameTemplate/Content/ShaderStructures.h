@@ -14,24 +14,4 @@ namespace GT
 		GT::Matrix view;
 		GT::Matrix projection;
 	};
-
-	// Used to send per-vertex data to the vertex shader.
-	struct VertexPositionColor
-	{
-		const static GT::VertexDeclarationItem VertexDeclarationItems[2];
-		const static GT::VertexDeclaration VertexDeclaration;
-
-		GT::Vector3 pos;
-		GT::Vector3 color;
-	};
-
-	struct VertexPositionColorTexture
-	{
-		const static GT::VertexDeclarationItem VertexDeclarationItems[3];
-		const static GT::VertexDeclaration VertexDeclaration;
-
-		GT::Vector3 pos;
-		GT::Vector3 color;
-		GT::Vector2 uv;
-	};
 }

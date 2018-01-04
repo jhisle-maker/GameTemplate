@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include <ppltasks.h>
+#include <map>
 
 #include "Sample3DSceneRenderer.h"
 #include "Graphics\VertexBuffer.h"
@@ -11,7 +12,10 @@
 #include "Graphics\PrimitiveType.h"
 #include "Graphics\Texture2D.h"
 
-#include "Services\IServicesContext.h"
+#include "Services\IContext.h"
+#include "Services\IFileLoaderService.h"
+#include "Services\ITextureLoaderService.h"
+#include "Services\ShadersRegistryService.h"
 #include "Services\IShaderLoaderService.h"
 #include "Services\IShaderManagerService.h"
 
@@ -19,8 +23,9 @@
 #include "Graphics\DX11GraphicContext.h"
 #include "Math\Vector3.h"
 #include "Math\Matrix.h"
-#include "Services\UWPFileLoaderService.h"
-#include "Services\WicColorTexture2DLoaderService.h"
+
+
+#include "VertexDeclarations\BasicVertexDeclarations.h"
 
 using namespace GT;
 using namespace DirectX;
@@ -43,7 +48,7 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceR
 	, m_poVertexShader(nullptr)
 	, m_poPixelShader(nullptr)
 	, m_poCamera(nullptr)
-	, m_oBasicEffect(i_oGraphicDevice, i_oGraphicContext, i_oServicesContext.GetShaderManagerService())
+	, m_poBasicEffect(nullptr)
 {	
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
@@ -57,22 +62,23 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
 
-	Vector3 eye(0.0f, 0.0f, 10.0f);
+	Vector3 eye(0.0f, 0.0f, 5.0f);
 	Vector3 at(0.0f, 0.0f, 0.0f);
 	Vector3 up(0.0f, 1.0f, 0.0f);
 
-	//m_poCamera = std::make_unique<PerspectiveCamera>(aspectRatio, 70.0f, eye, at, up);
-	m_poCamera = std::make_unique<OrtographicalCamera>(5.0f, 5.0f, eye, at, up);
-
-	m_oBasicEffect.SetModel(Matrix::Identity);
-	m_oBasicEffect.SetView(m_poCamera->GetView());
-	m_oBasicEffect.SetProjection(m_poCamera->GetProjection());
+	m_poCamera = std::make_unique<PerspectiveCamera>(aspectRatio, 70.0f, eye, at, up);
+	//m_poCamera = std::make_unique<OrtographicalCamera>(5.0f, 5.0f, eye, at, up);
 }
 
 // Called once per frame, rotates the cube and calculates the model and view matrices.
 void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 {
 	static float y = 0.0f;
+
+	if (!m_loadingComplete)
+	{
+		return;
+	}
 
 	// Convert degrees to radians, then convert seconds to rotation angle
 	float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
@@ -84,8 +90,9 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 	Matrix matrix = Matrix::Identity;
 	matrix.SetTranslation(translation);
 
-	m_oBasicEffect.SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
-	//m_oBasicEffect.SetModel(matrix);
+	m_poBasicEffect->SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
+	m_poBasicEffect->SetView(m_poCamera->GetView());
+	m_poBasicEffect->SetProjection(m_poCamera->GetProjection());
 
 	y += 0.01f;
 }
@@ -100,7 +107,7 @@ void Sample3DSceneRenderer::Render()
 		return;
 	}
 
-	m_oBasicEffect.Apply();
+	m_poBasicEffect->Apply();
 	
 	//m_oGraphicDevice.EnableFaceCulling(false);
 
@@ -116,14 +123,17 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	// After the pixel shader file is loaded, create the shader and constant buffer.
 	auto createResourcesTask = create_task([this]() 
 	{
-		std::map<std::string, std::string> shaderMap;
+		ShadersRegistryService shadersRegistry;
+		shadersRegistry.AddPixelShader(BasicEffect::s_oPositionColorPSId, "SamplePixelShader.cso");
+		shadersRegistry.AddVertexShader(BasicEffect::s_oPositionColorVSId, "SampleVertexShader.cso", VertexPositionColor::VertexDeclaration);
 
-		m_poPositionColorPS = m_oShaderLoaderService.LoadPixelShader(i_oShaderFileRegistry.at("SamplePixelShader"));
-		m_poPositionColorVS = m_oShaderLoaderService.LoadVertexShader(i_oShaderFileRegistry.at("SampleVertexShader"), VertexPositionColor::VertexDeclaration);
-		m_poPositionColorTexturePS = m_oShaderLoaderService.LoadPixelShader(i_oShaderFileRegistry.at("PositionColorTexturePixelShader"));
-		m_poPositionColorTextureVS = m_oShaderLoaderService.LoadVertexShader(i_oShaderFileRegistry.at("PositionColorTextureVertexShader"), VertexPositionColorTexture::VertexDeclaration);
+		shadersRegistry.AddPixelShader(BasicEffect::s_oPositionColorTexturePSId, "PositionColorTexturePixelShader.cso");
+		shadersRegistry.AddVertexShader(BasicEffect::s_oPositionColorTextureVSId, "PositionColorTextureVertexShader.cso", VertexPositionColorTexture::VertexDeclaration);
 
-		m_oServicesContext.GetShaderManagerService().LoadShaders();
+		IShaderManagerService& shaderManagerService = m_oServicesContext.GetShaderManagerService();
+		shaderManagerService.LoadShaders(shadersRegistry);
+
+		m_poBasicEffect = std::make_unique<GT::BasicEffect>(m_oGraphicDevice, m_oGraphicContext, shaderManagerService);
 		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);
 	});
 
@@ -132,10 +142,10 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	{
 		static const VertexPositionColorTexture quadVertices[] = 
 		{
-			{Vector3(-0.5f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector2(0.0f, 1.0f) },
-			{Vector3(-0.5f,  0.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector2(0.0f, 0.0f) },
-			{Vector3( 0.5f,  0.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector2(1.0f, 0.0f) },
-			{Vector3( 0.5f, -0.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector2(1.0f, 1.0f) },
+			{Vector3(-0.5f, -0.5f, 0.0f), Color(0u, 0u, 0u, 1u), Vector2(0.0f, 0.0f) },
+			{Vector3(-0.5f,  0.5f, 0.0f), Color(0u, 0u, 0u, 1u), Vector2(0.0f, 1.0f) },
+			{Vector3( 0.5f,  0.5f, 0.0f), Color(0u, 0u, 0u, 1u), Vector2(1.0f, 1.0f) },
+			{Vector3( 0.5f, -0.5f, 0.0f), Color(0u, 0u, 0u, 1u), Vector2(1.0f, 0.0f) }
 		};
 
 		m_poVertexBuffer = std::make_unique<VertexBuffer<VertexPositionColorTexture>>(quadVertices, 4, m_oGraphicContext);
@@ -154,9 +164,9 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	{
 		m_poTexture = m_oServicesContext.GetTextureLoaderService().Load("test.png");
 
-		m_oBasicEffect.SetTextureEnabled(true);
-		m_oBasicEffect.SetTexture(*m_poTexture);
-		m_oBasicEffect.SetTextureSampler(*m_poSamplerState);
+		m_poBasicEffect->SetTextureEnabled(true);
+		m_poBasicEffect->SetTexture(*m_poTexture);
+		m_poBasicEffect->SetTextureSampler(*m_poSamplerState);
 
 		m_loadingComplete = true;
 	});

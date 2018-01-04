@@ -122,6 +122,7 @@
     <ClCompile Include="Services\WicColorTexture2DLoaderService.cpp" />
     <ClCompile Include="Services\ShaderManagerService.cpp" />
     <ClCompile Include="Services\ShaderLoaderService.cpp" />
+    <ClCompile Include="Services\ShadersRegistryService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineLib.h" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Services\WicColorTexture2DLoaderService.h" />
     <ClInclude Include="Services\ShaderManagerService.h" />
     <ClInclude Include="Services\ShaderLoaderService.h" />
+    <ClInclude Include="Services\ShadersRegistryService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\IndexBuffer.inl">

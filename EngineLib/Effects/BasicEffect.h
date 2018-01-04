@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utils\Common.h"
 #include "Math\Matrix.h"
 #include "Graphics\ConstBuffer.h"
 
@@ -18,8 +19,13 @@ namespace GT
 	class BasicEffect
 	{
 	public:
-		BasicEffect(const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IShaderManagerService& i_oShaderManagerService);
+		BasicEffect(const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, IShaderManagerService& i_oShaderManagerService);
 		~BasicEffect();
+
+		static const ObjectId s_oPositionColorPSId;
+		static const ObjectId s_oPositionColorVSId;
+		static const ObjectId s_oPositionColorTexturePSId;
+		static const ObjectId s_oPositionColorTextureVSId;
 
 	public:
 		void SetView(const Matrix& i_oView);
@@ -35,7 +41,7 @@ namespace GT
 	private:
 		const IGraphicDevice& m_oGraphicDevice;
 		const IGraphicContext& m_oGraphicContext;
-		const IShaderManagerService& m_oShaderManagerService;
+		IShaderManagerService& m_oShaderManagerService;
 
 	private:
 		struct ConstBufferData
@@ -53,6 +59,11 @@ namespace GT
 
 		bool m_bUpdateConstBuffer;
 		SelectedShader m_eSelectedShader;
+
+		const IVertexShader& m_oPositionColorVS;
+		const IPixelShader& m_oPositionColorPS;
+		const IVertexShader& m_oPositionColorTextureVS;
+		const IPixelShader& m_oPositionColorTexturePS;
 
 		const Matrix* m_poViewPtr;
 		const Matrix* m_poModelPtr;
