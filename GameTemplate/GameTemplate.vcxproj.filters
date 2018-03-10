@@ -32,12 +32,6 @@
     <ClCompile Include="Content\SampleFpsTextRenderer.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
-    <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
@@ -65,6 +59,9 @@
     <Filter Include="GameLogic">
       <UniqueIdentifier>{f9d85b25-ffe6-4ed0-970c-715a82a8773a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Shaders">
+      <UniqueIdentifier>{217a605f-8318-451c-aa31-50e92447a917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -76,21 +73,20 @@
     <ClCompile Include="Common\GraphicDeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Common\InputDeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
+    <ClCompile Include="Effects\BasicEffect.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Component\SpriteRendererComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="GameTemplateMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="GameLogic\IPlayerController.h" />
     <ClInclude Include="Common\GraphicDeviceResources.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Common\InputDeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
+    <ClInclude Include="Effects\BasicEffect.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Component\SpriteRendererComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">
@@ -99,18 +95,24 @@
     <Image Include="Assets\test.bmp">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Content\Textures\test.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GameTemplate_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Content\PositionColorTextureVertexShader.hlsl">
+    <FxCompile Include="Content\Shaders\PositionColorTextureVertexShader.hlsl">
       <Filter>Content</Filter>
     </FxCompile>
-    <FxCompile Include="Content\PositionColorTexturePixelShader.hlsl">
+    <FxCompile Include="Content\Shaders\PositionColorTexturePixelShader.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\Shaders\PositionColorVertexShader.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\Shaders\PositionColorPixelShader.hlsl">
       <Filter>Content</Filter>
     </FxCompile>
   </ItemGroup>

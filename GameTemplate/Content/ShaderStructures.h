@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "Math\Vector2.h"
-#include "Math\Vector3.h"
-#include "Math\Matrix.h"
-#include "Graphics\VertexDeclaration.h"
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Matrix.h"
+#include "VertexDeclaration.h"
 
 namespace GT
 {

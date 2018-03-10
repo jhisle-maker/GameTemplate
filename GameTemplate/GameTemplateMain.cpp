@@ -2,20 +2,18 @@
 #include "GameTemplateMain.h"
 #include "Common\DirectXHelper.h"
 
-#include "Input\UWPKeyboardController.h"
-#include "GameLogic\IPlayerController.h"
+#include "UWPKeyboardController.h"
 
-#include "Services\Context.h"
-#include "Services\UWPFileLoaderService.h"
-#include "Services\ShaderLoaderService.h"
-#include "Services\ShaderManagerService.h"
-#include "Services\WicColorTexture2DLoaderService.h"
+#include "UWPFileLoaderService.h"
+#include "ShaderLoaderService.h"
+#include "ShaderManagerService.h"
+#include "WicColorTexture2DLoaderService.h"
 
-#include "Graphics\DX11GraphicDevice.h"
-#include "Graphics\DX11GraphicContext.h"
+#include "DX11GraphicDevice.h"
+#include "DX11GraphicContext.h"
 
-#include "Logger\Logger.h"
-#include "Logger\VSLogger.h"
+#include "Logger.h"
+#include "VSLogger.h"
 
 
 using namespace GameTemplate;
@@ -28,40 +26,30 @@ using namespace Concurrency;
 GameTemplateMain::GameTemplateMain(DX::GraphicDeviceResources& deviceResources)
 	: m_oGraphicDeviceResources(deviceResources)
 {
-	m_poLogger = std::unique_ptr<GT::ILogger>(new GT::VSLogger());
+	//m_poLogger = std::unique_ptr<GT::ILogger>(new GT::VSLogger());
 
-	GT::Logger::Init(*m_poLogger);
-	GT::Logger::Log("***** LOG STARTED *****");
+	//GT::Logger::Init(*m_poLogger);
+	//GT::Logger::Log("***** LOG STARTED *****");
 
-	// Register to be notified if the Device is lost or recreated
-	m_oGraphicDeviceResources.RegisterDeviceNotify(this);
+	//// Register to be notified if the Device is lost or recreated
+	////m_oGraphicDeviceResources.RegisterDeviceNotify(this);
 
-	//Graphic stuff
-	m_poGraphicDevice = std::make_unique<GT::DX11GraphicDevice>(m_oGraphicDeviceResources.GetD3DDevice(), m_oGraphicDeviceResources.GetD3DDeviceContext());
-	m_poGraphicContext = std::make_unique<GT::DX11GraphicContext>(m_oGraphicDeviceResources.GetD3DDevice(), m_oGraphicDeviceResources.GetD3DDeviceContext());
+	////Graphic stuff
+	//m_poGraphicDevice = nullptr;// std::make_unique<GT::DX11GraphicDevice>(m_oGraphicDeviceResources.GetD3DDevice(), m_oGraphicDeviceResources.GetD3DDeviceContext());
+	//m_poGraphicContext = nullptr;// std::make_unique<GT::DX11GraphicContext>(m_oGraphicDeviceResources.GetD3DDevice(), m_oGraphicDeviceResources.GetD3DDeviceContext());
 
-	//Input
-	//m_poKeyboardController = std::make_unique<GT::UWPKeyboardController>(window);
+	////Input
+	////m_poKeyboardController = std::make_unique<GT::UWPKeyboardController>(window);
 
-	//Services
-	m_poFileLoaderService = std::make_unique<GT::UWPFileLoaderService>();
-	m_poShaderLoaderService = std::make_unique<GT::ShaderLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
-	m_poShaderManagerService = std::make_unique<GT::ShaderManagerService>(*m_poShaderLoaderService);
-	m_poTextureLoaderService = std::make_unique<GT::WicColorTexture2DLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
-	
-	m_poServicesContext = std::make_unique<GT::Context>
-	(
-		*m_poGraphicDevice,
-		*m_poGraphicContext,
-		*m_poFileLoaderService,
-		*m_poShaderLoaderService,
-		*m_poTextureLoaderService,
-		*m_poShaderManagerService
-	);
-
-	//Renderers
-	m_sceneRenderer = std::make_unique<GT::Sample3DSceneRenderer>(m_oGraphicDeviceResources, *m_poGraphicDevice, *m_poGraphicContext, *m_poServicesContext);
-	m_fpsTextRenderer = std::make_unique<SampleFpsTextRenderer>(m_oGraphicDeviceResources);
+	////Services
+	//m_poFileLoaderService = std::make_unique<GT::UWPFileLoaderService>();
+	//m_poShaderLoaderService = std::make_unique<GT::ShaderLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
+	//m_poShaderManagerService = std::make_unique<GT::ShaderManagerService>(*m_poShaderLoaderService);
+	//m_poTextureLoaderService = std::make_unique<GT::WicColorTexture2DLoaderService>(*m_poFileLoaderService, *m_poGraphicContext, "Content\\Textures\\");
+	//
+	////Renderers
+	//m_sceneRenderer = std::make_unique<GT::Sample3DSceneRenderer>(m_oGraphicDeviceResources, *m_poGraphicDevice, *m_poGraphicContext);
+	//m_fpsTextRenderer = std::make_unique<SampleFpsTextRenderer>(m_oGraphicDeviceResources);
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -101,10 +89,10 @@ void GameTemplateMain::Update()
 bool GameTemplateMain::Render() 
 {
 	// Don't try to render anything before the first Update.
-	if (m_timer.GetFrameCount() == 0)
-	{
-		return false;
-	}
+	//if (m_timer.GetFrameCount() == 0)
+	//{
+	//	return false;
+	//}
 
 	auto context = m_oGraphicDeviceResources.GetD3DDeviceContext();
 
@@ -122,8 +110,8 @@ bool GameTemplateMain::Render()
 
 	// Render the scene objects.
 	// TODO: Replace this with your app's content rendering functions.
-	m_sceneRenderer->Render();
-	m_fpsTextRenderer->Render();
+	//m_sceneRenderer->Render();
+	//m_fpsTextRenderer->Render();
 
 	return true;
 }

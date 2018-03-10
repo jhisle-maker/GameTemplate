@@ -27,19 +27,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Input\UWPKeyboardController.h" />
-    <ClInclude Include="Services\UWPFileLoaderService.h" />
-    <ClInclude Include="Logger\VSLogger.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Input\UWPKeyboardController.cpp" />
-    <ClCompile Include="Services\UWPFileLoaderService.cpp" />
-    <ClCompile Include="Logger\VSLogger.cpp" />
+    <ClCompile Include="Source\UWPKeyboardController.cpp" />
+    <ClCompile Include="Source\UWPManagersFactory.cpp" />
+    <ClCompile Include="Source\UWPFileLoaderService.cpp" />
+    <ClCompile Include="Source\VSLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineLib\EngineLib.vcxproj">
       <Project>{2252ae5d-fa08-4a7a-9336-b9b65e98e592}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\UWPKeyboardController.h" />
+    <ClInclude Include="Includes\VSLogger.h" />
+    <ClInclude Include="Includes\UWPManagersFactory.h" />
+    <ClInclude Include="Includes\UWPFileLoaderService.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{91dbf905-e959-4382-9878-f5170fde5649}</ProjectGuid>
@@ -183,7 +185,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>true</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\EngineLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\EngineLib\Includes;$(ProjectDir)\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

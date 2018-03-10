@@ -13,13 +13,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Logger\VSLogger.h" />
     <ClInclude Include="Services\UWPFileLoaderService.h" />
-    <ClInclude Include="Input\UWPKeyboardController.h" />
+    <ClInclude Include="Includes\UWPKeyboardController.h" />
+    <ClInclude Include="Includes\VSLogger.h" />
+    <ClInclude Include="Includes\UWPManagersFactory.h" />
+    <ClInclude Include="Includes\UWPFileLoaderService.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Logger\VSLogger.cpp" />
     <ClCompile Include="Services\UWPFileLoaderService.cpp" />
-    <ClCompile Include="Input\UWPKeyboardController.cpp" />
+    <ClCompile Include="Source\UWPFileLoaderService.cpp" />
+    <ClCompile Include="Source\UWPManagersFactory.cpp" />
+    <ClCompile Include="Source\VSLogger.cpp" />
+    <ClCompile Include="Source\UWPKeyboardController.cpp" />
   </ItemGroup>
 </Project>

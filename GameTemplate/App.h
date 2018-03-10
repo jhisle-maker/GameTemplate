@@ -2,8 +2,11 @@
 
 #include "pch.h"
 #include "Common\GraphicDeviceResources.h"
-#include "Common\InputDeviceResources.h"
 #include "GameTemplateMain.h"
+
+
+//FORWARD DECLS
+namespace GT { class Game; }
 
 namespace GameTemplate
 {
@@ -37,12 +40,17 @@ namespace GameTemplate
 		void OnDisplayContentsInvalidated(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 
 	private:
-		std::unique_ptr<GT::InputDeviceResources> m_poInputDeviceResources;
-		std::unique_ptr<DX::GraphicDeviceResources> m_poGraphicDeviceResources;
-		std::unique_ptr<GameTemplateMain> m_main;
+		std::unique_ptr<GT::ILogger> m_poLogger;
+		std::unique_ptr<GT::Game> m_poGame;
+
+		Platform::Agile<Windows::UI::Core::CoreWindow> m_oWindow;
 
 		bool m_windowClosed;
 		bool m_windowVisible;
+
+		//OLD
+		std::unique_ptr<DX::GraphicDeviceResources> m_poGraphicDeviceResources;
+		std::unique_ptr<GameTemplateMain> m_main;
 	};
 }
 

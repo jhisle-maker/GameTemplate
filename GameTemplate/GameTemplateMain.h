@@ -15,7 +15,6 @@ namespace GT { class IShaderLoaderService; }
 namespace GT { class IShaderManagerService; }
 namespace GT { class ITextureLoaderService; }
 namespace GT { class ILogger; }
-namespace GT { class IContext; }
 
 using namespace Windows::UI::Core;
 
@@ -50,7 +49,6 @@ namespace GameTemplate
 		std::unique_ptr<GT::IShaderLoaderService> m_poShaderLoaderService;
 		std::unique_ptr<GT::IShaderManagerService> m_poShaderManagerService;
 		std::unique_ptr<GT::ITextureLoaderService> m_poTextureLoaderService;
-		std::unique_ptr<GT::IContext> m_poServicesContext;
 		
 		std::unique_ptr<GT::ILogger> m_poLogger;
 

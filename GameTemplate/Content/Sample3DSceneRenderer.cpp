@@ -3,29 +3,30 @@
 #include <map>
 
 #include "Sample3DSceneRenderer.h"
-#include "Graphics\VertexBuffer.h"
-#include "Graphics\IndexBuffer.h"
-#include "Graphics\ConstBuffer.h"
-#include "Graphics\PixelShader.h"
-#include "Graphics\VertexShader.h"
-#include "Graphics\SamplerState.h"
-#include "Graphics\PrimitiveType.h"
-#include "Graphics\Texture2D.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "ConstBuffer.h"
+#include "PixelShader.h"
+#include "VertexShader.h"
+#include "SamplerState.h"
+#include "PrimitiveType.h"
+#include "Texture2D.h"
 
-#include "Services\IContext.h"
-#include "Services\IFileLoaderService.h"
-#include "Services\ITextureLoaderService.h"
-#include "Services\ShadersRegistryService.h"
-#include "Services\IShaderLoaderService.h"
-#include "Services\IShaderManagerService.h"
+#include "IFileLoaderService.h"
+#include "ITextureLoaderService.h"
+#include "ShadersRegistryService.h"
+#include "IShaderLoaderService.h"
+#include "IShaderManagerService.h"
+#include "ShaderManagerService.h"
 
-#include "Graphics\DX11GraphicDevice.h"
-#include "Graphics\DX11GraphicContext.h"
-#include "Math\Vector3.h"
-#include "Math\Matrix.h"
+#include "DX11GraphicDevice.h"
+#include "DX11GraphicContext.h"
+#include "Vector3.h"
+#include "Matrix.h"
 
 
-#include "VertexDeclarations\BasicVertexDeclarations.h"
+#include "VertexPositionColor.h"
+#include "VertexPositionColorTexture.h"
 
 using namespace GT;
 using namespace DirectX;
@@ -33,10 +34,9 @@ using namespace Windows::Foundation;
 using namespace Windows::Storage;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext, const GT::IContext& i_oServicesContext) 
+Sample3DSceneRenderer::Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceResources, const GT::IGraphicDevice& i_oGraphicDevice, const GT::IGraphicContext& i_oGraphicContext) 
 	: m_oGraphicDevice(i_oGraphicDevice)
 	, m_oGraphicContext(i_oGraphicContext)
-	, m_oServicesContext(i_oServicesContext)
 	, m_loadingComplete(false)
 	, m_degreesPerSecond(45)
 	, m_indexCount(0)
@@ -57,7 +57,6 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceR
 // Initializes view parameters when the window size changes.
 void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 {
-	
 	Size outputSize = m_deviceResources.GetOutputSize();
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
@@ -90,9 +89,9 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 	Matrix matrix = Matrix::Identity;
 	matrix.SetTranslation(translation);
 
-	m_poBasicEffect->SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
+	/*m_poBasicEffect->SetModel(Matrix::Transpose(Matrix::RotationY(radians)));
 	m_poBasicEffect->SetView(m_poCamera->GetView());
-	m_poBasicEffect->SetProjection(m_poCamera->GetProjection());
+	m_poBasicEffect->SetProjection(m_poCamera->GetProjection());*/
 
 	y += 0.01f;
 }
@@ -107,7 +106,7 @@ void Sample3DSceneRenderer::Render()
 		return;
 	}
 
-	m_poBasicEffect->Apply();
+	//m_poBasicEffect->Apply();
 	
 	//m_oGraphicDevice.EnableFaceCulling(false);
 
@@ -124,17 +123,18 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	auto createResourcesTask = create_task([this]() 
 	{
 		ShadersRegistryService shadersRegistry;
-		shadersRegistry.AddPixelShader(BasicEffect::s_oPositionColorPSId, "SamplePixelShader.cso");
-		shadersRegistry.AddVertexShader(BasicEffect::s_oPositionColorVSId, "SampleVertexShader.cso", VertexPositionColor::VertexDeclaration);
+		shadersRegistry.AddPixelShader(BasicEffect::s_oPositionColorPSId, "PositionColorPixelShader.cso");
+		shadersRegistry.AddVertexShader(BasicEffect::s_oPositionColorVSId, "PositionColorTextureVertexShader.cso", VertexPositionColor::VertexDeclaration);
 
 		shadersRegistry.AddPixelShader(BasicEffect::s_oPositionColorTexturePSId, "PositionColorTexturePixelShader.cso");
 		shadersRegistry.AddVertexShader(BasicEffect::s_oPositionColorTextureVSId, "PositionColorTextureVertexShader.cso", VertexPositionColorTexture::VertexDeclaration);
 
-		IShaderManagerService& shaderManagerService = m_oServicesContext.GetShaderManagerService();
-		shaderManagerService.LoadShaders(shadersRegistry);
+		//TODO:
+		//IShaderManagerService& shaderManagerService = *(new GT::ShaderManagerService()); //m_oServicesContext.GetShaderManagerService();
+		//shaderManagerService.LoadShaders(shadersRegistry);
 
-		m_poBasicEffect = std::make_unique<GT::BasicEffect>(m_oGraphicDevice, m_oGraphicContext, shaderManagerService);
-		m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);
+		//m_poBasicEffect = std::make_unique<GT::BasicEffect>(m_oGraphicDevice, m_oGraphicContext, shaderManagerService);
+		//m_poSamplerState = std::make_unique<GT::SamplerState>(m_oGraphicContext);
 	});
 
 	// Once both shaders are loaded, create the mesh.
@@ -162,11 +162,11 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 
 	createQuadTask.then([this]()
 	{
-		m_poTexture = m_oServicesContext.GetTextureLoaderService().Load("test.png");
+		m_poTexture = nullptr; //TODO: m_oServicesContext.GetTextureLoaderService().Load("test.png");
 
-		m_poBasicEffect->SetTextureEnabled(true);
+	/*	m_poBasicEffect->SetTextureEnabled(true);
 		m_poBasicEffect->SetTexture(*m_poTexture);
-		m_poBasicEffect->SetTextureSampler(*m_poSamplerState);
+		m_poBasicEffect->SetTextureSampler(*m_poSamplerState);*/
 
 		m_loadingComplete = true;
 	});

@@ -4,24 +4,23 @@
 #include "ShaderStructures.h"
 #include "..\Common\StepTimer.h"
 
-#include "Graphics\ConstBuffer.h"
-#include "Graphics\IIndexBuffer.h"
-#include "Graphics\IVertexBuffer.h"
-#include "Graphics\ITexture.h"
-#include "Graphics\ISamplerState.h"
+#include "ConstBuffer.h"
+#include "IIndexBuffer.h"
+#include "IVertexBuffer.h"
+#include "ITexture.h"
+#include "ISamplerState.h"
 
 #include "Effects\BasicEffect.h"
 
-#include "Graphics\IVertexShader.h"
-#include "Graphics\IPixelShader.h"
-#include "Cameras\PerspectiveCamera.h"
-#include "Cameras\OrtographicalCamera.h"
-#include "Services\IFileLoaderService.h"
+#include "IVertexShader.h"
+#include "IPixelShader.h"
+#include "PerspectiveCamera.h"
+#include "OrtographicalCamera.h"
+#include "IFileLoaderService.h"
 
 //Forward decls
 namespace GT { class IGraphicDevice; }
 namespace GT { class IGraphicContext; }
-namespace GT { class IContext; }
 
 namespace GT
 {
@@ -29,7 +28,7 @@ namespace GT
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext, const IContext& i_oServicesContext);
+		Sample3DSceneRenderer(DX::GraphicDeviceResources& deviceResources, const IGraphicDevice& i_oGraphicDevice, const IGraphicContext& i_oGraphicContext);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
@@ -49,7 +48,6 @@ namespace GT
 		//GT stuff
 		const IGraphicDevice& m_oGraphicDevice;
 		const IGraphicContext& m_oGraphicContext;
-		const IContext& m_oServicesContext;
 
 		std::unique_ptr<BasicEffect> m_poBasicEffect;
 

@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
 #include "App.h"
+#include "Game.h"
+#include "UWPManagersFactory.h"
+#include "Logger.h"
+#include "VSLogger.h"
 
 #include <ppltasks.h>
-#include "Test.h"
-#include "Input\UWPKeyboardController.h"
 
 using namespace GameTemplate;
 
@@ -33,7 +35,8 @@ IFrameworkView^ Direct3DApplicationSource::CreateView()
 
 App::App() :
 	m_windowClosed(false),
-	m_windowVisible(true)
+	m_windowVisible(true),
+	m_poGame(nullptr)
 {
 }
 
@@ -53,7 +56,7 @@ void App::Initialize(CoreApplicationView^ applicationView)
 
 	// At this point we have access to the device. 
 	// We can create the device-dependent resources.
-	m_poGraphicDeviceResources = std::make_unique<DX::GraphicDeviceResources>();
+	//m_poGraphicDeviceResources = std::make_unique<DX::GraphicDeviceResources>();
 }
 
 // Called when the CoreWindow object is created (or re-created).
@@ -79,8 +82,8 @@ void App::SetWindow(CoreWindow^ window)
 	DisplayInformation::DisplayContentsInvalidated +=
 		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDisplayContentsInvalidated);
 
-	m_poGraphicDeviceResources->SetWindow(window);
-	m_poInputDeviceResources = std::make_unique<GT::InputDeviceResources>(window);
+	m_oWindow = window;
+	//m_poGraphicDeviceResources->SetWindow(window);
 }
 
 // Initializes scene resources, or loads a previously saved app state.
@@ -88,6 +91,43 @@ void App::Load(Platform::String^ entryPoint)
 {
 	if (m_main == nullptr)
 	{
+		m_poLogger = std::unique_ptr<GT::ILogger>(new GT::VSLogger());
+
+		GT::Logger::Init(*m_poLogger);
+		GT::Logger::Log("***** LOG STARTED *****");
+
+		GT::UWPManagersFactory oManagersFactory(m_oWindow);
+		
+		m_poGame = std::make_unique<GT::Game>(oManagersFactory);
+		m_poGame->Init();
+		m_poGame->LoadContent();
+
+		//Graphic stuff
+		//m_poGraphicDevice = std::make_unique<GT::DX11GraphicDevice>(m_poGraphicDeviceResources->GetD3DDevice(), m_poGraphicDeviceResources->GetD3DDeviceContext());
+		//m_poGraphicContext = std::make_unique<GT::DX11GraphicContext>(m_poGraphicDeviceResources->GetD3DDevice(), m_poGraphicDeviceResources->GetD3DDeviceContext());
+
+		////Input
+		////m_poKeyboardController = std::make_unique<GT::UWPKeyboardController>(window);
+
+		////Services
+		//m_poFileLoaderService = std::make_unique<GT::UWPFileLoaderService>();
+		//m_poShaderLoaderService = std::make_unique<GT::ShaderLoaderService>(*m_poFileLoaderService, *m_poGraphicContext);
+		//m_poShaderManagerService = std::make_unique<GT::ShaderManagerService>(*m_poShaderLoaderService);
+		//m_poTextureLoaderService = std::make_unique<GT::WicColorTexture2DLoaderService>(*m_poFileLoaderService, *m_poGraphicContext, "Content\\Textures\\");
+
+		//m_poServicesContext = std::make_unique<GT::Context>
+		//(
+		//	*m_poGraphicDevice,
+		//	*m_poGraphicContext,
+		//	*m_poFileLoaderService,
+		//	*m_poShaderLoaderService,
+		//	*m_poTextureLoaderService,
+		//	*m_poShaderManagerService
+		//);
+
+		//m_oTilesRenderer = std::make_unique<GT::TilesRenderer>(*m_poServicesContext);
+
+
 		m_main = std::unique_ptr<GameTemplateMain>(new GameTemplateMain(*m_poGraphicDeviceResources));
 	}
 }
@@ -101,12 +141,18 @@ void App::Run()
 		{
 			CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
-			m_main->Update();
+		/*	m_main->Update();
 
 			if (m_main->Render())
 			{
 				m_poGraphicDeviceResources->Present();
 			}
+*/
+			//m_main->Render();
+
+			m_poGame->DoLoop();
+
+			//m_poGraphicDeviceResources->Present();
 		}
 		else
 		{
@@ -140,9 +186,8 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
 
 	create_task([this, deferral]()
 	{
-		m_poGraphicDeviceResources->Trim();
-
 		// Insert your code here.
+		m_poGame->OnSuspend();
 
 		deferral->Complete();
 	});
@@ -161,8 +206,7 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
 {
-	m_poGraphicDeviceResources->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
-	m_main->CreateWindowSizeDependentResources();
+	m_poGame->OnScreenResolutionChanged(lround(sender->Bounds.Width), lround(sender->Bounds.Height));
 }
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
@@ -179,21 +223,21 @@ void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 
 void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 {
-	// Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
-	// if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
-	// you should always retrieve it using the GetDpi method.
-	// See DeviceResources.cpp for more details.
-	m_poGraphicDeviceResources->SetDpi(sender->LogicalDpi);
-	m_main->CreateWindowSizeDependentResources();
+	//// Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
+	//// if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
+	//// you should always retrieve it using the GetDpi method.
+	//// See DeviceResources.cpp for more details.
+	//m_poGraphicDeviceResources->SetDpi(sender->LogicalDpi);
+	//m_main->CreateWindowSizeDependentResources();
 }
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
-	m_poGraphicDeviceResources->SetCurrentOrientation(sender->CurrentOrientation);
-	m_main->CreateWindowSizeDependentResources();
+	/*m_poGraphicDeviceResources->SetCurrentOrientation(sender->CurrentOrientation);
+	m_main->CreateWindowSizeDependentResources();*/
 }
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
-	m_poGraphicDeviceResources->ValidateDevice();
+	//m_poGraphicDeviceResources->ValidateDevice();
 }
